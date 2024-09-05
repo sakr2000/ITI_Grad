@@ -1,14 +1,14 @@
-
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
-import { HttpClientModule } from '@angular/common/http';
+import { User } from '../../app/models/user.model';
 import { AuthService } from '../../service/auth.service';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [HttpClientModule,ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -18,16 +18,18 @@ export class LoginComponent {
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
   }
 
   onSubmit() {
-    debugger
     if (this.loginForm.valid) {
-      debugger
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
+      const user: User = {
+        email: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value
+      };
+
+      this.authService.login(user).subscribe({
         next: (response) => {
           console.log('Login successful', response);
         },
