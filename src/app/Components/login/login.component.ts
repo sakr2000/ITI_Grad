@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
-import { User } from '../../app/models/user.model';
-import { AuthService } from '../../service/auth.service';
-
+import { User } from '../../Models/user.model';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,19 +21,20 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      EmailOrUsername: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
       const user: User = {
         email: this.loginForm.get('email')?.value,
-        password: this.loginForm.get('password')?.value
+        password: this.loginForm.get('password')?.value,
       };
 
-      this.authService.login(user).subscribe({
+      this.authService.login(user.email, user.password).subscribe({
         next: (response) => {
           console.log('Login successful', response);
         },
