@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { User } from '../../Models/user.model';
 import { AuthService } from '../../Services/auth.service';
 
 @Component({
@@ -28,20 +27,19 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
-      const user: User = {
-        email: this.loginForm.get('email')?.value,
-        password: this.loginForm.get('password')?.value,
-      };
-
-      this.authService.login(user.email, user.password).subscribe({
-        next: (response) => {
-          console.log('Login successful', response);
-        },
-        error: (error) => {
-          console.error('Login error', error);
-        },
-      });
+      this.authService
+        .login(
+          this.loginForm.value.EmailOrUsername,
+          this.loginForm.value.password
+        )
+        .subscribe({
+          next: (response) => {
+            console.log('Login successful', response);
+          },
+          error: (error) => {
+            console.error('Login error', error);
+          },
+        });
     }
   }
 }
