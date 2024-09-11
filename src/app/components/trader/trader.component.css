@@ -1,0 +1,124 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Form Section Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+form > div {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+/* Form Group Styles */
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Add Pricing Packages Section */
+form .formArrayName {
+  margin-bottom: 20px;
+}
+
+form .formArrayName > div {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+form .formArrayName select,
+form .formArrayName input {
+  flex: 1;
+}
+
+form .formArrayName button {
+  padding: 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form .formArrayName button:hover {
+  background-color: #c82333;
+}
+
+button.add-package {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.add-package:hover {
+  background-color: #218838;
+}
+
+/* Save Button */
+button[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+.highlight {
+  background-color: #7c7a7a;
+  border: 1px solid #b0b0b0;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
