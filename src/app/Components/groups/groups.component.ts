@@ -1,40 +1,40 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FieldJobService } from '../../service/group.service';
+import { FieldJobService } from '../../Services/group.service';
 
 @Component({
   selector: 'app-groups',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './groups.component.html',
-  styleUrl: './groups.component.css'
+  styleUrl: './groups.component.css',
 })
 export class GroupsComponent {
   searchQuery = '';
   rowsPerPage = 10;
-  rowOptions = [5, 10, 15, 20]; 
+  rowOptions = [5, 10, 15, 20];
   groups: any[] = [];
   constructor(private fieldJobService: FieldJobService) {}
   ngOnInit(): void {
-    
     this.loadGroups();
   }
   loadGroups() {
-    this.fieldJobService.getAllJobs().subscribe(data => {
-      this.groups = data;
-    }, error => {
-      console.error('Error fetching groups:', error);
-    });
+    this.fieldJobService.getAllJobs().subscribe(
+      (data) => {
+        this.groups = data;
+      },
+      (error) => {
+        console.error('Error fetching groups:', error);
+      }
+    );
   }
 
   filteredGroups() {
     if (!this.searchQuery) {
       return this.groups;
     }
-    return this.groups.filter(group =>
-      group.name.includes(this.searchQuery)
-    );
+    return this.groups.filter((group) => group.name.includes(this.searchQuery));
   }
 
   paginatedGroups() {
@@ -47,7 +47,7 @@ export class GroupsComponent {
 
   viewGroup(id: number) {
     console.log('View group with ID:', id);
-    this.fieldJobService.getJobById(id).subscribe(group => {
+    this.fieldJobService.getJobById(id).subscribe((group) => {
       console.log('Fetched group:', group);
     });
   }
@@ -57,11 +57,14 @@ export class GroupsComponent {
   }
 
   deleteGroup(id: number) {
-    this.fieldJobService.deleteJob(id).subscribe(() => {
-      console.log('Deleted group with ID:', id);
-      this.loadGroups();
-    }, error => {
-      console.error('Error deleting group:', error);
-    });
+    this.fieldJobService.deleteJob(id).subscribe(
+      () => {
+        console.log('Deleted group with ID:', id);
+        this.loadGroups();
+      },
+      (error) => {
+        console.error('Error deleting group:', error);
+      }
+    );
   }
 }
