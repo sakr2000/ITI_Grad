@@ -1,0 +1,4 @@
+.bi.bi-list {
+  cursor: pointer;
+  color: var(--accent-color);
+}

@@ -1,0 +1,74 @@
+<header #header class="header dark-background d-flex flex-column">
+  <i
+    #headerToggleBtn
+    class="header-toggle d-xl-none bi bi-list"
+    (click)="headerToggle()"
+  ></i>
+
+  <div class="profile-img">
+    <img src="Logo.png" alt="" class="img-fluid" />
+  </div>
+
+  <a
+    href="index.html"
+    class="logo d-flex align-items-center justify-content-center"
+  >
+    <!-- <img src="assets/images/Logo.svg" alt=""> -->
+    <h1 class="sitename">UserName</h1>
+  </a>
+
+  <nav id="navmenu" class="navmenu">
+    <ul>
+      <li>
+        <a
+          [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><i class="bi bi-house navicon"></i>الصفحة الرئيسية</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><i class="bi bi-file-earmark-person navicon"></i> المجموعات</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><i class="bi bi-shop navicon"></i> الفروع</a
+        >
+      </li>
+      <li class="dropdown">
+        <a class="active"
+          ><i class="bi bi-person navicon"></i> <span>المستخدمين</span>
+          <i
+            #toggleDropdownbtn
+            class="bi bi-chevron-up toggle-dropdown"
+            (click)="toggleDropdown($event, toggleDropdownbtn)"
+          ></i
+        ></a>
+        <ul>
+          <li><a>الموظفين</a></li>
+          <li><a>التجار</a></li>
+          <li><a>المناديب</a></li>
+        </ul>
+      </li>
+      <li>
+        <a
+          [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><i class="bi bi-box-seam navicon"></i> الطلبات</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><i class="bi bi-gear navicon"></i> الإعدادات</a
+        >
+      </li>
+    </ul>
+  </nav>
+</header>
