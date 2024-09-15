@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../models/user.model';
+import { User } from '../../models/user.model';
+
 
 
 
@@ -14,7 +15,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(user: User): Observable<any> {
+  login(user:User ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post(`${this.apiUrl}/login`, user, { headers }).pipe(

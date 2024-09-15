@@ -1,0 +1,17 @@
+.container {
+    direction: rtl;
+  }
+  
+  table {
+    width: 100%;
+    text-align: center;
+  }
+  
+  th, td {
+    padding: 10px;
+  }
+  
+  input[type="checkbox"] {
+    transform: scale(1.2); /* Enlarge the checkboxes */
+  }
+  
