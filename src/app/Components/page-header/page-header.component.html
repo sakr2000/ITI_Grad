@@ -1,0 +1,21 @@
+<div class="section">
+  <div
+    class="container-fluid d-flex align-items-center justify-content-between"
+  >
+    <div class="d-flex flex-column justify-content-center">
+      <h2 class="h5 no-margin-bottom">{{ title }}</h2>
+      @if (path.length > 0) {
+      <div class="d-flex align-items-center gap-2">
+        <a class="text-muted" [routerLink]="['']">
+          <span class="bi bi-house-door-fill"></span>
+        </a>
+        @for (i of path; track $index;) {
+        <span class="bi bi-chevron-left"></span>
+        <a [routerLink]="[i.link]">{{ i.name }}</a>
+        }
+      </div>
+      }
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

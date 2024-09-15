@@ -1,0 +1,162 @@
+<app-page-header
+  title="إضافة محافظة"
+  [path]="[
+    { name: 'المحافظات', link: '' },
+    { name: 'إضافة محافظة', link: '' }
+  ]"
+>
+  <span>what the hill</span>
+</app-page-header>
+<!-- add govern -->
+<div class="section">
+  <div class="container mt-4">
+    <form [formGroup]="GovernFrom" (ngSubmit)="onSubmit()">
+      <div class="row mb-3 align-items-end">
+        <div class="col-9">
+          <label for="governName" class="form-label">اسم المحافظة</label>
+          <input
+            id="governName"
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="أدخل اسم المحافظة"
+            [ngClass]="{
+              'is-invalid':
+                GovernFrom.get('name')?.invalid &&
+                GovernFrom.get('name')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              GovernFrom.get('name')?.invalid && GovernFrom.get('name')?.touched
+            "
+            class="invalid-feedback"
+          >
+            Govern name is required.
+          </div>
+        </div>
+        <div class="col-3 text-center">
+          <button type="button" class="btn btn-primary" (click)="addCity()">
+            إضافة مدينة
+          </button>
+        </div>
+      </div>
+
+      <!-- Cities FormArray -->
+      <div formArrayName="Cities">
+        <div
+          *ngFor="let city of Cities.controls; let i = index"
+          [formGroupName]="i"
+          class="mb-3 border p-3"
+        >
+          <h5>{{ i + 1 }}</h5>
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <label for="cityName{{ i }}" class="form-label"
+                >اسم المدينة</label
+              >
+              <input
+                id="cityName{{ i }}"
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="ادخل اسم المدينة"
+                [ngClass]="{
+                  'is-invalid':
+                    city.get('name')?.invalid && city.get('name')?.touched
+                }"
+              />
+              <div
+                *ngIf="city.get('name')?.invalid && city.get('name')?.touched"
+                class="invalid-feedback"
+              >
+                يجب ادخال اسم المدينة
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+              <label for="normalCharge{{ i }}" class="form-label"
+                >تكلفة الشحن العادية</label
+              >
+              <input
+                id="normalCharge{{ i }}"
+                type="number"
+                class="form-control"
+                formControlName="normalCharge"
+                placeholder="ادخل تكلفة الشحن العادية"
+                [ngClass]="{
+                  'is-invalid':
+                    city.get('normalCharge')?.invalid &&
+                    city.get('normalCharge')?.touched
+                }"
+              />
+              <div
+                *ngIf="
+                  city.get('normalCharge')?.invalid &&
+                  city.get('normalCharge')?.touched
+                "
+                class="invalid-feedback"
+              >
+                يجب ادخال تكلفة الشحن العادية
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <label for="pickupCharge{{ i }}" class="form-label"
+                >تكلفة شحن الـ pickup</label
+              >
+              <input
+                id="pickupCharge{{ i }}"
+                type="number"
+                class="form-control"
+                formControlName="pickupCharge"
+                placeholder="ادخل تكلفة شحن الـ pickup"
+                [ngClass]="{
+                  'is-invalid':
+                    city.get('pickupCharge')?.invalid &&
+                    city.get('pickupCharge')?.touched
+                }"
+              />
+              <div
+                *ngIf="
+                  city.get('pickupCharge')?.invalid &&
+                  city.get('pickupCharge')?.touched
+                "
+                class="invalid-feedback"
+              >
+                يجب ادخال تكلفة شحن الـ pickup
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-sm-12 col-md-6">
+            <label for="specialCharge{{ i }}" class="form-label"
+              >Special Charge for Seller</label
+            >
+            <input
+              id="specialCharge{{ i }}"
+              type="number"
+              class="form-control"
+              formControlName="specialChargeForSeller"
+              placeholder="Enter Special Charge for Seller"
+              [ngClass]="{
+                'is-invalid':
+                  city.get('specialChargeForSeller')?.invalid &&
+                  city.get('specialChargeForSeller')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                city.get('specialChargeForSeller')?.invalid &&
+                city.get('specialChargeForSeller')?.touched
+              "
+              class="invalid-feedback"
+            >
+              Special charge for seller is required.
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+</div>
