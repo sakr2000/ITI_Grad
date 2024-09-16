@@ -1,0 +1,27 @@
+<div class="container">
+    <h2>الصلاحيات</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>الصلاحية</th>
+          <th>إضافة</th>
+          <th>حذف</th>
+          <th>تعديل</th>
+          <th>عرض</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let permission of privileges">
+                  <td>{{ permission.privilegeID }}</td>
+                  <td>{{ permission.name }}</td>
+                  <td><input type="checkbox" [(ngModel)]="permission.add"  /></td>
+                  <td><input type="checkbox" [(ngModel)]="permission.delete"  /></td>
+                  <td><input type="checkbox" [(ngModel)]="permission.edit"  /></td>
+                  <td><input type="checkbox" [(ngModel)]="permission.display"  /></td>
+            </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  

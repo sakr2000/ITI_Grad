@@ -1,0 +1,37 @@
+<div class="modal" #modal id="addFieldJobModal">
+    <div class="modal-dialog">
+        <div class="modal-content" dir="rtl">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ viewMode ? 'عرض وظيفة' : 'إضافة / تعديل وظيفة' }}</h4>
+                <button type="button" class="close custom-close-btn" (click)="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" placeholder="اسم الوظيفة" [(ngModel)]="newFieldJobName" [disabled]="viewMode" />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>اسم الصلاحية</th>
+                            <th>إضافة</th>
+                            <th>حذف</th>
+                            <th>عرض</th>
+                            <th>تعديل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let privilege of privileges">
+                            <td>{{ privilege.name }}</td>
+                            <td><input type="checkbox" [(ngModel)]="privilege.add" [disabled]="viewMode" /></td>
+                            <td><input type="checkbox" [(ngModel)]="privilege.delete" [disabled]="viewMode" /></td>
+                            <td><input type="checkbox" [(ngModel)]="privilege.display" [disabled]="viewMode" /></td>
+                            <td><input type="checkbox" [(ngModel)]="privilege.edit" [disabled]="viewMode" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!viewMode" type="button" class="btn btn-success" (click)="saveFieldJob()">حفظ</button>
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+</div>
