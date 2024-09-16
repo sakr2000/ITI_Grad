@@ -10,10 +10,16 @@ export class BranchService {
 
   constructor(private http: HttpClient) {}
 
+  // وظيفة إضافة فرع جديد
   addBranch(branchName: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { name: branchName };
 
     return this.http.post<any>(this.apiUrl, body, { headers });
+  }
+
+  // وظيفة جلب جميع الفروع
+  getBranches(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 }
