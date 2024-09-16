@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { PageHeaderComponent } from '../../Components/page-header/page-header.component';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { GovernService } from '../../Services/govern.service';
 interface govern {
   id: number;
   name: string;
@@ -10,17 +12,20 @@ interface govern {
 @Component({
   selector: 'app-display-governs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PageHeaderComponent, RouterLink, RouterLinkActive],
   templateUrl: './display-governs.component.html',
   styleUrl: './display-governs.component.css',
 })
-export class DisplayGovernsComponent {
-  governs: govern[] = [
-    { id: 1, name: 'المدينة المنورة', status: true },
-    { id: 2, name: 'المدينة المنورة', status: false },
-    { id: 3, name: 'المدينة المنورة', status: true },
-  ];
+export class DisplayGovernsComponent implements OnInit {
+  governs: govern[] = [];
+  constructor(private _governService: GovernService) {}
+  ngOnInit(): void {
+    this._governService.getAll().subscribe((data) => {
+      console.log(data);
 
+      this.governs = data;
+    });
+  }
   toggleStatus(i: number) {
     this.governs[i].status = !this.governs[i].status;
   }

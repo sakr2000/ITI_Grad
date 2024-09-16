@@ -21,6 +21,7 @@
     <ul>
       <li>
         <a
+          [routerLink]="['']"
           [routerLinkActive]="['active']"
           [routerLinkActiveOptions]="{ exact: true }"
           ><i class="bi bi-house navicon"></i>الصفحة الرئيسية</a
@@ -41,13 +42,9 @@
         >
       </li>
       <li class="dropdown">
-        <a class="active"
+        <a (click)="toggleDropdown($event, toggleDropdownbtn)"
           ><i class="bi bi-person navicon"></i> <span>المستخدمين</span>
-          <i
-            #toggleDropdownbtn
-            class="bi bi-chevron-up toggle-dropdown"
-            (click)="toggleDropdown($event, toggleDropdownbtn)"
-          ></i
+          <i #toggleDropdownbtn class="bi bi-chevron-down toggle-dropdown"></i
         ></a>
         <ul>
           <li><a>الموظفين</a></li>
@@ -64,9 +61,25 @@
       </li>
       <li>
         <a
+          [routerLink]="['Govern']"
+          [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><i class="bi bi-map navicon"></i> المحافظات</a
+        >
+      </li>
+      <li>
+        <a
           [routerLinkActive]="['active']"
           [routerLinkActiveOptions]="{ exact: true }"
           ><i class="bi bi-gear navicon"></i> الإعدادات</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="['test']"
+          [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ><i class="bi bi-lightning navicon"></i> اختبار</a
         >
       </li>
     </ul>

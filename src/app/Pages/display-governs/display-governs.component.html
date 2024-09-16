@@ -1,12 +1,22 @@
+<app-page-header title="المحافظات" [path]="[{ name: 'المحافظات', link: '' }]">
+  <a
+    class="btn btn-primary"
+    [routerLink]="['add']"
+    [routerLinkActive]="['active']"
+    [routerLinkActiveOptions]="{ exact: true }"
+    ><i class="bi bi-plus-lg navicon"></i> اضافة محافظة</a
+  >
+</app-page-header>
 <div class="section">
   <div class="container mt-4">
     <h3 class="text-end mb-3">المحافظات</h3>
+    @if (governs.length > 0) {
     <table
       id="governTable"
-      class="table table-bordered text-center"
+      class="table table-bordered text-center rounded"
       width="100%"
     >
-      <thead>
+      <thead class="table-dark">
         <tr>
           <th>#</th>
           <th>الاسم</th>
@@ -31,12 +41,18 @@
             </div>
           </td>
           <td>
-            <button class="btn btn-success">
+            <a
+              class="btn btn-outline-success"
+              [routerLink]="['edit', govern.id]"
+            >
               <i class="bi bi-pen"></i>
-            </button>
+            </a>
           </td>
         </tr>
       </tbody>
     </table>
+    }@else {
+    <h3 class="text-center text-muted">لا توجد محافظات للعرض</h3>
+    }
   </div>
 </div>

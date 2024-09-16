@@ -170,6 +170,7 @@
 .navmenu .active,
 .navmenu .active:focus {
   color: var(--nav-hover-color);
+  cursor: pointer;
 }
 
 .navmenu a:hover .navicon,

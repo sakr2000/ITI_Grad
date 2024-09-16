@@ -1,11 +1,10 @@
 <app-page-header
-  title="إضافة محافظة"
+  [title]="id == 0 ? 'إضافة محافظة' : 'تعديل محافظة'"
   [path]="[
-    { name: 'المحافظات', link: '' },
-    { name: 'إضافة محافظة', link: '' }
+    { name: 'المحافظات', link: '/Govern' },
+    { name: id == 0 ? 'إضافة محافظة' : 'تعديل محافظة', link: '/Govern/add' }
   ]"
 >
-  <span>what the hill</span>
 </app-page-header>
 <!-- add govern -->
 <div class="section">
@@ -43,7 +42,7 @@
       </div>
 
       <!-- Cities FormArray -->
-      <div formArrayName="Cities">
+      <div formArrayName="cities">
         <div
           *ngFor="let city of Cities.controls; let i = index"
           [formGroupName]="i"
@@ -105,21 +104,21 @@
                 >تكلفة شحن الـ pickup</label
               >
               <input
-                id="pickupCharge{{ i }}"
+                id="pickUpCharge{{ i }}"
                 type="number"
                 class="form-control"
-                formControlName="pickupCharge"
+                formControlName="pickUpCharge"
                 placeholder="ادخل تكلفة شحن الـ pickup"
                 [ngClass]="{
                   'is-invalid':
-                    city.get('pickupCharge')?.invalid &&
-                    city.get('pickupCharge')?.touched
+                    city.get('pickUpCharge')?.invalid &&
+                    city.get('pickUpCharge')?.touched
                 }"
               />
               <div
                 *ngIf="
-                  city.get('pickupCharge')?.invalid &&
-                  city.get('pickupCharge')?.touched
+                  city.get('pickUpCharge')?.invalid &&
+                  city.get('pickUpCharge')?.touched
                 "
                 class="invalid-feedback"
               >
@@ -156,7 +155,13 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-success">Submit</button>
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!GovernFrom.valid"
+      >
+        {{ id == 0 ? "اضافة" : "تعديل" }}
+      </button>
     </form>
   </div>
 </div>
