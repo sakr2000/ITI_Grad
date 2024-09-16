@@ -1,8 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter ,Output} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FieldPrivilegeDTO, FieldJob } from '../../models/Privilege';
-import { FieldJobService } from '../../service/FieldJob/FieldJob.service';
+import { FieldPrivilegeDTO, FieldJob } from '../../Models/Privilege';
+import { FieldJobService } from '../../Services/FieldJob.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -10,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './add-field-job.component.html',
-  styleUrl: './add-field-job.component.css'
+  styleUrl: './add-field-job.component.css',
 })
 export class AddFieldJobComponent implements OnChanges {
   @Input() privileges!: FieldPrivilegeDTO[];
@@ -22,7 +31,10 @@ export class AddFieldJobComponent implements OnChanges {
   newFieldJobName = '';
   @ViewChild('modal') modal!: ElementRef;
 
-  constructor(private fieldJobService: FieldJobService,private http:HttpClient) {}
+  constructor(
+    private fieldJobService: FieldJobService,
+    private http: HttpClient
+  ) {}
 
   ngOnChanges() {
     if (!this.privileges) {
@@ -30,13 +42,13 @@ export class AddFieldJobComponent implements OnChanges {
     }
     if (this.fieldJobToEdit) {
       this.newFieldJobName = this.fieldJobToEdit.name;
-      this.privileges = this.fieldJobToEdit.fieldPrivilegeDTO.map(priv => ({
+      this.privileges = this.fieldJobToEdit.fieldPrivilegeDTO.map((priv) => ({
         privilegeID: priv.privilegeID,
         name: priv.name,
         add: priv.add,
         delete: priv.delete,
         display: priv.display,
-        edit: priv.edit
+        edit: priv.edit,
       }));
     } else if (!this.editMode && !this.viewMode) {
       this.newFieldJobName = '';
@@ -47,39 +59,41 @@ export class AddFieldJobComponent implements OnChanges {
     if (!this.privileges) {
       this.privileges = [];
     }
-    this.http.get('http://localhost:5298/api/Privilege').subscribe((response: any) => {
-      this.privileges = response.map((privilege: any) => ({
-        privilegeID: privilege.id,
-        name: privilege.name,
-        add: false,
-        delete: false,
-        display: false,
-        edit: false,
-      }));
-    });
+    this.http
+      .get('http://localhost:5298/api/Privilege')
+      .subscribe((response: any) => {
+        this.privileges = response.map((privilege: any) => ({
+          privilegeID: privilege.id,
+          name: privilege.name,
+          add: false,
+          delete: false,
+          display: false,
+          edit: false,
+        }));
+      });
   }
   closeModal() {
     this.modal.nativeElement.style.display = 'none';
   }
 
   openModal() {
-    debugger
+    debugger;
     if (!this.editMode && !this.viewMode) {
       this.newFieldJobName = '';
-      this.privileges = this.privileges.map(priv => ({
+      this.privileges = this.privileges.map((priv) => ({
         privilegeID: priv.privilegeID,
         name: priv.name,
         add: false,
         delete: false,
         display: false,
-        edit: false
+        edit: false,
       }));
     }
     this.modal.nativeElement.style.display = 'block';
   }
 
   saveFieldJob() {
-    const selectedPrivileges = this.privileges.map(priv => ({
+    const selectedPrivileges = this.privileges.map((priv) => ({
       PrivilegeID: priv.privilegeID,
       add: priv.add,
       delete: priv.delete,
@@ -88,11 +102,10 @@ export class AddFieldJobComponent implements OnChanges {
     }));
 
     if (this.editMode && this.fieldJobToEdit) {
-      
       const updatedFieldJob = {
         id: this.fieldJobToEdit.id,
         name: this.newFieldJobName,
-        fieldPrivilegeCollection: selectedPrivileges
+        fieldPrivilegeCollection: selectedPrivileges,
       };
 
       this.fieldJobService.updateJob(updatedFieldJob).subscribe(
@@ -124,4 +137,3 @@ export class AddFieldJobComponent implements OnChanges {
     }
   }
 }
-

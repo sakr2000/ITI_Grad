@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FieldJob } from '../../models/Privilege';
+import { FieldJob } from '../Models/Privilege';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PrivilegesServiceService {
-
   private apiUrl = 'http://localhost:5298/api/FieldJob';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getPrivileges(): Observable<FieldJob[]> {
     return this.http.get<FieldJob[]>(this.apiUrl);

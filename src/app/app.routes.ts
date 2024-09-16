@@ -28,6 +28,13 @@ export const routes: Routes = [
             (m) => m.AddGovernComponent
           ),
       },
+      {
+        path: 'FieldJob',
+        loadComponent: () =>
+          import('./Components/Fieldjob/FieldJob.component').then(
+            (m) => m.FieldJobComponent
+          ),
+      },
     ],
   },
   { path: 'login', component: LoginComponent },
