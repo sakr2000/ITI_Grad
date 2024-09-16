@@ -1,285 +1,275 @@
-<div class="container mt-4">
-  <h2 class="text-end mb-4">إضافة طلب</h2>
+<div class="section">
+  <div class="container mt-4">
+    <h2 class="text-end mb-4">إضافة طلب</h2>
 
-  <form [formGroup]="addOrderForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="col-md-3 mb-3">
-        <label for="type" class="form-label">النوع</label>
-        <select
-          id="type"
-          formControlName="type"
-          class="form-select custom-border"
-        >
-          <option value="" disabled selected>اختر نوع الطلب</option>
-          <option value="التسليم في الفرع">التسليم في الفرع</option>
-        </select>
+    <form [formGroup]="addOrderForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <label for="type" class="form-label">النوع</label>
+          <select
+            id="type"
+            formControlName="type"
+            class="form-control form-select"
+          >
+            <option value="" disabled selected>اختر نوع الطلب</option>
+            <option value="التسليم في الفرع">التسليم في الفرع</option>
+          </select>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="name" class="form-label">اسم العميل</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="الاسم"
+            [attr.disabled]="true"
+          />
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="phone1" class="form-label">رقم الهاتف الأول</label>
+          <input
+            type="text"
+            id="phone1"
+            formControlName="phone1"
+            class="form-control"
+            placeholder="رقم الهاتف الأول"
+            [attr.disabled]="true"
+          />
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="phone2" class="form-label">رقم الهاتف الثاني</label>
+          <input
+            type="text"
+            id="phone2"
+            formControlName="phone2"
+            class="form-control"
+            placeholder="رقم الهاتف الثاني"
+            [attr.disabled]="true"
+          />
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label for="email" class="form-label">البريد الإلكتروني</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="البريد الإلكتروني"
+            [attr.disabled]="true"
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="province" class="form-label">المحافظة</label>
+          <select id="province" formControlName="province" class="form-select">
+            <option value="" disabled selected>اختر المحافظة</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="city" class="form-label">المدينة</label>
+          <select id="city" formControlName="city" class="form-select">
+            <option value="" disabled selected>اختر المدينة</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="address" class="form-label">القرية والشارع</label>
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            class="form-control"
+            placeholder="القرية والشارع"
+            [attr.disabled]="true"
+          />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="shippingType" class="form-label">نوع الشحن</label>
+          <select
+            id="shippingType"
+            formControlName="shippingType"
+            class="form-select"
+          >
+            <option value="" disabled selected>اختر نوع الشحن</option>
+            <option value="شحن عادي">شحن عادي</option>
+            <option value="شحن في 24 ساعة">شحن في 24 ساعة</option>
+            <option value="شحن خلال 15 يوم">شحن خلال 15 يوم</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="paymentType" class="form-label">نوع الدفع</label>
+          <select
+            id="paymentType"
+            formControlName="paymentType"
+            class="form-select"
+          >
+            <option value="" disabled selected>اختر نوع الدفع</option>
+            <option value="واجبة التحصيل">واجبة التحصيل</option>
+            <option value="دفع مقدم">دفع مقدم</option>
+            <option value="طرد مقابل طرد">طرد مقابل طرد</option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="branch" class="form-label">الفرع</label>
+          <select id="branch" formControlName="branch" class="form-select">
+            <option value="" disabled selected>اختر الفرع</option>
+            <option *ngFor="let branch of branches" [value]="branch.id">
+              {{ branch.name }}
+            </option>
+          </select>
+        </div>
       </div>
 
-      <div class="col-md-3 mb-3">
-        <label for="name" class="form-label">اسم العميل</label>
-        <input
-          type="text"
-          id="name"
-          formControlName="name"
-          class="form-control custom-border"
-          placeholder="الاسم"
-          [attr.disabled]="true"
-        />
+      <div class="row mb-3">
+        <div class="col-md-12 text-end">
+          <button
+            type="button"
+            class="btn custom-save-btn"
+            (click)="addProduct()"
+          >
+            إضافة منتج
+          </button>
+        </div>
       </div>
 
-      <div class="col-md-3 mb-3">
-        <label for="phone1" class="form-label">رقم الهاتف الأول</label>
-        <input
-          type="text"
-          id="phone1"
-          formControlName="phone1"
-          class="form-control custom-border"
-          placeholder="رقم الهاتف الأول"
-          [attr.disabled]="true"
-        />
+      <!-- الجدول الخاص بالمنتجات -->
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <table class="table table-bordered pink-table">
+            <thead>
+              <tr>
+                <th>اسم المنتج</th>
+                <th>الكمية</th>
+                <th>الوزن (كجم)</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="products">
+              <tr
+                *ngFor="let product of products.controls; let i = index"
+                [formGroupName]="i"
+              >
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                    placeholder="اسم المنتج"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="quantity"
+                    min="1"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="weight"
+                    min="1"
+                  />
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="removeProduct(i)"
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="col-md-3 mb-3">
-        <label for="phone2" class="form-label">رقم الهاتف الثاني</label>
-        <input
-          type="text"
-          id="phone2"
-          formControlName="phone2"
-          class="form-control custom-border"
-          placeholder="رقم الهاتف الثاني"
-          [attr.disabled]="true"
-        />
+      <!-- الحقول الإضافية أسفل الجدول -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="totalCost" class="form-label">تكلفة الطلب</label>
+          <input
+            type="number"
+            id="totalCost"
+            formControlName="totalCost"
+            class="form-control"
+            placeholder="تكلفة الطلب"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="totalWeight" class="form-label">إجمالي الوزن (كجم)</label>
+          <input
+            type="number"
+            id="totalWeight"
+            formControlName="totalWeight"
+            class="form-control"
+            placeholder="إجمالي الوزن (كجم)"
+          />
+        </div>
       </div>
 
-      <div class="col-md-3 mb-3">
-        <label for="email" class="form-label">البريد الإلكتروني</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          class="form-control custom-border"
-          placeholder="البريد الإلكتروني"
-          [attr.disabled]="true"
-        />
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <label for="notes" class="form-label">ملاحظات</label>
+          <textarea
+            id="notes"
+            formControlName="notes"
+            class="form-control"
+            placeholder="ملاحظات"
+          ></textarea>
+        </div>
       </div>
 
-      <div class="col-md-4 mb-3">
-        <label for="province" class="form-label">المحافظة</label>
-        <select
-          id="province"
-          formControlName="province"
-          class="form-select custom-border"
-        >
-          <option value="" disabled selected>اختر المحافظة</option>
-        </select>
+      <!-- بيانات التاجر -->
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <h5>بيانات التاجر</h5>
+        </div>
       </div>
 
-      <div class="col-md-4 mb-3">
-        <label for="city" class="form-label">المدينة</label>
-        <select
-          id="city"
-          formControlName="city"
-          class="form-select custom-border"
-        >
-          <option value="" disabled selected>اختر المدينة</option>
-        </select>
+      <!-- حقول بيانات التاجر -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="phoneNumber" class="form-label">رقم الهاتف</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            formControlName="phoneNumber"
+            class="form-control"
+            placeholder="رقم الهاتف"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="address" class="form-label">العنوان</label>
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            class="form-control"
+            placeholder="العنوان"
+          />
+        </div>
       </div>
 
-      <div class="col-md-4 mb-3">
-        <label for="address" class="form-label">القرية والشارع</label>
-        <input
-          type="text"
-          id="address"
-          formControlName="address"
-          class="form-control custom-border"
-          placeholder="القرية والشارع"
-          [attr.disabled]="true"
-        />
+      <!-- زر حفظ -->
+      <div class="row mb-3">
+        <div class="col-md-12 text-end">
+          <button type="submit" class="btn custom-save-btn">حفظ</button>
+        </div>
       </div>
-
-      <div class="col-md-4 mb-3">
-        <label for="shippingType" class="form-label">نوع الشحن</label>
-        <select
-          id="shippingType"
-          formControlName="shippingType"
-          class="form-select custom-border"
-        >
-          <option value="" disabled selected>اختر نوع الشحن</option>
-          <option value="شحن عادي">شحن عادي</option>
-          <option value="شحن في 24 ساعة">شحن في 24 ساعة</option>
-          <option value="شحن خلال 15 يوم">شحن خلال 15 يوم</option>
-        </select>
-      </div>
-
-      <div class="col-md-4 mb-3">
-        <label for="paymentType" class="form-label">نوع الدفع</label>
-        <select
-          id="paymentType"
-          formControlName="paymentType"
-          class="form-select custom-border"
-        >
-          <option value="" disabled selected>اختر نوع الدفع</option>
-          <option value="واجبة التحصيل">واجبة التحصيل</option>
-          <option value="دفع مقدم">دفع مقدم</option>
-          <option value="طرد مقابل طرد">طرد مقابل طرد</option>
-        </select>
-      </div>
-
-      <div class="col-md-4 mb-3">
-        <label for="branch" class="form-label">الفرع</label>
-        <select
-          id="branch"
-          formControlName="branch"
-          class="form-select custom-border"
-        >
-          <option value="" disabled selected>اختر الفرع</option>
-          <option *ngFor="let branch of branches" [value]="branch.id">
-            {{ branch.name }}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-12 text-end">
-        <button
-          type="button"
-          class="btn custom-savee-btn"
-          (click)="addProduct()"
-        >
-          إضافة منتج
-        </button>
-      </div>
-    </div>
-
-    <!-- الجدول الخاص بالمنتجات -->
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <table class="table table-bordered pink-table">
-          <thead>
-            <tr>
-              <th>اسم المنتج</th>
-              <th>الكمية</th>
-              <th>الوزن (كجم)</th>
-              <th>حذف</th>
-            </tr>
-          </thead>
-          <tbody formArrayName="products">
-            <tr
-              *ngFor="let product of products.controls; let i = index"
-              [formGroupName]="i"
-            >
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="name"
-                  placeholder="اسم المنتج"
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  class="form-control"
-                  formControlName="quantity"
-                  min="1"
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  class="form-control"
-                  formControlName="weight"
-                  min="1"
-                />
-              </td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="removeProduct(i)"
-                >
-                  حذف
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- الحقول الإضافية أسفل الجدول -->
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="totalCost" class="form-label">تكلفة الطلب</label>
-        <input
-          type="number"
-          id="totalCost"
-          formControlName="totalCost"
-          class="form-control custom-border"
-          placeholder="تكلفة الطلب"
-        />
-      </div>
-      <div class="col-md-6">
-        <label for="totalWeight" class="form-label">إجمالي الوزن (كجم)</label>
-        <input
-          type="number"
-          id="totalWeight"
-          formControlName="totalWeight"
-          class="form-control custom-border"
-          placeholder="إجمالي الوزن (كجم)"
-        />
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <label for="notes" class="form-label">ملاحظات</label>
-        <textarea
-          id="notes"
-          formControlName="notes"
-          class="form-control custom-border"
-          placeholder="ملاحظات"
-        ></textarea>
-      </div>
-    </div>
-
-    <!-- بيانات التاجر -->
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <h5>بيانات التاجر</h5>
-      </div>
-    </div>
-
-    <!-- حقول بيانات التاجر -->
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label for="phoneNumber" class="form-label">رقم الهاتف</label>
-        <input
-          type="text"
-          id="phoneNumber"
-          formControlName="phoneNumber"
-          class="form-control custom-border"
-          placeholder="رقم الهاتف"
-        />
-      </div>
-      <div class="col-md-6">
-        <label for="address" class="form-label">العنوان</label>
-        <input
-          type="text"
-          id="address"
-          formControlName="address"
-          class="form-control custom-border"
-          placeholder="العنوان"
-        />
-      </div>
-    </div>
-
-    <!-- زر حفظ -->
-    <div class="row mb-3">
-      <div class="col-md-12 text-end">
-        <button type="submit" class="btn custom-save-btn">حفظ</button>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

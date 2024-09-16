@@ -1,87 +1,81 @@
-<div class="container mt-4">
-  <h2 class="text-center mb-4">الفروع</h2>
+<div class="section">
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">الفروع</h2>
 
-  <div class="form-group mb-3">
-    <input
-      type="text"
-      class="form-control search-input"
-      placeholder="بحث..."
-      (input)="onSearch($event)"
-    />
+    <div class="form-group mb-3">
+      <input
+        type="text"
+        class="form-control search-input"
+        placeholder="بحث..."
+        (input)="onSearch($event)"
+      />
+    </div>
+
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>اسم الفرع</th>
+          <th>تاريخ الإضافة</th>
+          <th>الحالة</th>
+          <th>الإعدادات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let branch of filteredBranches; let i = index">
+          <td>{{ i + 1 }}</td>
+
+          <td *ngIf="editingBranchId !== branch.id">
+            {{ branch.name }}
+          </td>
+          <td *ngIf="editingBranchId === branch.id">
+            <input type="text" [(ngModel)]="branch.name" class="form-control" />
+          </td>
+
+          <td>{{ branch.date | date : "yyyy-MM-dd HH:mm" }}</td>
+          <td>
+            <label class="switch">
+              <input
+                type="checkbox"
+                [checked]="branch.active"
+                (change)="toggleStatus(branch.id)"
+              />
+              <span class="slider round"></span>
+            </label>
+          </td>
+          <td>
+            <button
+              *ngIf="editingBranchId !== branch.id"
+              class="btn btn-edit btn-sm"
+              (click)="editBranch(branch.id)"
+            >
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button
+              *ngIf="editingBranchId === branch.id"
+              class="btn btn-save btn-sm"
+              (click)="saveBranch(branch)"
+            >
+              <i class="fas fa-save"></i>
+            </button>
+
+            <button
+              *ngIf="editingBranchId === branch.id"
+              class="btn btn-cancel btn-sm"
+              (click)="cancelEdit()"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+
+            <button
+              class="btn btn-delete btn-sm"
+              (click)="deleteBranch(branch.id)"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>اسم الفرع</th>
-        <th>تاريخ الإضافة</th>
-        <th>الحالة</th>
-        <th>الإعدادات</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let branch of filteredBranches; let i = index">
-        <td>{{ i + 1 }}</td>
-        <!-- عرض الأرقام التسلسلية -->
-
-        <!-- اسم الفرع: وضع التحرير -->
-        <td *ngIf="editingBranchId !== branch.id">
-          {{ branch.name }}
-        </td>
-        <td *ngIf="editingBranchId === branch.id">
-          <input type="text" [(ngModel)]="branch.name" class="form-control" />
-        </td>
-
-        <td>{{ branch.date | date : "yyyy-MM-dd HH:mm" }}</td>
-        <td>
-          <!-- Switch Toggle -->
-          <label class="switch">
-            <input
-              type="checkbox"
-              [checked]="branch.active"
-              (change)="toggleStatus(branch.id)"
-            />
-            <span class="slider round"></span>
-          </label>
-        </td>
-        <td>
-          <!-- زر التعديل -->
-          <button
-            *ngIf="editingBranchId !== branch.id"
-            class="btn btn-edit btn-sm"
-            (click)="editBranch(branch.id)"
-          >
-            <i class="fas fa-pencil-alt"></i>
-          </button>
-
-          <!-- زر حفظ التعديلات -->
-          <button
-            *ngIf="editingBranchId === branch.id"
-            class="btn btn-save btn-sm"
-            (click)="saveBranch(branch)"
-          >
-            <i class="fas fa-save"></i>
-          </button>
-
-          <!-- زر إلغاء التعديل -->
-          <button
-            *ngIf="editingBranchId === branch.id"
-            class="btn btn-cancel btn-sm"
-            (click)="cancelEdit()"
-          >
-            <i class="fas fa-times"></i>
-          </button>
-
-          <!-- زر الحذف -->
-          <button
-            class="btn btn-delete btn-sm"
-            (click)="deleteBranch(branch.id)"
-          >
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

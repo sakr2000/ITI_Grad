@@ -1,5 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { UserOptionsService } from '../../Services/user-options.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -11,10 +12,16 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class SideNavComponent {
   @ViewChild('header') header!: ElementRef;
   @ViewChild('headerToggleBtn') headerToggleBtn!: ElementRef;
+
+  constructor(private _options: UserOptionsService) {}
   headerToggle() {
     this.header.nativeElement.classList.toggle('header-show');
     this.headerToggleBtn.nativeElement.classList.toggle('bi-list');
     this.headerToggleBtn.nativeElement.classList.toggle('bi-x');
+    this._options.changeProps(
+      'sideNavHide',
+      !this._options.userOptions.sideNavHide
+    );
   }
   toggleDropdown(e: Event, element: HTMLElement) {
     e.preventDefault();

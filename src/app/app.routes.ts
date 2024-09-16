@@ -35,6 +35,20 @@ export const routes: Routes = [
             (m) => m.FieldJobComponent
           ),
       },
+      {
+        path: 'Branch',
+        loadComponent: () =>
+          import('./Components/branches/branches.component').then(
+            (m) => m.BranchesComponent
+          ),
+      },
+      {
+        path: 'Order',
+        loadComponent: () =>
+          import('./Components/add-order/add-order.component').then(
+            (m) => m.AddOrderComponent
+          ),
+      },
     ],
   },
   { path: 'login', component: LoginComponent },

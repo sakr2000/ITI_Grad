@@ -7,34 +7,16 @@ label {
   font-weight: bold;
 }
 
-.form-control,
-.form-select {
-  background-color: #7a7a7a60;
-}
-
 button {
   font-size: 16px;
   padding: 10px 20px;
-}
-.custom-border {
-  border: 1px solid rgb(206, 123, 15) !important;
-}
-.custom-save-btn {
-  background: linear-gradient(45deg, #8a0808, #d3915b);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease;
 }
 
 .custom-save-btn:hover {
   background: linear-gradient(45deg, #836269, #ff5a70);
 }
 
-.custom-savee-btn {
+.custom-save-btn {
   background: linear-gradient(45deg, #0b2a4e, #33ce6f);
   color: #fff;
   border: none;
@@ -45,7 +27,7 @@ button {
   transition: background 0.3s ease;
 }
 
-.custom-savee-btn:hover {
+.custom-save-btn:hover {
   background: linear-gradient(45deg, #316d1f, #142c35);
 }
 .pink-table {

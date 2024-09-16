@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { BranchService } from '../services/branch.service';
+import { BranchService } from '../../Services/branch.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   selector: 'app-add-order',
   templateUrl: './add-order.component.html',
   styleUrls: ['./add-order.component.css'],
-  imports: [ReactiveFormsModule, FormsModule, CommonModule]
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
 })
 export class AddOrderComponent implements OnInit {
   addOrderForm!: FormGroup;
@@ -30,25 +30,23 @@ export class AddOrderComponent implements OnInit {
       paymentType: ['', Validators.required],
       address: ['', Validators.required],
       branch: ['', Validators.required],
-      products: this.fb.array([]) // استخدام FormArray لإدارة المنتجات
+      products: this.fb.array([]),
     });
 
-    // جلب الفروع عند تحميل الكومبونينت
-    this.branchService.getBranches().subscribe(
-      (data) => {
+    this.branchService.getBranches().subscribe({
+      next: (data) => {
         this.branches = data;
       },
-      (error) => {
-        console.error('Error fetching branches:', error);
-      }
-    );
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   get products(): FormArray {
     return this.addOrderForm.get('products') as FormArray;
   }
 
-  // إضافة منتج جديد
   addProduct() {
     const productForm = this.fb.group({
       name: ['', Validators.required],
@@ -57,8 +55,6 @@ export class AddOrderComponent implements OnInit {
     });
     this.products.push(productForm);
   }
-
-  // إزالة منتج
   removeProduct(index: number) {
     this.products.removeAt(index);
   }
@@ -67,7 +63,7 @@ export class AddOrderComponent implements OnInit {
     if (this.addOrderForm.valid) {
       const orderData = {
         ...this.addOrderForm.value,
-        products: this.products.value, // إضافة المنتجات مع الطلب
+        products: this.products.value,
       };
       console.log(orderData);
     } else {
