@@ -7,6 +7,7 @@ import { FieldPrivilegeDTO, FieldJob } from '../../Models/Privilege';
 import { HttpClient } from '@angular/common/http';
 import { AddFieldJobComponent } from '../add-field-job/add-field-job.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
+import { PrivilegesServiceService } from '../../Services/privileges-service.service';
 
 @Component({
   selector: 'app-Fieldjob',
@@ -31,28 +32,29 @@ export class FieldJobComponent {
   isEditMode = false;
   viewMode = false;
   fieldJobToEdit?: FieldJob;
+  showPrivilegesForm = false;
+  privilegeName: string = '';
   constructor(
     private fieldJobService: FieldJobService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private privilegeService: PrivilegesServiceService
   ) {}
   ngOnInit(): void {
     this.fetchPrivileges();
     this.loadFieldJob();
   }
   fetchPrivileges() {
-    this.http
-      .get('http://localhost:5298/api/Privilege')
-      .subscribe((response: any) => {
-        this.privileges = response.map((privilege: any) => ({
-          privilegeID: privilege.id,
-          name: privilege.name,
-          add: false,
-          delete: false,
-          display: false,
-          edit: false,
-        }));
-      });
+    this.privilegeService.getPrivileges().subscribe((response: any) => {
+      this.privileges = response.map((privilege: any) => ({
+        privilegeID: privilege.id,
+        name: privilege.name,
+        add: false,
+        delete: false,
+        display: false,
+        edit: false,
+      }));
+    });
   }
 
   loadFieldJob() {
@@ -115,5 +117,29 @@ export class FieldJobComponent {
   }
   handleFieldJobUpdated() {
     this.loadFieldJob();
+  }
+  togglePrivilegesForm() {
+    this.showPrivilegesForm = !this.showPrivilegesForm;
+  }
+
+  // Handle form submission
+  submitPrivileges() {
+    if (this.privilegeName) {
+      if (this.privilegeName) {
+        const privilege = { name: this.privilegeName };
+        this.privilegeService.createPrivilege(privilege).subscribe({
+          next: (response) => {
+            console.log('Privilege added successfully:', response);
+            this.privilegeName = '';
+            this.showPrivilegesForm = false;
+            this.loadFieldJob();
+            this.fetchPrivileges();
+          },
+          error: (err) => {
+            console.error('Error adding privilege:', err);
+          },
+        });
+      }
+    }
   }
 }
