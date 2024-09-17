@@ -1,45 +1,51 @@
-<div class="d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card p-4 shadow" style="width: 100%; max-width: 500px">
-    <h2 class="text-center mb-4">إضافة فرع جديد</h2>
-    <form (ngSubmit)="onSubmit()" #branchForm="ngForm">
-      <div class="mb-3">
-        <label for="branchName" class="form-label">اسم الفرع:</label>
-        <input
-          type="text"
-          id="branchName"
-          class="form-control"
-          [(ngModel)]="branchName"
-          name="branchName"
-          placeholder="أدخل اسم الفرع"
-          required
-        />
-      </div>
-      <div class="d-grid">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="!branchForm.form.valid"
-        >
-          إضافة فرع
-        </button>
-      </div>
-    </form>
-
-    <div *ngIf="successMessage" class="alert alert-success mt-4" role="alert">
-      {{ successMessage }}
+<app-page-header
+  title="إضافة فرع جديد"
+  [path]="[
+    { name: 'الفروع', link: '/Branch' },
+    { name: 'إضافة فرع جديد', link: '/Branch/add' }
+  ]"
+></app-page-header>
+>
+<div class="card p-4 mt-0 shadow section">
+  <h2 class="text-center mb-4">إضافة فرع جديد</h2>
+  <form (ngSubmit)="onSubmit()" #branchForm="ngForm">
+    <div class="mb-3">
+      <label for="branchName" class="form-label">اسم الفرع</label>
+      <input
+        type="text"
+        id="branchName"
+        class="form-control"
+        [(ngModel)]="branchName"
+        name="branchName"
+        placeholder="أدخل اسم الفرع"
+        required
+      />
     </div>
-
-    <div *ngIf="errorMessage" class="alert alert-danger mt-4" role="alert">
-      {{ errorMessage }}
+    <div class="d-grid">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!branchForm.form.valid"
+      >
+        إضافة فرع
+      </button>
     </div>
+  </form>
 
-    <div *ngIf="branches.length > 0" class="mt-4">
-      <h3 class="text-center">قائمة الفروع</h3>
-      <ul class="list-group">
-        <li *ngFor="let branch of branches" class="list-group-item">
-          {{ branch }}
-        </li>
-      </ul>
-    </div>
+  <div *ngIf="successMessage" class="alert alert-success mt-4" role="alert">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4" role="alert">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="branches.length > 0" class="mt-4">
+    <h3 class="text-center">قائمة الفروع</h3>
+    <ul class="list-group">
+      <li *ngFor="let branch of branches" class="list-group-item">
+        {{ branch }}
+      </li>
+    </ul>
   </div>
 </div>

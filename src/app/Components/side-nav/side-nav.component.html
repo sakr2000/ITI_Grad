@@ -28,18 +28,12 @@
         >
       </li>
       <li>
-        <a
-          [routerLink]="['FieldJob']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a [routerLink]="['FieldJob']" [routerLinkActive]="['active']"
           ><i class="bi bi-file-earmark-person navicon"></i> المجموعات</a
         >
       </li>
       <li>
-        <a
-          [routerLink]="['Branch']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a [routerLink]="['Branch']" [routerLinkActive]="['active']"
           ><i class="bi bi-shop navicon"></i> الفروع</a
         >
       </li>
@@ -49,24 +43,30 @@
           <i #toggleDropdownbtn class="bi bi-chevron-down toggle-dropdown"></i
         ></a>
         <ul>
-          <li><a>الموظفين</a></li>
-          <li><a>التجار</a></li>
-          <li><a>المناديب</a></li>
+          <li>
+            <a [routerLink]="['Employees']" [routerLinkActive]="['active']"
+              >الموظفين</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['Sellers']" [routerLinkActive]="['active']"
+              >التجار</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['Agents']" [routerLinkActive]="['active']"
+              >المناديب</a
+            >
+          </li>
         </ul>
       </li>
       <li>
-        <a
-          [routerLink]="['Order']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a [routerLink]="['Order']" [routerLinkActive]="['active']"
           ><i class="bi bi-box-seam navicon"></i> الطلبات</a
         >
       </li>
       <li>
-        <a
-          [routerLink]="['Govern']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a [routerLink]="['Govern']" [routerLinkActive]="['active']"
           ><i class="bi bi-map navicon"></i> المحافظات</a
         >
       </li>
@@ -75,14 +75,6 @@
           [routerLinkActive]="['active']"
           [routerLinkActiveOptions]="{ exact: true }"
           ><i class="bi bi-gear navicon"></i> الإعدادات</a
-        >
-      </li>
-      <li>
-        <a
-          [routerLink]="['test']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
-          ><i class="bi bi-lightning navicon"></i> اختبار</a
         >
       </li>
     </ul>

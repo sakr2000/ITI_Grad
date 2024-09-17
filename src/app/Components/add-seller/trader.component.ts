@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { PageHeaderComponent } from '../page-header/page-header.component';
 
 @Component({
   selector: 'app-trader',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, PageHeaderComponent],
   templateUrl: './trader.component.html',
-  styleUrls: ['./trader.component.css']
+  styleUrls: ['./trader.component.css'],
 })
 export class TraderComponent implements OnInit {
   traderForm!: FormGroup;
@@ -27,7 +34,7 @@ export class TraderComponent implements OnInit {
       city: ['', Validators.required],
       pickupCost: ['', Validators.required],
       commissionPercentage: ['', Validators.required],
-      pricingPackages: this.fb.array([])
+      pricingPackages: this.fb.array([]),
     });
   }
 
@@ -39,7 +46,7 @@ export class TraderComponent implements OnInit {
     const pricingGroup = this.fb.group({
       governorate: ['', Validators.required],
       city: ['', Validators.required],
-      shippingCost: ['', Validators.required]
+      shippingCost: ['', Validators.required],
     });
     this.pricingPackages.push(pricingGroup);
   }

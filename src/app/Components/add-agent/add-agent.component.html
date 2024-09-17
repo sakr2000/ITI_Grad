@@ -1,0 +1,128 @@
+<app-page-header
+  title="اضافة مندوب"
+  [path]="[
+    { name: 'المناديب', link: '/Agents' },
+    { name: 'اضافة مندوب', link: '/Agents/add' }
+  ]"
+></app-page-header>
+
+<div class="section p-4">
+  <h2 class="text-end mb-4">اضافة مندوب</h2>
+  <!-- TODO: add form -->
+  <form [formGroup]="agentForm">
+    <div class="row my-4">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="name">الاسم</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="الاسم"
+          />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="email">البريد الالكتروني</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="البريد الالكتروني"
+          />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="password">كلمة المرور</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="كلمة المرور"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="branch">الفرع</label>
+          <select id="branch" formControlName="branch" class="form-control">
+            <option value="">اختر الفرع</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="role">المحافظات</label>
+          <select id="role" formControlName="governs" class="form-control">
+            <option value="">اختر المحافظات</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="phoneNumber">رقم الهاتف</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            formControlName="phoneNumber"
+            class="form-control"
+            placeholder="رقم الهاتف"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="address">العنوان</label>
+          <input
+            id="address"
+            formControlName="address"
+            class="form-control"
+            placeholder="العنوان"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="typeOfDiscount">نوع الخصم</label>
+          <select
+            id="typeOfDiscount"
+            formControlName="typeOfDiscount"
+            class="form-control"
+          >
+            <option value="">اختر نوع الخصم</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="companyPercent">نسبة الشركة</label>
+          <input
+            type="number"
+            id="companyPercent"
+            formControlName="companyPercent"
+            class="form-control"
+            placeholder="نسبة الشركة"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <button type="submit" class="btn btn-primary w-25">حفظ</button>
+    </div>
+  </form>
+</div>

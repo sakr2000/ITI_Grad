@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BranchService } from '../../Services/branch.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PageHeaderComponent } from '../page-header/page-header.component';
 
 @Component({
   selector: 'app-create-branch',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PageHeaderComponent],
   templateUrl: './create-branch.component.html',
   styleUrls: ['./create-branch.component.css'],
 })

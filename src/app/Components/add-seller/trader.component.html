@@ -1,0 +1,280 @@
+<app-page-header
+  title="إضافة تاجر"
+  [path]="[
+    { name: 'تاجر', link: '/Sellers' },
+    { name: 'اضافة تاجر', link: '/Sellers/add' }
+  ]"
+></app-page-header>
+<div class="section">
+  <form [formGroup]="traderForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+      <h2 class="fs-3 my-3">بيانات التاجر</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <input
+            formControlName="traderName"
+            class="form-control"
+            placeholder="اسم التاجر"
+            required
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control"
+            placeholder="البريد الإلكتروني"
+            required
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder="كلمة المرور"
+            required
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <input
+            formControlName="phone"
+            class="form-control"
+            placeholder="رقم الهاتف"
+            required
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="branch"
+            class="form-control"
+            placeholder="الفرع"
+            required
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="address"
+            class="form-control"
+            placeholder="العنوان"
+            required
+          />
+        </div>
+      </div>
+      <h2 class="fs-3 my-3">بيانات المتجر</h2>
+      <!-- بيانات المتجر -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <input
+            formControlName="shopName"
+            class="form-control"
+            placeholder="اسم المتجر"
+            required
+          />
+        </div>
+        <div class="col-md-3">
+          <select formControlName="governorate" class="form-select" required>
+            <option value="" disabled>اختر المحافظة</option>
+            <option value="القاهرة">القاهرة</option>
+            <option value="الجيزة">الجيزة</option>
+            <option value="الإسكندرية">الإسكندرية</option>
+            <option value="الدقهلية">الدقهلية</option>
+            <option value="البحر الأحمر">البحر الأحمر</option>
+            <option value="البحيرة">البحيرة</option>
+            <option value="الفيوم">الفيوم</option>
+            <option value="الغربية">الغربية</option>
+            <option value="الإسماعيلية">الإسماعيلية</option>
+            <option value="المنوفية">المنوفية</option>
+            <option value="المنيا">المنيا</option>
+            <option value="القليوبية">القليوبية</option>
+            <option value="الوادي الجديد">الوادي الجديد</option>
+            <option value="السويس">السويس</option>
+            <option value="أسوان">أسوان</option>
+            <option value="أسيوط">أسيوط</option>
+            <option value="بني سويف">بني سويف</option>
+            <option value="بورسعيد">بورسعيد</option>
+            <option value="دمياط">دمياط</option>
+            <option value="جنوب سيناء">جنوب سيناء</option>
+            <option value="كفر الشيخ">كفر الشيخ</option>
+            <option value="مطروح">مطروح</option>
+            <option value="الأقصر">الأقصر</option>
+            <option value="قنا">قنا</option>
+            <option value="شمال سيناء">شمال سيناء</option>
+            <option value="سوهاج">سوهاج</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select formControlName="city" class="form-select" required>
+            <option value="" disabled>اختر المدينة</option>
+            <optgroup label="القاهرة">
+              <option value="القاهرة">القاهرة</option>
+              <option value="مدينة نصر">مدينة نصر</option>
+              <option value="المعادي">المعادي</option>
+              <option value="مصر الجديدة">مصر الجديدة</option>
+            </optgroup>
+            <optgroup label="الجيزة">
+              <option value="الجيزة">الجيزة</option>
+              <option value="6 أكتوبر">6 أكتوبر</option>
+              <option value="الشيخ زايد">الشيخ زايد</option>
+              <option value="الحوامدية">الحوامدية</option>
+            </optgroup>
+            <optgroup label="الإسكندرية">
+              <option value="الإسكندرية">الإسكندرية</option>
+              <option value="العجمي">العجمي</option>
+              <option value="برج العرب">برج العرب</option>
+            </optgroup>
+            <optgroup label="الدقهلية">
+              <option value="المنصورة">المنصورة</option>
+              <option value="طلخا">طلخا</option>
+              <option value="ميت غمر">ميت غمر</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <input
+            formControlName="pickupCost"
+            class="form-control"
+            placeholder="تكلفة Pickup خاصة"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <input
+            formControlName="commissionPercentage"
+            class="form-control"
+            placeholder="نسبة تحمل التاجر لقيمة شحن الطلبات"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- إضافة باقات أسعار مميزة لبعض المدن -->
+      <div class="mt-4">
+        <div class="d-flex justify-content-center mb-3">
+          <button
+            type="button"
+            class="btn btn-outline-success mb-3"
+            (click)="addPricingPackage()"
+          >
+            <i class="fa fa-plus"></i>
+            إضافة باقات أسعار مميزة لبعض المدن
+          </button>
+        </div>
+        @if (pricingPackages.length > 0) {
+        <table class="table table-striped table-bordered text-center">
+          <thead class="table-dark">
+            <tr class="table-dark">
+              <th>المحافظة</th>
+              <th>المدينة</th>
+              <th>سعر الشحن</th>
+              <th>حذف</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let package of pricingPackages.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <td>
+                <select
+                  formControlName="governorate"
+                  class="form-select"
+                  placeholder="سعر الشحن"
+                  required
+                >
+                  <option value="" disabled selected>اختر المحافظة</option>
+                  <!-- خيارات المحافظات هنا -->
+                  <option value="القاهرة">القاهرة</option>
+                  <option value="الجيزة">الجيزة</option>
+                  <option value="الإسكندرية">الإسكندرية</option>
+                  <option value="الدقهلية">الدقهلية</option>
+                  <option value="البحر الأحمر">البحر الأحمر</option>
+                  <option value="البحيرة">البحيرة</option>
+                  <option value="الفيوم">الفيوم</option>
+                  <option value="الغربية">الغربية</option>
+                  <option value="الإسماعيلية">الإسماعيلية</option>
+                  <option value="المنوفية">المنوفية</option>
+                  <option value="المنيا">المنيا</option>
+                  <option value="القليوبية">القليوبية</option>
+                  <option value="الوادي الجديد">الوادي الجديد</option>
+                  <option value="السويس">السويس</option>
+                  <option value="أسوان">أسوان</option>
+                  <option value="أسيوط">أسيوط</option>
+                  <option value="بني سويف">بني سويف</option>
+                  <option value="بورسعيد">بورسعيد</option>
+                  <option value="دمياط">دمياط</option>
+                  <option value="جنوب سيناء">جنوب سيناء</option>
+                  <option value="كفر الشيخ">كفر الشيخ</option>
+                  <option value="مطروح">مطروح</option>
+                  <option value="الأقصر">الأقصر</option>
+                  <option value="قنا">قنا</option>
+                  <option value="شمال سيناء">شمال سيناء</option>
+                  <option value="سوهاج">سوهاج</option>
+                </select>
+              </td>
+              <td>
+                <select formControlName="city" class="form-select" required>
+                  <option value="" disabled>اختر المدينة</option>
+                  <!-- خيارات المدن هنا -->
+                  <optgroup label="القاهرة">
+                    <option value="القاهرة">القاهرة</option>
+                    <option value="مدينة نصر">مدينة نصر</option>
+                    <option value="المعادي">المعادي</option>
+                    <option value="مصر الجديدة">مصر الجديدة</option>
+                  </optgroup>
+                  <optgroup label="الجيزة">
+                    <option value="الجيزة">الجيزة</option>
+                    <option value="6 أكتوبر">6 أكتوبر</option>
+                    <option value="الشيخ زايد">الشيخ زايد</option>
+                    <option value="الحوامدية">الحوامدية</option>
+                  </optgroup>
+                  <optgroup label="الإسكندرية">
+                    <option value="الإسكندرية">الإسكندرية</option>
+                    <option value="العجمي">العجمي</option>
+                    <option value="برج العرب">برج العرب</option>
+                  </optgroup>
+                  <optgroup label="الدقهلية">
+                    <option value="المنصورة">المنصورة</option>
+                    <option value="طلخا">طلخا</option>
+                    <option value="ميت غمر">ميت غمر</option>
+                  </optgroup>
+                </select>
+              </td>
+              <td>
+                <input
+                  formControlName="shippingCost"
+                  class="form-control"
+                  placeholder="سعر الشحن"
+                  type="number"
+                  min="0"
+                  max="500"
+                  step="0.01"
+                  required
+                />
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="removePricingPackage(i)"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        }
+      </div>
+
+      <!-- زر الحفظ -->
+      <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-primary w-25">حفظ</button>
+      </div>
+    </div>
+  </form>
+</div>
