@@ -3,9 +3,11 @@ import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
 import { Router } from '@angular/router';
-import { FieldJob, FieldPrivilegeDTO } from '../../Models/Privilege';
+
 import { HttpClient } from '@angular/common/http';
 import { AddFieldJobComponent } from '../add-field-job/add-field-job.component';
+import { FieldPrivilegeDTO, FieldJob } from '../../models/FieldJob';
+import { PrivilegesServiceService } from '../../Services/privileges-service.service';
 
 @Component({
   selector: 'app-Fieldjob',
@@ -25,18 +27,19 @@ export class FieldJobComponent {
   isEditMode = false;
   viewMode = false;
   fieldJobToEdit?: FieldJob;
+  showPrivilegesForm = false;
+  privilegeName: string = '';
   constructor(
     private fieldJobService: FieldJobService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,private privilegeService:PrivilegesServiceService
   ) {}
   ngOnInit(): void {
     this.fetchPrivileges();
     this.loadFieldJob();
   }
   fetchPrivileges() {
-    this.http
-      .get('http://localhost:5298/api/Privilege')
+    this.privilegeService.getPrivileges()
       .subscribe((response: any) => {
         this.privileges = response.map((privilege: any) => ({
           privilegeID: privilege.id,
@@ -110,4 +113,30 @@ export class FieldJobComponent {
   handleFieldJobUpdated() {
     this.loadFieldJob();
   }
+  togglePrivilegesForm() {
+    this.showPrivilegesForm = !this.showPrivilegesForm;
+  }
+
+  // Handle form submission
+  submitPrivileges() {
+    if (this.privilegeName) {
+      if (this.privilegeName) {
+        const privilege = { name: this.privilegeName };
+        this.privilegeService.createPrivilege(privilege)
+          .subscribe({
+            next: (response) => {
+              console.log('Privilege added successfully:', response);
+              this.privilegeName = '';
+              this.showPrivilegesForm = false;
+              this.loadFieldJob();
+              this.fetchPrivileges();
+            },
+            error: (err) => {
+              console.error('Error adding privilege:', err);
+            }
+          });
+    }
+  }
+}
+    
 }

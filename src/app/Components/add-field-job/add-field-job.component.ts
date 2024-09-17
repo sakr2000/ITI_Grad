@@ -10,9 +10,11 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FieldPrivilegeDTO, FieldJob } from '../../Models/Privilege';
 import { FieldJobService } from '../../Services/FieldJob.service';
 import { HttpClient } from '@angular/common/http';
+import { FieldPrivilegeDTO, FieldJob } from '../../models/FieldJob';
+import { PrivilegesServiceService } from '../../Services/privileges-service.service';
+
 
 @Component({
   selector: 'app-add-field-job',
@@ -27,13 +29,12 @@ export class AddFieldJobComponent implements OnChanges {
   @Input() viewMode: boolean = false;
   @Input() fieldJobToEdit?: FieldJob;
   @Output() fieldJobUpdated = new EventEmitter<void>();
-
   newFieldJobName = '';
   @ViewChild('modal') modal!: ElementRef;
-
   constructor(
     private fieldJobService: FieldJobService,
-    private http: HttpClient
+    private http: HttpClient,
+    private privilegeService:PrivilegesServiceService
   ) {}
 
   ngOnChanges() {
@@ -59,8 +60,7 @@ export class AddFieldJobComponent implements OnChanges {
     if (!this.privileges) {
       this.privileges = [];
     }
-    this.http
-      .get('http://localhost:5298/api/Privilege')
+    this.privilegeService.getPrivileges()
       .subscribe((response: any) => {
         this.privileges = response.map((privilege: any) => ({
           privilegeID: privilege.id,

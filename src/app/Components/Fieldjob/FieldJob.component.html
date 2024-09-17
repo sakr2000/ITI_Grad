@@ -6,8 +6,23 @@
       </div>
       <div class="col-md-3 text-center">
         <button class="btn btn-primary" (click)="openAddFieldJobForm()">
-          <i class="bi bi-plus fw-bold"></i>إضافة صلاحية
+          <i class="bi bi-plus fw-bold"></i>إضافة مجموعة
         </button>
+        <button class="btn btn-primary" (click)="togglePrivilegesForm()">
+            <i class="bi bi-plus fw-bold"></i> إضافة صلاحية
+          </button>
+          
+          <!-- Form for adding privileges, visible when showPrivilegesForm is true -->
+          <div *ngIf="showPrivilegesForm ">
+            <form (ngSubmit)="submitPrivileges()">
+              <div class="d-flex">
+                <div class="mb-3 " >
+                <input type="text" class="form-control mt-3" id="privilegeName" placeholder="اسم الصلاحية" [(ngModel)]="privilegeName" name="privilegeName" required>
+              </div>
+              <button type="submit" class="btn btn-success add  " >اضافة</button>
+            </div>
+            </form>
+          </div>
       </div>
     </div>
     <div class="row">
@@ -37,7 +52,7 @@
       <thead>
         <tr>
           <th>#</th>
-          <th>اسم الصلاحية</th>
+          <th>اسم المجموعة</th>
           <th>تاريخ الإضافة</th>
           <th>الإعدادات</th>
         </tr>
