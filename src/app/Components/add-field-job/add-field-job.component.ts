@@ -12,9 +12,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
 import { HttpClient } from '@angular/common/http';
-import { FieldPrivilegeDTO, FieldJob } from '../../models/FieldJob';
+import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
 import { PrivilegesServiceService } from '../../Services/privileges-service.service';
-
 
 @Component({
   selector: 'app-add-field-job',
@@ -34,7 +33,7 @@ export class AddFieldJobComponent implements OnChanges {
   constructor(
     private fieldJobService: FieldJobService,
     private http: HttpClient,
-    private privilegeService:PrivilegesServiceService
+    private privilegeService: PrivilegesServiceService
   ) {}
 
   ngOnChanges() {
@@ -60,17 +59,16 @@ export class AddFieldJobComponent implements OnChanges {
     if (!this.privileges) {
       this.privileges = [];
     }
-    this.privilegeService.getPrivileges()
-      .subscribe((response: any) => {
-        this.privileges = response.map((privilege: any) => ({
-          privilegeID: privilege.id,
-          name: privilege.name,
-          add: false,
-          delete: false,
-          display: false,
-          edit: false,
-        }));
-      });
+    this.privilegeService.getPrivileges().subscribe((response: any) => {
+      this.privileges = response.map((privilege: any) => ({
+        privilegeID: privilege.id,
+        name: privilege.name,
+        add: false,
+        delete: false,
+        display: false,
+        edit: false,
+      }));
+    });
   }
   closeModal() {
     this.modal.nativeElement.style.display = 'none';

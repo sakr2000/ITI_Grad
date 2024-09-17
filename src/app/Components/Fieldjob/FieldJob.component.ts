@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
 import { Router } from '@angular/router';
-import { FieldPrivilegeDTO, FieldJob } from '../../Models/Privilege';
+import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
 import { HttpClient } from '@angular/common/http';
 import { AddFieldJobComponent } from '../add-field-job/add-field-job.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';

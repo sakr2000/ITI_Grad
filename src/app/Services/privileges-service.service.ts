@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FieldJob } from '../models/FieldJob';
-import { Privilege } from '../models/Privilege';
-
+import { Privilege } from '../Models/Privilege';
 
 @Injectable({
   providedIn: 'root',
