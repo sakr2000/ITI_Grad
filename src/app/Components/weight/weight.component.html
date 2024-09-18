@@ -1,0 +1,69 @@
+<div class="section p-4">
+  <h2 class="text-end mb-4">تكلفة وزن الطلب</h2>
+  @if (!editWeight ) {
+
+  <div class="row">
+    <div class="col-md-5">
+      <h4>
+        تكلفة الشحن الإفتراضية بالجنيه حتى وزن {{ weightCharge.weight }} كجم :
+        <span class="fw-bold text-primary">{{ weightCharge.charge }}</span>
+      </h4>
+    </div>
+    <div class="col-md-5">
+      <h4>
+        سعر كل كجم اضافى (بالجنيه) :
+        <span class="fw-bold text-primary">{{ weightCharge.extra }}</span>
+      </h4>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary" (click)="editWeight = true">تعديل</button>
+    </div>
+  </div>
+  }@else {
+
+  <form [formGroup]="WeightForm">
+    <div class="row">
+      <div class="col-md-4">
+        <label class="form-label" for="weight"> الوزن الإفتراضي للطلب</label>
+        <input
+          type="number"
+          class="form-control"
+          id="weight"
+          name="weight"
+          formControlName="weight"
+          placeholder="الوزن الإفتراضي للطلب"
+        />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="charge"> تكلفة الشحن الإفتراضية </label>
+        <input
+          type="number"
+          class="form-control"
+          id="charge"
+          name="charge"
+          formControlName="charge"
+          placeholder="تكلفة الشحن الإفتراضية"
+        />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="extra"> سعر كل كجم اضافى </label>
+        <input
+          type="number"
+          class="form-control"
+          id="extra"
+          name="extra"
+          formControlName="extra"
+          placeholder="سعر كل كجم اضافى"
+        />
+      </div>
+    </div>
+    <div class="text-start mt-4">
+      <button class="btn btn-primary mx-3" (click)="saveWeight()">حفظ</button>
+      <button class="btn btn-secondary" (click)="editWeight = false">
+        الغاء
+      </button>
+    </div>
+  </form>
+  }
+</div>
+{{ weightCharge | json }}

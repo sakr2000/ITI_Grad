@@ -105,6 +105,20 @@ export const routes: Routes = [
             (m) => m.AddAgentComponent
           ),
       },
+      {
+        path: 'Agents/edit/:id',
+        loadComponent: () =>
+          import('./Components/add-agent/add-agent.component').then(
+            (m) => m.AddAgentComponent
+          ),
+      },
+      {
+        path: 'Settings',
+        loadComponent: () =>
+          import('./Pages/settings-page/settings.component').then(
+            (m) => m.SettingsComponent
+          ),
+      },
     ],
   },
   { path: 'login', component: LoginComponent },
