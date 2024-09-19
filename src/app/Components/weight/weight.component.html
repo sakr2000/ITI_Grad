@@ -7,7 +7,7 @@
       <h4>
         تكلفة الشحن الإفتراضية بالجنيه حتى وزن :
         <span class="fw-bold text-primary">{{
-          weightCharge.defaultWeight
+          weightCharge.defaultWeight || 0
         }}</span>
         كجم
       </h4>
@@ -16,7 +16,7 @@
       <h4>
         سعر كل كجم اضافى (بالجنيه) :
         <span class="fw-bold text-primary">{{
-          weightCharge.additionalWeight
+          weightCharge.additionalWeight || 0
         }}</span>
       </h4>
     </div>
@@ -26,7 +26,7 @@
   </div>
   }@else {
 
-  <form [formGroup]="WeightForm">
+  <form [formGroup]="WeightForm" (ngSubmit)="saveWeight()">
     <div class="row">
       <div class="col-md-4">
         <label class="form-label" for="weight"> الوزن الإفتراضي للطلب</label>
@@ -37,7 +37,29 @@
           name="weight"
           formControlName="defaultWeight"
           placeholder="الوزن الإفتراضي للطلب"
+          [ngClass]="{
+            'is-invalid':
+              WeightForm.get('defaultWeight')?.errors &&
+              WeightForm.get('defaultWeight')?.touched,
+            'is-valid':
+              !WeightForm.get('defaultWeight')?.errors &&
+              WeightForm.get('defaultWeight')?.touched
+          }"
         />
+        <div
+          *ngIf="
+            WeightForm.get('defaultWeight')?.errors &&
+            WeightForm.get('defaultWeight')?.touched
+          "
+          class="invalid-feedback small"
+        >
+          <div *ngIf="WeightForm.get('defaultWeight')?.errors?.['required']">
+            الوزن الإفتراضي للطلب مطلوب
+          </div>
+          <div *ngIf="WeightForm.get('defaultWeight')?.errors?.['min']">
+            الوزن الإفتراضي للطلب يجب الا يقل عن 0
+          </div>
+        </div>
       </div>
       <div class="col-md-4">
         <label class="form-label" for="extra"> سعر كل كجم اضافى </label>
@@ -48,11 +70,39 @@
           name="extra"
           formControlName="additionalWeight"
           placeholder="سعر كل كجم اضافى"
+          [ngClass]="{
+            'is-invalid':
+              WeightForm.get('additionalWeight')?.errors &&
+              WeightForm.get('additionalWeight')?.touched,
+            'is-valid':
+              !WeightForm.get('additionalWeight')?.errors &&
+              WeightForm.get('additionalWeight')?.touched
+          }"
         />
+        <div
+          *ngIf="
+            WeightForm.get('additionalWeight')?.errors &&
+            WeightForm.get('additionalWeight')?.touched
+          "
+          class="invalid-feedback small"
+        >
+          <div *ngIf="WeightForm.get('additionalWeight')?.errors?.['required']">
+            سعر كل كجم اضافى مطلوب
+          </div>
+          <div *ngIf="WeightForm.get('additionalWeight')?.errors?.['min']">
+            سعر كل كجم اضافى يجب الا يقل عن 0
+          </div>
+        </div>
       </div>
     </div>
     <div class="text-start mt-4">
-      <button class="btn btn-primary mx-3" (click)="saveWeight()">حفظ</button>
+      <button
+        class="btn btn-primary mx-3"
+        type="submit"
+        [disabled]="!WeightForm.valid"
+      >
+        حفظ
+      </button>
       <button class="btn btn-secondary" (click)="editWeight = false">
         الغاء
       </button>
@@ -60,4 +110,3 @@
   </form>
   }
 </div>
-{{ weightCharge | json }}

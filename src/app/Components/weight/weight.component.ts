@@ -5,9 +5,11 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { WeightCharge } from '../../Models/weightCharge.interface';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-weight',
@@ -20,16 +22,35 @@ export class WeightComponent implements OnInit {
   editWeight = false;
   weightCharge!: WeightCharge;
 
-  WeightForm = new FormGroup({
-    defaultWeight: new FormControl(this.weightCharge.defaultWeight),
-    additionalWeight: new FormControl(this.weightCharge.additionalWeight),
-  });
-  constructor(private _unitOfWork: UnitOfWorkService) {}
+  WeightForm!: FormGroup;
+  constructor(
+    private _unitOfWork: UnitOfWorkService,
+    private toaster: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this._unitOfWork.Weight.getWeight().subscribe({
       next: (data: any) => {
-        this.weightCharge = (data[0] as WeightCharge) ?? {};
+        console.log(data);
+        if (data.length == 0) {
+          this.weightCharge = {
+            id: 0,
+            defaultWeight: 0,
+            additionalWeight: 0,
+          };
+        } else {
+          this.weightCharge = data[0] as WeightCharge;
+        }
+        this.WeightForm = new FormGroup({
+          defaultWeight: new FormControl(this.weightCharge.defaultWeight, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+          additionalWeight: new FormControl(
+            this.weightCharge.additionalWeight,
+            [Validators.required, Validators.min(1)]
+          ),
+        });
       },
       error: (err) => {
         console.log(err);
@@ -38,15 +59,33 @@ export class WeightComponent implements OnInit {
   }
 
   saveWeight() {
-    this.weightCharge = this.WeightForm.value as WeightCharge;
-    this._unitOfWork.Weight.setWeight(this.weightCharge).subscribe({
-      next: (data) => {
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.weightCharge.defaultWeight = this.WeightForm.get('defaultWeight')
+      ?.value as number;
+    this.weightCharge.additionalWeight = this.WeightForm.get('additionalWeight')
+      ?.value as number;
+    if (this.weightCharge.id == 0) {
+      this._unitOfWork.Weight.setWeight(this.weightCharge).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.toaster.success('تم التعديل بنجاح');
+        },
+        error: (err) => {
+          console.log(err.error.message);
+          this.toaster.error(err.error.message, 'خطأ');
+        },
+      });
+    } else {
+      this._unitOfWork.Weight.updateWeight(this.weightCharge).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.toaster.success('تم التعديل بنجاح');
+        },
+        error: (err) => {
+          console.log(err.error.message);
+          this.toaster.error(err.error.message);
+        },
+      });
+    }
     this.editWeight = false;
   }
 }
