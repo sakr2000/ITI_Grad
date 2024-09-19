@@ -11,22 +11,6 @@ form label {
   font-weight: bold;
 }
 
-form input,
-form select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-form input:focus,
-form select:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
 /* Add Pricing Packages Section */
 form .formArrayName {
   margin-bottom: 20px;

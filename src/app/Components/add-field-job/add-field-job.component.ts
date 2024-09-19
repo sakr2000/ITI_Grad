@@ -11,9 +11,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
-import { HttpClient } from '@angular/common/http';
 import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
 import { PrivilegesServiceService } from '../../Services/privileges-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-field-job',
@@ -32,8 +32,8 @@ export class AddFieldJobComponent implements OnChanges {
   @ViewChild('modal') modal!: ElementRef;
   constructor(
     private fieldJobService: FieldJobService,
-    private http: HttpClient,
-    private privilegeService: PrivilegesServiceService
+    private privilegeService: PrivilegesServiceService,
+    private toaster: ToastrService
   ) {}
 
   ngOnChanges() {
@@ -75,7 +75,6 @@ export class AddFieldJobComponent implements OnChanges {
   }
 
   openModal() {
-    debugger;
     if (!this.editMode && !this.viewMode) {
       this.newFieldJobName = '';
       this.privileges = this.privileges.map((priv) => ({
@@ -108,12 +107,12 @@ export class AddFieldJobComponent implements OnChanges {
 
       this.fieldJobService.updateJob(updatedFieldJob).subscribe(
         () => {
-          alert('FieldJob updated successfully');
+          this.toaster.success('FieldJob updated successfully', 'Success');
           this.closeModal();
           this.fieldJobUpdated.emit();
         },
         (error) => {
-          alert('Error updating FieldJob');
+          this.toaster.error('Error updating FieldJob', 'Error');
         }
       );
     } else {
@@ -124,12 +123,12 @@ export class AddFieldJobComponent implements OnChanges {
 
       this.fieldJobService.addJob(newFieldJob).subscribe(
         () => {
-          alert('FieldJob created successfully');
+          this.toaster.success('FieldJob created successfully', 'Success');
           this.closeModal();
           this.fieldJobUpdated.emit();
         },
         (error) => {
-          alert('Error creating FieldJob');
+          this.toaster.error('Error creating FieldJob', 'Error');
         }
       );
     }

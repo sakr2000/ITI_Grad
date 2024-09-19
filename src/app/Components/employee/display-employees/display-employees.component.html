@@ -26,8 +26,17 @@
       @for (e of employees; track $index) {
       <tr>
         <td>{{ $index + 1 }}</td>
-        <td>{{ e.name }}</td>
+        <td>{{ e.userName }}</td>
         <td>{{ e.email }}</td>
+        <td>{{ e.phoneNumber }}</td>
+        <td>{{ e.branchName }}</td>
+        <td>{{ e.fieldJobName }}</td>
+        <td>
+          <label class="switch">
+            <input type="checkbox" [checked]="e.status" />
+            <span class="slider round"></span>
+          </label>
+        </td>
         <td>
           <a [routerLink]="['edit', e.id]" class="btn btn-warning"
             ><i class="fa fa-edit"></i></a

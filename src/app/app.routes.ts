@@ -81,7 +81,7 @@ export const routes: Routes = [
         path: 'Employees',
         loadComponent: () =>
           import(
-            './Components/display-employees/display-employees.component'
+            './Components/employee/display-employees/display-employees.component'
           ).then((m) => m.DisplayEmployeesComponent),
       },
       {

@@ -3,6 +3,7 @@ import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { RouterLink } from '@angular/router';
 import { SellerService } from '../../../Services/seller.service';
 import { ToastrService } from 'ngx-toastr';
+import { GetSeller } from '../../../Models/Seller/getSeller.interface';
 
 @Component({
   selector: 'app-display-sellers',
@@ -12,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './display-sellers.component.css',
 })
 export class DisplaySellersComponent implements OnInit {
-  data: any = [];
+  data: GetSeller[] = [];
 
   constructor(
     private _sellerService: SellerService,
@@ -33,7 +34,7 @@ export class DisplaySellersComponent implements OnInit {
     });
   }
 
-  delete(id: number) {
+  delete(id: string) {
     this.toaster.error('everything is broken', 'Major Error', {
       timeOut: 3000,
     });

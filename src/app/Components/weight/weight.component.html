@@ -5,14 +5,19 @@
   <div class="row">
     <div class="col-md-5">
       <h4>
-        تكلفة الشحن الإفتراضية بالجنيه حتى وزن {{ weightCharge.weight }} كجم :
-        <span class="fw-bold text-primary">{{ weightCharge.charge }}</span>
+        تكلفة الشحن الإفتراضية بالجنيه حتى وزن :
+        <span class="fw-bold text-primary">{{
+          weightCharge.defaultWeight
+        }}</span>
+        كجم
       </h4>
     </div>
     <div class="col-md-5">
       <h4>
         سعر كل كجم اضافى (بالجنيه) :
-        <span class="fw-bold text-primary">{{ weightCharge.extra }}</span>
+        <span class="fw-bold text-primary">{{
+          weightCharge.additionalWeight
+        }}</span>
       </h4>
     </div>
     <div class="col-md-2">
@@ -30,19 +35,8 @@
           class="form-control"
           id="weight"
           name="weight"
-          formControlName="weight"
+          formControlName="defaultWeight"
           placeholder="الوزن الإفتراضي للطلب"
-        />
-      </div>
-      <div class="col-md-4">
-        <label class="form-label" for="charge"> تكلفة الشحن الإفتراضية </label>
-        <input
-          type="number"
-          class="form-control"
-          id="charge"
-          name="charge"
-          formControlName="charge"
-          placeholder="تكلفة الشحن الإفتراضية"
         />
       </div>
       <div class="col-md-4">
@@ -52,7 +46,7 @@
           class="form-control"
           id="extra"
           name="extra"
-          formControlName="extra"
+          formControlName="additionalWeight"
           placeholder="سعر كل كجم اضافى"
         />
       </div>

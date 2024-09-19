@@ -9,13 +9,31 @@
   <form [formGroup]="traderForm" (ngSubmit)="onSubmit()">
     <div class="container">
       <h2 class="fs-3 my-3">بيانات التاجر</h2>
-      <div class="row">
+      <div class="row my-4">
         <div class="col-md-4">
           <input
             formControlName="name"
             class="form-control"
             placeholder="اسم التاجر"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('name')?.invalid &&
+                traderForm.get('name')?.touched,
+              'is-valid':
+                traderForm.get('name')?.valid && traderForm.get('name')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('name')?.invalid && traderForm.get('name')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('name')?.errors?.['required']">
+              الاسم مطلوب
+            </div>
+          </div>
         </div>
         <div class="col-md-4">
           <input
@@ -23,7 +41,30 @@
             type="email"
             class="form-control"
             placeholder="البريد الإلكتروني"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('email')?.invalid &&
+                traderForm.get('email')?.touched,
+              'is-valid':
+                traderForm.get('email')?.valid &&
+                traderForm.get('email')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('email')?.invalid &&
+              traderForm.get('email')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('email')?.errors?.['required']">
+              البريد الإلكتروني مطلوب
+            </div>
+            <div *ngIf="traderForm.get('email')?.errors?.['email']">
+              البريد الإلكتروني غير صالح
+            </div>
+          </div>
         </div>
         <div class="col-md-4">
           <input
@@ -31,7 +72,30 @@
             type="password"
             class="form-control"
             placeholder="كلمة المرور"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('password')?.invalid &&
+                traderForm.get('password')?.touched,
+              'is-valid':
+                traderForm.get('password')?.valid &&
+                traderForm.get('password')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('password')?.invalid &&
+              traderForm.get('password')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('password')?.errors?.['required']">
+              كلمة المرور مطلوبة
+            </div>
+            <div *ngIf="traderForm.get('password')?.errors?.['minlength']">
+              يجب أن يحتوي كلمة المرور على 6 أحرف على الأقل
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -40,21 +104,89 @@
             formControlName="phone"
             class="form-control"
             placeholder="رقم الهاتف"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('phone')?.invalid &&
+                traderForm.get('phone')?.touched,
+              'is-valid':
+                traderForm.get('phone')?.valid &&
+                traderForm.get('phone')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('phone')?.invalid &&
+              traderForm.get('phone')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('phone')?.errors?.['required']">
+              رقم الهاتف مطلوب
+            </div>
+            <div *ngIf="traderForm.get('phone')?.errors?.['pattern']">
+              رقم الهاتف غير صالح
+            </div>
+          </div>
         </div>
         <div class="col-md-4">
-          <input
+          <select
+            name="branch"
             formControlName="branchID"
-            class="form-control"
-            placeholder="الفرع"
-          />
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('branchID')?.invalid &&
+                traderForm.get('branchID')?.touched,
+              'is-valid':
+                traderForm.get('branchID')?.valid &&
+                traderForm.get('branchID')?.touched
+            }"
+          >
+            <option value="" disabled selected>اختر الفرع</option>
+            @for (branch of branches; track $index) {
+            <option value="{{ branch.id }}">{{ branch.name }}</option>
+            }
+          </select>
+
+          <div
+            *ngIf="
+              traderForm.get('branchID')?.invalid &&
+              traderForm.get('branchID')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('branchID')?.errors?.['required']">
+              الفرع مطلوب
+            </div>
+          </div>
         </div>
         <div class="col-md-4">
           <input
             formControlName="address"
             class="form-control"
             placeholder="العنوان"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('address')?.invalid &&
+                traderForm.get('address')?.touched,
+              'is-valid':
+                traderForm.get('address')?.valid &&
+                traderForm.get('address')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('address')?.invalid &&
+              traderForm.get('address')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('address')?.errors?.['required']">
+              العنوان مطلوب
+            </div>
+          </div>
         </div>
       </div>
       <h2 class="fs-3 my-3">بيانات المتجر</h2>
@@ -65,35 +197,124 @@
             formControlName="storeName"
             class="form-control"
             placeholder="اسم المتجر"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('storeName')?.invalid &&
+                traderForm.get('storeName')?.touched,
+              'is-valid':
+                traderForm.get('storeName')?.valid &&
+                traderForm.get('storeName')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('storeName')?.invalid &&
+              traderForm.get('storeName')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('storeName')?.errors?.['required']">
+              اسم المتجر مطلوب
+            </div>
+          </div>
         </div>
         <div class="col-md-3">
-          <select formControlName="govern" class="form-select">
+          <select class="form-select" (click)="getCities($event, city)">
             <option value="" disabled selected>اختر المحافظة</option>
-            <!-- خيارات المحافظات هنا -->
+            @for (govern of governs; track $index) {
+            <option value="{{ govern.id }}">{{ govern.name }}</option>
+            }
           </select>
         </div>
         <div class="col-md-3">
-          <select formControlName="city" class="form-select">
+          <select
+            #city
+            formControlName="storeCityId"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('storeCityId')?.invalid &&
+                traderForm.get('storeCityId')?.touched,
+              'is-valid':
+                traderForm.get('storeCityId')?.valid &&
+                traderForm.get('storeCityId')?.touched
+            }"
+          >
             <option value="" disabled selected>اختر المدينة</option>
-            <!-- خيارات المدن هنا -->
           </select>
+
+          <div
+            *ngIf="
+              traderForm.get('storeCityId')?.invalid &&
+              traderForm.get('storeCityId')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('storeCityId')?.errors?.['required']">
+              المدينة مطلوب
+            </div>
+          </div>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-md-6">
           <input
+            type="number"
             formControlName="pickUp"
             class="form-control"
             placeholder="تكلفة Pickup خاصة"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('pickUp')?.invalid &&
+                traderForm.get('pickUp')?.touched,
+              'is-valid':
+                traderForm.get('pickUp')?.valid &&
+                traderForm.get('pickUp')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('pickUp')?.invalid &&
+              traderForm.get('pickUp')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="traderForm.get('pickUp')?.errors?.['required']">
+              تكلفة Pickup خاصة مطلوبة
+            </div>
+          </div>
         </div>
         <div class="col-md-6">
           <input
+            type="number"
             formControlName="valueOfRejectedOrder"
             class="form-control"
             placeholder="نسبة تحمل التاجر لقيمة شحن الطلبات"
+            [ngClass]="{
+              'is-invalid':
+                traderForm.get('valueOfRejectedOrder')?.invalid &&
+                traderForm.get('valueOfRejectedOrder')?.touched,
+              'is-valid':
+                traderForm.get('valueOfRejectedOrder')?.valid &&
+                traderForm.get('valueOfRejectedOrder')?.touched
+            }"
           />
+
+          <div
+            *ngIf="
+              traderForm.get('valueOfRejectedOrder')?.invalid &&
+              traderForm.get('valueOfRejectedOrder')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div
+              *ngIf="traderForm.get('valueOfRejectedOrder')?.errors?.['required']"
+            >
+              نسبة تحمل التاجر لقيمة شحن الطلبات مطلوبة
+            </div>
+          </div>
         </div>
       </div>
 
@@ -131,14 +352,59 @@
                     (input)="onGovernChange(i, $event)"
                   >
                     <option value="" disabled selected>اختر المحافظة</option>
-                    <!-- خيارات المحافظات هنا -->
+                    @for (govern of governs; track $index) {
+                    <option
+                      [value]="govern.id"
+                      [selected]="
+                        govern.id ==
+                        pricingPackages.controls[i].get('governId')?.value
+                      "
+                    >
+                      {{ govern.name }}
+                    </option>
+                    }
                   </select>
                 </td>
                 <td>
-                  <select formControlName="cityId" class="form-select">
-                    <option value="" disabled>اختر المدينة</option>
-                    <!-- خيارات المدن هنا -->
+                  <select
+                    formControlName="cityId"
+                    class="form-select"
+                    [ngClass]="{
+                      'is-invalid':
+                        pricingPackages.controls[i].get('cityId')?.invalid &&
+                        pricingPackages.controls[i].get('cityId')?.touched,
+                      'is-valid':
+                        pricingPackages.controls[i].get('cityId')?.valid &&
+                        pricingPackages.controls[i].get('cityId')?.touched
+                    }"
+                  >
+                    <option value="" selected disabled>اختر المدينة</option>
+                    @for (city of PachageCities[i]; track $index) {
+                    <option
+                      [value]="city.id"
+                      [selected]="
+                        city.id ==
+                        pricingPackages.controls[i].get('cityId')?.value
+                      "
+                    >
+                      {{ city.name }}
+                    </option>
+                    }
                   </select>
+
+                  <div
+                    *ngIf="
+                      pricingPackages.controls[i].get('cityId')?.invalid &&
+                      pricingPackages.controls[i].get('cityId')?.touched
+                    "
+                    class="invalid-feedback small"
+                  >
+                    <div
+                      *ngIf="pricingPackages.controls[i].get('cityId')?.errors?.['required']"
+                    >
+                      المدينة مطلوبة
+                    </div>
+                  </div>
                 </td>
                 <td>
                   <input
@@ -146,7 +412,34 @@
                     class="form-control"
                     placeholder="سعر الشحن"
                     type="number"
+                    [ngClass]="{
+                      'is-invalid':
+                        pricingPackages.controls[i].get('specialCharge')
+                          ?.invalid &&
+                        pricingPackages.controls[i].get('specialCharge')
+                          ?.touched,
+                      'is-valid':
+                        pricingPackages.controls[i].get('specialCharge')
+                          ?.valid &&
+                        pricingPackages.controls[i].get('specialCharge')
+                          ?.touched
+                    }"
                   />
+
+                  <div
+                    *ngIf="
+                      pricingPackages.controls[i].get('specialCharge')
+                        ?.invalid &&
+                      pricingPackages.controls[i].get('specialCharge')?.touched
+                    "
+                    class="invalid-feedback small"
+                  >
+                    <div
+                      *ngIf="pricingPackages.controls[i].get('specialCharge')?.errors?.['required']"
+                    >
+                      سعر الشحن مطلوب
+                    </div>
+                  </div>
                 </td>
                 <td>
                   <button

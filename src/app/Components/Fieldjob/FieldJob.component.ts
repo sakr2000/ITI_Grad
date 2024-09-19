@@ -99,15 +99,14 @@ export class FieldJobComponent {
   }
 
   deleteFieldJob(id: number) {
-    this.fieldJobService.deleteJob(id).subscribe(
-      () => {
-        console.log('Deleted FieldJob with ID:', id);
+    this.fieldJobService.deleteJob(id).subscribe({
+      next: () => {
         this.loadFieldJob();
       },
-      (error) => {
+      error: (error) => {
         console.error('Error deleting FieldJob:', error);
-      }
-    );
+      },
+    });
   }
   openAddFieldJobForm() {
     this.isEditMode = false;

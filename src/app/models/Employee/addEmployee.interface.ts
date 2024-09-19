@@ -1,7 +1,7 @@
 export interface AddEmployee {
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   branchID: number;
   fieldJobID: number;
   status: boolean;

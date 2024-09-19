@@ -23,12 +23,14 @@
           <td>{{ seller.name }}</td>
           <td>{{ seller.email }}</td>
           <td>{{ seller.phone }}</td>
-          <td>{{ seller.branch.name }}</td>
+          <td>{{ seller.branchID }}</td>
           <td>
-            <a [routerLink]="['edit', seller.id]" class="btn btn-warning"
-              >تعديل</a
-            >
-            <a (click)="delete(seller.id)" class="btn btn-danger">حذف</a>
+            <a [routerLink]="['edit', seller.id]" class="btn btn-warning mx-2"
+              ><span class="bi bi-pencil"></span
+            ></a>
+            <a (click)="delete(seller.id)" class="btn btn-danger"
+              ><span class="bi bi-trash"></span
+            ></a>
           </td>
         </tr>
         }

@@ -9,7 +9,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
-import { AddSeller } from '../../../Models/addSeller.interface';
+import { AddSeller } from '../../../Models/Seller/addSeller.interface';
+import { forkJoin } from 'rxjs';
+import { GetBranch } from '../../../Models/Branch/getBranch.interface';
+import { GetGovern } from '../../../Models/Govern/getGovern.interface';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trader',
@@ -20,37 +25,76 @@ import { AddSeller } from '../../../Models/addSeller.interface';
 })
 export class TraderComponent implements OnInit {
   traderForm!: FormGroup;
-  governs: any = [];
+  governs: GetGovern[] = [];
+  branches: GetBranch[] = [];
+  PachageCities: { id: number; name: string }[][] = [];
   constructor(
     private fb: FormBuilder,
-    private _unitOfWork: UnitOfWorkService
+    private toaster: ToastrService,
+    private _unitOfWork: UnitOfWorkService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     this.traderForm = this.fb.group({
-      name: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern('^[a-zA-Z]+$'),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('01(0|1|2|5)[0-9]{8}'),
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ],
+      ],
       branchID: ['', Validators.required],
-      password: ['', Validators.required],
-      govern: ['', Validators.required],
-      city: ['', Validators.required],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#_/$%^&*])[a-zA-Z0-9!@#$_/%^&*]{6,16}$/
+          ),
+        ],
+      ],
+      storeCityId: ['', Validators.required],
       storeName: ['', Validators.required],
       pickUp: ['', Validators.required],
       address: ['', Validators.required],
       valueOfRejectedOrder: ['', Validators.required],
       citySellers: this.fb.array([]),
     });
-
-    this._unitOfWork.Govern.getAll().subscribe({
-      next: (data) => {
-        this.governs = data;
-        console.log(this.governs);
+    forkJoin([
+      this._unitOfWork.Branch.getAll(),
+      this._unitOfWork.Govern.getAll(),
+    ]).subscribe({
+      next: ([branches, governs]) => {
+        this.governs = governs;
+        this.branches = branches;
       },
       error: (err) => {
         console.log(err);
       },
     });
+  }
+  getCities(e: Event, select: HTMLSelectElement) {
+    let selectedGovern = e.target as HTMLSelectElement;
+    if (selectedGovern.value) {
+      select.innerHTML =
+        ' <option value="" disabled selected>اختر المدينة</option>';
+      this.governs[selectedGovern.selectedIndex - 1].cities.forEach((city) => {
+        select.appendChild(new Option(city.name, city.id.toString()));
+      });
+    }
   }
 
   get pricingPackages(): FormArray {
@@ -72,19 +116,29 @@ export class TraderComponent implements OnInit {
   onSubmit() {
     let x = this.traderForm.value as AddSeller;
     console.log(x);
-    // if (this.traderForm.valid) {
-    //   this._unitOfWork.Selller.create(
-    //     this.traderForm.value as AddSeller
-    //   ).subscribe({
-    //     next: (data) => {
-    //       console.log(data);
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //     },
-    //   });
-    // }
+    if (this.traderForm.valid) {
+      this._unitOfWork.Selller.create(
+        this.traderForm.value as AddSeller
+      ).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.toaster.success('تمت الاضافة بنجاح');
+          this._router.navigate(['/Seller']);
+        },
+        error: (err) => {
+          console.log(err);
+          this.toaster.error('خطأ في الاضافة');
+        },
+      });
+    }
   }
 
-  onGovernChange(index: number, event: Event) {}
+  onGovernChange(index: number, event: Event) {
+    let selectedGovern = event.target as HTMLSelectElement;
+    if (selectedGovern.value) {
+      this.PachageCities[index] =
+        this.governs.find((x) => x.id == parseInt(selectedGovern.value))
+          ?.cities ?? [];
+    }
+  }
 }

@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
-import { AddEmployee } from '../../../Models/addEmployee.interface';
+import { AddEmployee } from '../../../Models/Employee/addEmployee.interface';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { GetGovern } from '../../../Models/Govern/getGovern.interface';
@@ -34,24 +34,45 @@ export class AddEmployeeComponent implements OnInit {
   feildJobs: FieldJob[] = [];
   ngOnInit(): void {
     this.employeeForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern('[a-zA-Z0-9]*'),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('01(0|1|2|5)[0-9]{8}'),
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ],
+      ],
       branchID: ['', Validators.required],
       fieldJobID: ['', Validators.required],
-      status: ['', Validators.required],
-      password: ['', Validators.required],
+      status: [true],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#_/$%^&*])[a-zA-Z0-9!@#$_/%^&*]{6,16}$/
+          ),
+        ],
+      ],
       govern: ['', Validators.required],
       city: ['', Validators.required],
     });
     forkJoin([
-      this._unitOfWork.Govern.getAll(),
       this._unitOfWork.Branch.getAll(),
       this._unitOfWork.FieldJob.getAllJobs(),
     ]).subscribe({
-      next: ([governs, branches, fieldJobs]) => {
-        console.log(governs, branches, fieldJobs);
-        this.governs = governs;
+      next: ([branches, fieldJobs]) => {
         this.branches = branches;
         this.feildJobs = fieldJobs;
       },
@@ -60,18 +81,6 @@ export class AddEmployeeComponent implements OnInit {
       },
     });
   }
-
-  getCities(e: Event, select: HTMLSelectElement) {
-    let selectedGovern = e.target as HTMLSelectElement;
-    if (selectedGovern.value) {
-      select.innerHTML =
-        ' <option value="" disabled selected>اختر المدينة</option>';
-      this.governs[selectedGovern.selectedIndex - 1].cities.forEach((city) => {
-        select.appendChild(new Option(city.name, city.id.toString()));
-      });
-    }
-  }
-
   onSubmit() {
     if (this.employeeForm.valid) {
       console.log(this.employeeForm.value);

@@ -21,7 +21,14 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`,
         },
       });
+    } else {
+      request = request.clone({
+        setHeaders: {
+          Authorization: '',
+        },
+      });
     }
+    console.log(request);
 
     return next.handle(request);
   }

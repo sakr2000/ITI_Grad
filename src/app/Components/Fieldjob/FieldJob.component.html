@@ -21,7 +21,7 @@
         <!-- Form for adding privileges, visible when showPrivilegesForm is true -->
         <div *ngIf="showPrivilegesForm">
           <form (ngSubmit)="submitPrivileges()">
-            <div class="d-flex">
+            <div class="d-flex justify-content-center">
               <div class="mb-3">
                 <input
                   type="text"
@@ -33,7 +33,9 @@
                   required
                 />
               </div>
-              <button type="submit" class="btn btn-success add">اضافة</button>
+              <div class="px-3 mt-3">
+                <button type="submit" class="btn btn-success">اضافة</button>
+              </div>
             </div>
           </form>
         </div>

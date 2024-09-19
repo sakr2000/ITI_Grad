@@ -1,5 +1,5 @@
 export interface WeightCharge {
-  weight: number;
-  charge: number;
-  extra: number;
+  id: number;
+  defaultWeight: number;
+  additionalWeight: number;
 }
