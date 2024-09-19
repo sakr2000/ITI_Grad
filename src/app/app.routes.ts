@@ -66,14 +66,14 @@ export const routes: Routes = [
       {
         path: 'Sellers',
         loadComponent: () =>
-          import('./Components/display-sellers/display-sellers.component').then(
-            (m) => m.DisplaySellersComponent
-          ),
+          import(
+            './Components/seller/display-sellers/display-sellers.component'
+          ).then((m) => m.DisplaySellersComponent),
       },
       {
         path: 'Sellers/add',
         loadComponent: () =>
-          import('./Components/add-seller/trader.component').then(
+          import('./Components/seller/add-seller/trader.component').then(
             (m) => m.TraderComponent
           ),
       },
@@ -87,28 +87,28 @@ export const routes: Routes = [
       {
         path: 'Employees/add',
         loadComponent: () =>
-          import('./Components/add-employee/add-employee.component').then(
-            (m) => m.AddEmployeeComponent
-          ),
+          import(
+            './Components/employee/add-employee/add-employee.component'
+          ).then((m) => m.AddEmployeeComponent),
       },
       {
         path: 'Agents',
         loadComponent: () =>
-          import('./Components/display-agents/display-agents.component').then(
-            (m) => m.DisplayAgentsComponent
-          ),
+          import(
+            './Components/agent/display-agents/display-agents.component'
+          ).then((m) => m.DisplayAgentsComponent),
       },
       {
         path: 'Agents/add',
         loadComponent: () =>
-          import('./Components/add-agent/add-agent.component').then(
+          import('./Components/agent/add-agent/add-agent.component').then(
             (m) => m.AddAgentComponent
           ),
       },
       {
         path: 'Agents/edit/:id',
         loadComponent: () =>
-          import('./Components/add-agent/add-agent.component').then(
+          import('./Components/agent/add-agent/add-agent.component').then(
             (m) => m.AddAgentComponent
           ),
       },

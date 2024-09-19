@@ -1,0 +1,173 @@
+<app-page-header
+  title="إضافة تاجر"
+  [path]="[
+    { name: 'تاجر', link: '/Sellers' },
+    { name: 'اضافة تاجر', link: '/Sellers/add' }
+  ]"
+></app-page-header>
+<div class="section">
+  <form [formGroup]="traderForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+      <h2 class="fs-3 my-3">بيانات التاجر</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <input
+            formControlName="name"
+            class="form-control"
+            placeholder="اسم التاجر"
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="email"
+            type="email"
+            class="form-control"
+            placeholder="البريد الإلكتروني"
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder="كلمة المرور"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <input
+            formControlName="phone"
+            class="form-control"
+            placeholder="رقم الهاتف"
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="branchID"
+            class="form-control"
+            placeholder="الفرع"
+          />
+        </div>
+        <div class="col-md-4">
+          <input
+            formControlName="address"
+            class="form-control"
+            placeholder="العنوان"
+          />
+        </div>
+      </div>
+      <h2 class="fs-3 my-3">بيانات المتجر</h2>
+      <!-- بيانات المتجر -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <input
+            formControlName="storeName"
+            class="form-control"
+            placeholder="اسم المتجر"
+          />
+        </div>
+        <div class="col-md-3">
+          <select formControlName="govern" class="form-select">
+            <option value="" disabled selected>اختر المحافظة</option>
+            <!-- خيارات المحافظات هنا -->
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select formControlName="city" class="form-select">
+            <option value="" disabled selected>اختر المدينة</option>
+            <!-- خيارات المدن هنا -->
+          </select>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <input
+            formControlName="pickUp"
+            class="form-control"
+            placeholder="تكلفة Pickup خاصة"
+          />
+        </div>
+        <div class="col-md-6">
+          <input
+            formControlName="valueOfRejectedOrder"
+            class="form-control"
+            placeholder="نسبة تحمل التاجر لقيمة شحن الطلبات"
+          />
+        </div>
+      </div>
+
+      <!-- إضافة باقات أسعار مميزة لبعض المدن -->
+      <div class="mt-4">
+        <div class="d-flex justify-content-center mb-3">
+          <button
+            type="button"
+            class="btn btn-outline-success mb-3"
+            (click)="addPricingPackage()"
+          >
+            <i class="fa fa-plus"></i>
+            إضافة باقات أسعار مميزة لبعض المدن
+          </button>
+        </div>
+        @if (pricingPackages.length > 0) {
+        <div formArrayName="citySellers">
+          <table class="table table-striped table-bordered text-center">
+            <thead class="table-dark">
+              <tr class="table-dark">
+                <th>المحافظة</th>
+                <th>المدينة</th>
+                <th>سعر الشحن</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let package of pricingPackages.controls; let i = index"
+                [formGroupName]="i"
+              >
+                <td>
+                  <select
+                    class="form-select"
+                    (input)="onGovernChange(i, $event)"
+                  >
+                    <option value="" disabled selected>اختر المحافظة</option>
+                    <!-- خيارات المحافظات هنا -->
+                  </select>
+                </td>
+                <td>
+                  <select formControlName="cityId" class="form-select">
+                    <option value="" disabled>اختر المدينة</option>
+                    <!-- خيارات المدن هنا -->
+                  </select>
+                </td>
+                <td>
+                  <input
+                    formControlName="specialCharge"
+                    class="form-control"
+                    placeholder="سعر الشحن"
+                    type="number"
+                  />
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="removePricingPackage(i)"
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        }
+      </div>
+
+      <!-- زر الحفظ -->
+      <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-primary w-25">حفظ</button>
+      </div>
+    </div>
+  </form>
+</div>

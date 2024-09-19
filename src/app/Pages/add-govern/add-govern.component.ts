@@ -10,7 +10,8 @@ import {
 } from '@angular/forms';
 import { GovernService } from '../../Services/govern.service';
 import { ActivatedRoute } from '@angular/router';
-import { Govern } from '../../Models/govern.model';
+import { addGovern } from '../../Models/Govern/addgovern.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-govern',
@@ -27,7 +28,8 @@ export class AddGovernComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _governService: GovernService,
-    private _activeRoute: ActivatedRoute
+    private _activeRoute: ActivatedRoute,
+    private _toaster: ToastrService
   ) {
     this.GovernFrom = this.fb.group({
       name: ['', Validators.required],
@@ -40,7 +42,7 @@ export class AddGovernComponent implements OnInit {
         this.id = params['id'];
         this._governService
           .getGovernById(params['id'])
-          .subscribe((data: Govern) => {
+          .subscribe((data: addGovern) => {
             console.log(data);
 
             this.GovernFrom.patchValue(data);
@@ -72,24 +74,28 @@ export class AddGovernComponent implements OnInit {
       console.log(this.GovernFrom.value);
       if (this.id == 0) {
         this._governService
-          .addGovern(this.GovernFrom.value as Govern)
+          .addGovern(this.GovernFrom.value as addGovern)
           .subscribe({
             next: (data) => {
               console.log(data);
+              this._toaster.success('Govern Added Successfully', 'Success');
             },
             error: (error) => {
               console.error(error);
+              this._toaster.error('Govern Not Added', 'Error');
             },
           });
       } else {
         this._governService
-          .editGovern(this.id, this.GovernFrom.value as Govern)
+          .editGovern(this.id, this.GovernFrom.value as addGovern)
           .subscribe({
             next: (data) => {
               console.log(data);
+              this._toaster.success('Govern Edited Successfully', 'Success');
             },
             error: (error) => {
               console.error(error);
+              this._toaster.error('Govern Not Edited', 'Error');
             },
           });
       }

@@ -5,6 +5,7 @@ import { SellerService } from './seller.service';
 import { GovernService } from './govern.service';
 import { OrderService } from './order.service';
 import { EmployeeService } from './employee.service';
+import { FieldJobService } from './FieldJob.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class UnitOfWorkService {
     public Branch: BranchService,
     public City: CityService,
     public Order: OrderService,
-    public Employee: EmployeeService
+    public Employee: EmployeeService,
+    public FieldJob: FieldJobService
   ) {}
 }

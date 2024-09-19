@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Govern } from '../Models/govern.model';
+import { addGovern } from '../Models/Govern/addgovern.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +18,15 @@ export class GovernService {
     return this.http.get(`${this.url}/${id}`);
   }
 
-  addGovern(govern: Govern): Observable<any> {
-    return this.http.post(`${this.url}/add`, govern);
+  addGovern(govern: addGovern): Observable<any> {
+    return this.http.post(`${this.url}/AddGovernWithCity`, govern);
   }
 
-  updateGovern(govern: Govern): Observable<any> {
+  updateGovern(govern: addGovern): Observable<any> {
     return this.http.put(this.url, govern);
   }
 
-  editGovern(id: number, govern: Govern): Observable<any> {
+  editGovern(id: number, govern: addGovern): Observable<any> {
     return this.http.put(`${this.url}/${id}`, govern);
   }
 }

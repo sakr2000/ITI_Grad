@@ -22,7 +22,7 @@ export class CreateBranchComponent {
 
   onSubmit() {
     if (this.branchName) {
-      this.branchService.addBranch(this.branchName).subscribe({
+      this.branchService.create(this.branchName).subscribe({
         next: (response: any) => {
           console.log('Branch added successfully:', response);
           this.branches.push(this.branchName);

@@ -1,22 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CRUD } from '../Models/CRUD.interface';
+import { Observable } from 'rxjs';
+import { AddSeller } from '../Models/addSeller.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SellerService {
-  api = 'http://localhost:5298/api/Seller';
+export class SellerService implements CRUD<any> {
+  api = 'http://localhost:5298/api';
 
   constructor(private http: HttpClient) {}
-
-  getAll() {
-    return this.http.get(this.api);
+  getAll(): Observable<any> {
+    return this.http.get(`${this.api}/Seller/GetAll`);
   }
-
-  add(data: any) {
-    return this.http.post(this.api, data);
+  getById(id: number): Observable<any> {
+    throw new Error('Method not implemented.');
   }
-
+  create(data: AddSeller): Observable<any> {
+    return this.http.post(`${this.api}/AddSeller`, data);
+  }
   update(id: number, data: any) {
     return this.http.put(`${this.api}/${id}`, data);
   }

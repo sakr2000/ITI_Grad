@@ -33,7 +33,7 @@ export class AddOrderComponent implements OnInit {
       products: this.fb.array([]),
     });
 
-    this.branchService.getBranches().subscribe({
+    this.branchService.getAll().subscribe({
       next: (data) => {
         this.branches = data;
       },

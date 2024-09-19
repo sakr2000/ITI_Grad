@@ -10,7 +10,7 @@
 <div class="section p-4">
   <h2 class="text-end mb-4">اضافة موظف</h2>
   <!-- TODO: add form -->
-  <form [formGroup]="employeeForm">
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
     <div class="row my-4">
       <div class="col-md-4">
         <div class="form-group">
@@ -57,7 +57,7 @@
           <input
             type="text"
             id="phoneNumber"
-            formControlName="phoneNumber"
+            formControlName="phone"
             class="form-control"
             placeholder="رقم الهاتف"
           />
@@ -67,22 +67,80 @@
       <div class="col-md-4">
         <div class="form-group">
           <label for="role">الوظيفة</label>
-          <select id="role" formControlName="role" class="form-select">
+          <select id="role" formControlName="fieldJobID" class="form-select">
             <option value="" disabled selected>اختر الوظيفة</option>
+            @for (job of feildJobs; track $index) {
+            <option [value]="job.id">
+              {{ job.name }}
+            </option>
+            }
           </select>
         </div>
       </div>
       <div class="col-md-4">
         <div class="form-group">
           <label for="branch">الفرع</label>
-          <select id="branch" formControlName="branch" class="form-select">
+          <select id="branch" formControlName="branchID" class="form-select">
             <option value="" disabled selected>اختر الفرع</option>
+            @for (branch of branches; track $index) {
+            <option [value]="branch.id">
+              {{ branch.name }}
+            </option>
+            }
           </select>
         </div>
       </div>
     </div>
 
-    <div class="text-center">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="govern">المحافظة</label>
+          <select
+            id="govern"
+            formControlName="govern"
+            class="form-select"
+            (input)="getCities($event, cityOptions)"
+          >
+            <option value="" disabled selected>اختر المحافظة</option>
+            @for (govern of governs; track $index) {
+            <option [value]="govern.id">
+              {{ govern.name }}
+            </option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="city">المدينة</label>
+          <select
+            #cityOptions
+            id="city"
+            formControlName="city"
+            class="form-select"
+          >
+            <option value="" disabled selected>اختر المدينة</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4 align-self-end">
+        <label for="status">الحالة</label>
+        <div class="form-group d-flex align-items-center gap-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="status"
+            formControlName="status"
+            #status
+          />
+          <label for="status">{{ status.checked ? "مفعل" : "غير مفعل" }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
       <button type="submit" class="btn btn-primary w-25">حفظ</button>
     </div>
   </form>

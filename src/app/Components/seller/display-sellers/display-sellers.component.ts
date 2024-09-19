@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PageHeaderComponent } from '../page-header/page-header.component';
+import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { RouterLink } from '@angular/router';
-import { SellerService } from '../../Services/seller.service';
+import { SellerService } from '../../../Services/seller.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

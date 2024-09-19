@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { AuthService } from '../../Services/auth.service';
+import { AuthenticationService } from '../../Services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,10 @@ import { AuthService } from '../../Services/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthenticationService
+  ) {
     this.loginForm = this.fb.group({
       EmailOrUsername: ['', [Validators.required]],
       password: ['', [Validators.required]],

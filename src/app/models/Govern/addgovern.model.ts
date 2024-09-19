@@ -1,4 +1,4 @@
-export interface Govern {
+export interface addGovern {
   name: string;
   cities: {
     name: string;
