@@ -5,5 +5,5 @@ export interface CRUD<T> {
   getById(id: number): Observable<T>;
   create(data: T): Observable<T>;
   update(id: number, data: T): Observable<T>;
-  delete(id: number): Observable<any>;
+  delete(id: number | string): Observable<any>;
 }

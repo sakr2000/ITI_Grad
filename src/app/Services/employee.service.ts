@@ -12,12 +12,7 @@ export class EmployeeService implements CRUD<any> {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {
-    const headers = new HttpHeaders().set(
-      'Authorization',
-      ` Bearer ${localStorage.getItem('token')}`
-    );
-
-    return this.http.get(`${this.api}/api/Employee`, { headers });
+    return this.http.get(`${this.api}/api/Employee`);
   }
   getById(id: number): Observable<any> {
     return this.http.get(`${this.api}/api/Employee/${id}`);
@@ -28,7 +23,7 @@ export class EmployeeService implements CRUD<any> {
   update(id: number, data: any): Observable<any> {
     return this.http.put(`${this.api}/api/Employee/${id}`, data);
   }
-  delete(id: number): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.http.delete(`${this.api}/api/Employee/${id}`);
   }
 }
