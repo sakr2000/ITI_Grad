@@ -8,6 +8,15 @@ export const routes: Routes = [
     component: MainSystemComponent,
     children: [
       {
+        path: 'Dashboard',
+        loadComponent: () =>
+          import(
+            './Components/trader-dashboard/trader-dashboard.component'
+          ).then((m) => {
+            return m.TraderDashboardComponent;
+          }),
+      },
+      {
         path: 'Govern',
         loadComponent: () =>
           import('./Pages/display-governs/display-governs.component').then(
