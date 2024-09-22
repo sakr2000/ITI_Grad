@@ -3,6 +3,9 @@ import { BranchService } from '../../Services/branch.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Order , Product} from '../../models/Order';
+import { UnitOfWorkService } from '../../Services/unitOfWork.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone: true,
@@ -14,60 +17,168 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class AddOrderComponent implements OnInit {
   addOrderForm!: FormGroup;
   branches: any[] = [];
-
-  constructor(private fb: FormBuilder, private branchService: BranchService) {}
+  cities:any[]=[];
+  governments: any[] = [];
+  typeOfPayments: any[] = [];
+  typeOfCharges: any[] = [];
+  typeOfReceipts: any[] = [];
+  
+  constructor(private fb: FormBuilder,private unitOfWork:UnitOfWorkService,private toaster: ToastrService) {}
 
   ngOnInit(): void {
     this.addOrderForm = this.fb.group({
-      type: ['', Validators.required],
-      name: ['', Validators.required],
+      clientName: ['',[
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern('[a-zA-Z0-9]*'),
+      ],],
+      clientNumber: ['',[
+        Validators.required,
+        Validators.pattern('01(0|1|2|5)[0-9]{8}'),
+        Validators.minLength(11),
+        Validators.maxLength(11),
+      ],],
+      clientNumber2: ['',[
+        Validators.pattern('01(0|1|2|5)[0-9]{8}'),
+        Validators.minLength(11),
+        Validators.maxLength(11),
+      ],],
       email: ['', [Validators.required, Validators.email]],
-      phone1: ['', Validators.required],
-      phone2: [''],
-      city: ['', Validators.required],
-      province: ['', Validators.required],
-      shippingType: ['', Validators.required],
-      paymentType: ['', Validators.required],
-      address: ['', Validators.required],
-      branch: ['', Validators.required],
-      products: this.fb.array([]),
+      cost: ['', [
+        Validators.required,
+        Validators.min(0)
+      ]],
+      isForVillage: [false, Validators.required],
+      note: [''],
+      weight: ['', Validators.min(0)],
+      villageOrStreet: [ '', Validators.required],
+      branchID: ['', Validators.required],
+      governID: ['', Validators.required],
+      cityID:['',Validators.required],
+      typeOfPaymentID: ['', Validators.required],
+      typeOfChargeID: ['', Validators.required],
+      typeOfReceiptID:['',Validators.required],
+      orderStatusID: [1],
+      productList: this.fb.array([]) 
     });
 
-    this.branchService.getAll().subscribe({
-      next: (data) => {
-        this.branches = data;
-      },
-      error: (err) => {
-        console.log(err);
-      },
+    this.loadBranches();
+    this.loadGovernments();
+    this.loadTypeOfCharges();
+    this.loadTypeOfPayments();
+    this.loadTypeOfReceipts();
+    this.addOrderForm.get('productList')?.valueChanges.subscribe(() => {
+      this.calculateTotalWeight();
     });
   }
 
-  get products(): FormArray {
-    return this.addOrderForm.get('products') as FormArray;
+  get productList(): FormArray {
+    return this.addOrderForm.get('productList') as FormArray;
   }
-
   addProduct() {
     const productForm = this.fb.group({
       name: ['', Validators.required],
-      quantity: [1, Validators.required],
-      weight: [1, Validators.required],
+      quantity: [0, [Validators.required, Validators.min(1)]],
+      productWeight: [0, [Validators.required, Validators.min(0.01)]],
+      orderId: [0]  
     });
-    this.products.push(productForm);
+    this.productList.push(productForm);
   }
   removeProduct(index: number) {
-    this.products.removeAt(index);
+    this.productList.removeAt(index);
   }
-
-  onSubmit() {
-    if (this.addOrderForm.valid) {
-      const orderData = {
-        ...this.addOrderForm.value,
-        products: this.products.value,
-      };
-      console.log(orderData);
+  loadBranches() {
+    this.unitOfWork.Branch.getAll().subscribe(
+      (data) => {
+        this.branches = data;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  loadGovernments() {
+    this.unitOfWork.Govern.getAll().subscribe(
+      (data) => {
+        this.governments = data.filter((govern: { status: any; }) => govern.status);
+      },
+      (err) => {
+        console.error('Error loading governments', err);
+      }
+    );
+  }
+  onGovernmentChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement; 
+    const governID = selectElement.value;
+  
+    const selectedGovern = this.governments.find(g => g.id === +governID);
+    if (selectedGovern) {
+      this.cities = selectedGovern.cities;
     } else {
-      console.log('Form is invalid!');
+      this.cities = [];
     }
+  }
+  onSubmit() {
+    debugger
+    if (this.addOrderForm.valid) {
+      const orderData: Order = {
+        ...this.addOrderForm.value,
+        productList: this.productList.value
+      };
+
+      this.unitOfWork.Order.create(orderData).subscribe({
+        next: (response) => {
+          console.log('Order saved successfully', response);
+          this.toaster.success('Order saved successfully', 'Success');
+        },
+        error: (err) => {
+          console.error('Error saving order', err);
+          this.toaster.error('Error saving order', 'Error');
+        }
+      });
+    } else {
+      console.log(this.addOrderForm.errors);
+      console.log(this.addOrderForm.controls);
+      console.log('Form is invalid!');
+      this.toaster.error('Error saving order', 'Error');
+    }
+  }
+  loadTypeOfPayments() {
+    this.unitOfWork.TypeOfPayment.getAll().subscribe(
+      (data) => {
+        this.typeOfPayments = data;
+      },
+      (err) => {
+        console.error('Error loading type of payments', err);
+      }
+    );
+  }
+  loadTypeOfCharges() {
+    this.unitOfWork.TypeOfCharge.getAll().subscribe(
+      (data) => {
+        this.typeOfCharges = data;
+      },
+      (err) => {
+        console.error('Error loading type of charges', err);
+      }
+    );
+  }
+  loadTypeOfReceipts() {
+    this.unitOfWork.TypeOfReceipt.getAll().subscribe(
+      (data) => {
+        this.typeOfReceipts = data;
+      },
+      (err) => {
+        console.error('Error loading type of receipts', err);
+      }
+    );
+  }
+  calculateTotalWeight() {
+    const products = this.productList.value;
+    let totalWeight = 0;
+    products.forEach((product: any) => {
+      totalWeight += product.productWeight * product.quantity;
+    });
+    this.addOrderForm.get('weight')?.setValue(totalWeight, { emitEvent: false });
   }
 }

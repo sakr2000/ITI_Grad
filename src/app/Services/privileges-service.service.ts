@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Privilege } from '../Models/Privilege';
+import { Privilege } from '../models/Privilege';
 
 @Injectable({
   providedIn: 'root',

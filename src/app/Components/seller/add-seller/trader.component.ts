@@ -9,10 +9,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
-import { AddSeller } from '../../../Models/Seller/addSeller.interface';
+import { AddSeller } from '../../../models/Seller/addSeller.interface';
 import { forkJoin } from 'rxjs';
-import { GetBranch } from '../../../Models/Branch/getBranch.interface';
-import { GetGovern } from '../../../Models/Govern/getGovern.interface';
+import { GetBranch } from '../../../models/Branch/getBranch.interface';
+import { GetGovern } from '../../../models/Govern/getGovern.interface';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 

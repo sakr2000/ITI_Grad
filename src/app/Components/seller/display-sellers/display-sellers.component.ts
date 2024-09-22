@@ -3,7 +3,7 @@ import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { RouterLink } from '@angular/router';
 import { SellerService } from '../../../Services/seller.service';
 import { ToastrService } from 'ngx-toastr';
-import { GetSeller } from '../../../Models/Seller/getSeller.interface';
+import { GetSeller } from '../../../models/Seller/getSeller.interface';
 
 @Component({
   selector: 'app-display-sellers',

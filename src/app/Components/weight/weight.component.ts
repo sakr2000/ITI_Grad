@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { WeightCharge } from '../../Models/weightCharge.interface';
+import { WeightCharge } from '../../models/weightCharge.interface';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
 

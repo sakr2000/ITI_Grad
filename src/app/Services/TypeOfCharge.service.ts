@@ -2,27 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CRUD } from '../models/CRUD.interface';
 import { Observable } from 'rxjs';
-import { AddSeller } from '../models/Seller/addSeller.interface';
-
+import { TypeOfCharge } from '../models/TypeOfCharge';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SellerService implements CRUD<any> {
-  api = 'http://localhost:5298/api/Seller';
+export class TypeOfChargeService implements CRUD<any> {
+  api = 'http://localhost:5298/api/TypeOfCharge';
 
   constructor(private http: HttpClient) {}
   getAll(): Observable<any> {
-    return this.http.get(`${this.api}/GetAll`);
+    return this.http.get(`${this.api}`);
   }
   getById(id: number): Observable<any> {
     return this.http.get(`${this.api}/${id}`);
   }
-  create(data: AddSeller): Observable<any> {
-    return this.http.post('http://localhost:5298/AddSeller', data);
+  create(data: TypeOfCharge): Observable<any> {
+    return this.http.post(`${this.api}`, data);
   }
   update(id: number, data: any) {
-    return this.http.put(`${this.api}/${id}`, data); // not finished yet
+    return this.http.put(`${this.api}/${id}`, data); 
   }
 
   delete(id: number) {

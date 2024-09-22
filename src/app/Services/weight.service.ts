@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { WeightCharge } from '../Models/weightCharge.interface';
+import { WeightCharge } from '../models/weightCharge.interface';
 
 @Injectable({
   providedIn: 'root',
