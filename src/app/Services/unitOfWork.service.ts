@@ -7,6 +7,7 @@ import { OrderService } from './order.service';
 import { EmployeeService } from './employee.service';
 import { FieldJobService } from './FieldJob.service';
 import { WeightService } from './weight.service';
+import { TypeOfChargeService } from './type-of-charge.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class UnitOfWorkService {
     public Order: OrderService,
     public Employee: EmployeeService,
     public FieldJob: FieldJobService,
-    public Weight: WeightService
+    public Weight: WeightService,
+    public TypeOfCharge: TypeOfChargeService
   ) {}
 }
