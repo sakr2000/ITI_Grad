@@ -1,0 +1,63 @@
+<div class="container"  dir="rtl" >
+    <div class="actions">
+      <button class="btn btn-primary">كل</button>
+      <button class="btn btn-outline-primary">جديد</button>
+      <button class="btn btn-outline-primary">قيد الإنتظار</button>
+      <button class="btn btn-outline-primary">نم التسليم للمندوب</button>
+      <button class="btn btn-outline-primary">تم التسليم</button>
+      <button class="btn btn-outline-primary">لا يمكن الوصول</button>
+      <button class="btn btn-outline-primary">تم التأجيل</button>
+      <button class="btn btn-outline-primary">تم التسليم جزئا</button>
+      <button class="btn btn-outline-primary">تم الالغاء من قبل المستلم</button>
+      <button class="btn btn-outline-primary">تم الرفض مع الدفع</button>
+      <button class="btn btn-outline-primary">رفض مع سداد جزء</button>
+      <button class="btn btn-outline-primary">رفض و لم يتم الدفع</button>
+    </div>
+  
+    <div class="table-controls">
+      <button class="btn btn-secondary">PDF</button>
+      <button class="btn btn-secondary">Excel</button>
+      <input type="text" class="form-control" placeholder="Search">
+    </div>
+  
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>الرقم التسلسلي</th>
+          <th>التاريخ</th>
+          <th>بيانات العميل</th>
+          <th>المحافظة</th>
+          <th>المدينة</th>
+          <th>تكلفة الطلب</th>
+          <th>تعديل الطلب</th>
+          <th>تغيير الحالة</th>
+          <th>حذف</th>
+          <th>طباعة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders | paginate: { itemsPerPage: 5, currentPage: page }">
+          <td>{{ order.serialNumber }}</td>
+          <td>{{ order.date | date:'yyyy-MM-dd   HH:mm:ss' }}</td>
+          <td>{{ order.clientName }} <br> {{ order.clientPhone }}</td>
+          <td>{{ order.governorate }}</td>
+          <td>{{ order.city }}</td>
+          <td>{{ order.cost }}</td>
+          <td>
+            <button class="btn btn-success">✏️</button>
+          </td>
+          <td>
+            <button class="btn btn-primary">الحالة</button>
+          </td>
+          <td>
+            <button class="btn btn-danger">🗑️</button>
+          </td>
+          <td>
+            <button class="btn btn-info">🖨️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+  
