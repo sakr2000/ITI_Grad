@@ -1,0 +1,226 @@
+<app-page-header
+  title="اضافة مندوب"
+  [path]="[
+    { name: 'المناديب', link: '/Agents' },
+    { name: 'اضافة مندوب', link: '/Agents/add' }
+  ]"
+></app-page-header>
+
+<div class="section p-4">
+  <h2 class="text-end mb-4">اضافة مندوب</h2>
+  <form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+    <div class="row my-4">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="name">الاسم</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="الاسم"
+          />
+          <div
+            *ngIf="
+              agentForm.get('name')?.invalid && agentForm.get('name')?.touched
+            "
+            class="text-danger"
+          >
+            يجب إدخال اسم صالح
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="email">البريد الالكتروني</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="البريد الالكتروني"
+          />
+          <div
+            *ngIf="
+              agentForm.get('email')?.invalid && agentForm.get('email')?.touched
+            "
+            class="text-danger"
+          >
+            يجب إدخال بريد إلكتروني صالح
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="password">كلمة المرور</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="كلمة المرور"
+          />
+          <div
+            *ngIf="
+              agentForm.get('password')?.touched &&
+              agentForm.get('password')?.invalid
+            "
+            class="text-danger"
+          >
+            <div *ngIf="agentForm.get('password')?.errors?.['required']">
+              يجب إدخال كلمة المرور
+            </div>
+            <div *ngIf="agentForm.get('password')?.errors?.['minlength']">
+              يجب ألا تقل كلمة المرور عن 6 أحرف
+            </div>
+            <div *ngIf="agentForm.get('password')?.errors?.['maxlength']">
+              يجب ألا تتجاوز كلمة المرور 16 حرفًا
+            </div>
+            <div *ngIf="agentForm.get('password')?.errors?.['pattern']">
+              يجب أن تحتوي كلمة المرور على حرف صغير، حرف كبير، رقم، ورمز.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="branch">الفرع</label>
+          <select id="branch" formControlName="branch" class="form-control">
+            <option value="">اختر الفرع</option>
+            <!-- هنا يمكن إضافة خيارات الفروع -->
+          </select>
+          <div
+            *ngIf="
+              agentForm.get('branch')?.invalid &&
+              agentForm.get('branch')?.touched
+            "
+            class="text-danger"
+          >
+            يجب اختيار فرع
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="governs">المحافظات</label>
+          <select id="governs" formControlName="governs" class="form-control">
+            <option value="">اختر المحافظات</option>
+            <!-- هنا يمكن إضافة خيارات المحافظات -->
+          </select>
+          <div
+            *ngIf="
+              agentForm.get('governs')?.invalid &&
+              agentForm.get('governs')?.touched
+            "
+            class="text-danger"
+          >
+            يجب اختيار محافظة
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="phoneNumber">رقم الهاتف</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            formControlName="phoneNumber"
+            class="form-control"
+            placeholder="رقم الهاتف"
+          />
+          <div
+            *ngIf="
+              agentForm.get('phoneNumber')?.invalid &&
+              agentForm.get('phoneNumber')?.touched
+            "
+            class="text-danger"
+          >
+            يجب إدخال رقم هاتف صالح
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="address">العنوان</label>
+          <input
+            id="address"
+            formControlName="address"
+            class="form-control"
+            placeholder="العنوان"
+          />
+          <div
+            *ngIf="
+              agentForm.get('address')?.invalid &&
+              agentForm.get('address')?.touched
+            "
+            class="text-danger"
+          >
+            يجب إدخال عنوان
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="typeOfDiscount">نوع الخصم</label>
+          <select
+            id="typeOfDiscount"
+            formControlName="typeOfDiscount"
+            class="form-control"
+          >
+            <option value="">اختر نوع الخصم</option>
+            <!-- هنا يمكن إضافة خيارات نوع الخصم -->
+          </select>
+          <div
+            *ngIf="
+              agentForm.get('typeOfDiscount')?.invalid &&
+              agentForm.get('typeOfDiscount')?.touched
+            "
+            class="text-danger"
+          >
+            يجب اختيار نوع الخصم
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="companyPercent">نسبة الشركة</label>
+          <input
+            type="number"
+            id="companyPercent"
+            formControlName="companyPercent"
+            class="form-control"
+            placeholder="نسبة الشركة"
+          />
+          <div
+            *ngIf="
+              agentForm.get('companyPercent')?.invalid &&
+              agentForm.get('companyPercent')?.touched
+            "
+            class="text-danger"
+          >
+            يجب إدخال نسبة الشركة صحيحة
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <button
+        type="submit"
+        class="btn btn-primary w-25"
+        [disabled]="agentForm.invalid"
+      >
+        حفظ
+      </button>
+    </div>
+  </form>
+</div>
