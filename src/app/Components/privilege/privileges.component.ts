@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FieldPrivilegeDTO, FieldJob } from '../../models/FieldJob';
+
 import { ActivatedRoute } from '@angular/router';
 import { FieldJobService } from '../../Services/FieldJob.service';
+import { FieldJob, FieldPrivilegeDTO } from '../../models/FieldJob';
 
 @Component({
   selector: 'app-privileges',

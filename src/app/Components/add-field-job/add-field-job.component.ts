@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
-import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
+import { FieldPrivilegeDTO, FieldJob } from '../../models/FieldJob';
 import { PrivilegesServiceService } from '../../Services/privileges-service.service';
 import { ToastrService } from 'ngx-toastr';
 

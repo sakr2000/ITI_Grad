@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { GetEmployee } from '../../../Models/Employee/getEmployee.interface';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { GetEmployee } from '../../../models/Employee/getEmployee.interface';
 
 @Component({
   selector: 'app-display-employees',
