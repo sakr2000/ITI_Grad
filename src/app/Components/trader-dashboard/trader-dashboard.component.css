@@ -1,0 +1,18 @@
+.icon {
+  font-size: 24px;
+  color: #9c27b0;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-clickable {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.card-clickable:hover {
+  transform: scale(1.05);
+}

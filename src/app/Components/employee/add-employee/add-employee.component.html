@@ -1,0 +1,312 @@
+<app-page-header
+  title="اضافة موظف"
+  [path]="[
+    { name: 'الموظفين', link: '/Employees' },
+    { name: 'اضافة موظف', link: '/Employees/add' }
+  ]"
+>
+</app-page-header>
+
+<div class="section p-4">
+  <h2 class="text-end mb-4">اضافة موظف</h2>
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <div class="row my-4">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="name">الاسم</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="الاسم"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('name')?.invalid &&
+                employeeForm.get('name')?.touched,
+              'is-valid':
+                employeeForm.get('name')?.valid &&
+                employeeForm.get('name')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              employeeForm.get('name')?.invalid &&
+              employeeForm.get('name')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('name')?.errors?.['required']">
+              الاسم مطلوب
+            </div>
+            <div *ngIf="employeeForm.get('name')?.errors?.['minlength']">
+              يجب أن يحتوي الاسم على 3 أحرف على الأقل
+            </div>
+            <div *ngIf="employeeForm.get('name')?.errors?.['pattern']">
+              يجب أن يحتوي الاسم على حروف أو أرقام فقط
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="email">البريد الالكتروني</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="البريد الالكتروني"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('email')?.invalid &&
+                employeeForm.get('email')?.touched,
+              'is-valid':
+                employeeForm.get('email')?.valid &&
+                employeeForm.get('email')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              employeeForm.get('email')?.invalid &&
+              employeeForm.get('email')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('email')?.errors?.['required']">
+              البريد الالكتروني مطلوب
+            </div>
+            <div *ngIf="employeeForm.get('email')?.errors?.['email']">
+              البريد الالكتروني غير صالح
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="password">كلمة المرور</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="كلمة المرور"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('password')?.invalid &&
+                employeeForm.get('password')?.touched,
+              'is-valid':
+                employeeForm.get('password')?.valid &&
+                employeeForm.get('password')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              employeeForm.get('password')?.invalid &&
+              employeeForm.get('password')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('password')?.errors?.['required']">
+              كلمة المرور مطلوبة
+            </div>
+            <div *ngIf="employeeForm.get('password')?.errors?.['minlength']">
+              يجب أن يحتوي كلمة المرور على 6 أحرف على الأقل
+            </div>
+            <div *ngIf="employeeForm.get('password')?.errors?.['pattern']">
+              يجب أن يحتوي كلمة المرور على حروف و أرقام و رموز
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-4">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="phoneNumber">رقم الهاتف</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            formControlName="phone"
+            class="form-control"
+            placeholder="رقم الهاتف"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('phone')?.invalid &&
+                employeeForm.get('phone')?.touched,
+              'is-valid':
+                employeeForm.get('phone')?.valid &&
+                employeeForm.get('phone')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              employeeForm.get('phone')?.invalid &&
+              employeeForm.get('phone')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('phone')?.errors?.['required']">
+              رقم الهاتف مطلوب
+            </div>
+            <div *ngIf="employeeForm.get('phone')?.errors?.['pattern']">
+              رقم الهاتف غير صالح
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="role">الوظيفة</label>
+          <select
+            id="role"
+            formControlName="fieldJobID"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('fieldJobID')?.invalid &&
+                employeeForm.get('fieldJobID')?.touched,
+              'is-valid':
+                employeeForm.get('fieldJobID')?.valid &&
+                employeeForm.get('fieldJobID')?.touched
+            }"
+          >
+            <option value="" disabled selected>اختر الوظيفة</option>
+            @for (job of feildJobs; track $index) {
+            <option [value]="job.id">
+              {{ job.name }}
+            </option>
+            }
+          </select>
+
+          <div
+            *ngIf="
+              employeeForm.get('fieldJobID')?.invalid &&
+              employeeForm.get('fieldJobID')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('fieldJobID')?.errors?.['required']">
+              الوظيفة مطلوبة
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="branch">الفرع</label>
+          <select
+            id="branch"
+            formControlName="branchID"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('branchID')?.invalid &&
+                employeeForm.get('branchID')?.touched,
+              'is-valid':
+                employeeForm.get('branchID')?.valid &&
+                employeeForm.get('branchID')?.touched
+            }"
+          >
+            <option value="" disabled selected>اختر الفرع</option>
+            @for (branch of branches; track $index) {
+            <option [value]="branch.id">
+              {{ branch.name }}
+            </option>
+            }
+          </select>
+
+          <div
+            *ngIf="
+              employeeForm.get('branchID')?.invalid &&
+              employeeForm.get('branchID')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('branchID')?.errors?.['required']">
+              الفرع مطلوب
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-4">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="govern">المحافظة</label>
+          <input
+            type="text"
+            id="govern"
+            class="form-control"
+            formControlName="govern"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('govern')?.invalid &&
+                employeeForm.get('govern')?.touched,
+              'is-valid':
+                employeeForm.get('govern')?.valid &&
+                employeeForm.get('govern')?.touched
+            }"
+          />
+
+          <div
+            *ngIf="
+              employeeForm.get('govern')?.invalid &&
+              employeeForm.get('govern')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('govern')?.errors?.['required']">
+              المحافظة مطلوبة
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="city">المدينة</label>
+          <input
+            type="text"
+            id="city"
+            class="form-control"
+            formControlName="city"
+            [ngClass]="{
+              'is-invalid':
+                employeeForm.get('city')?.invalid &&
+                employeeForm.get('city')?.touched,
+              'is-valid':
+                employeeForm.get('city')?.valid &&
+                employeeForm.get('city')?.touched
+            }"
+          />
+
+          <div
+            *ngIf="
+              employeeForm.get('city')?.invalid &&
+              employeeForm.get('city')?.touched
+            "
+            class="text-danger small"
+          >
+            <div *ngIf="employeeForm.get('city')?.errors?.['required']">
+              المدينة مطلوبة
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button
+        type="submit"
+        class="btn btn-primary w-25"
+        [disabled]="!employeeForm.valid"
+      >
+        حفظ
+      </button>
+    </div>
+  </form>
+</div>

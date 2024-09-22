@@ -1,33 +1,26 @@
 .container {
-    padding: 20px;
-  }
-  
-  table {
-    width: 100%;
-    text-align: right;
-    direction: rtl;
-  }
-  
-  input {
-    margin-bottom: 10px;
-    padding: 5px;
-    width: 30%;
-  }
-  
-  button.btn {
-    margin: 0 5px;
-    font-size: 13px;
-  }
-  
-  thead {
-    background-color: #f8f9fa;
-  }
-  
-  thead th {
-    text-align: center;
-  }
-  
-  tbody td {
-    text-align: center;
-  }
-  
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  text-align: right;
+  direction: rtl;
+}
+
+button.btn {
+  margin: 0 5px;
+  font-size: 13px;
+}
+
+thead {
+  background-color: #f8f9fa;
+}
+
+thead th {
+  text-align: center;
+}
+
+tbody td {
+  text-align: center;
+}

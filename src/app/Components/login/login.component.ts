@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { User } from '../../models/user.model';
-import { AuthService } from '../../service/Login/auth.service';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
-
-
-
+import { AuthenticationService } from '../../Services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -17,28 +18,31 @@ import { AuthService } from '../../service/Login/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthenticationService
+  ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      EmailOrUsername: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const user: User = {
-        email: this.loginForm.get('email')?.value,
-        password: this.loginForm.get('password')?.value
-      };
-
-      this.authService.login(user).subscribe({
-        next: (response) => {
-          console.log('Login successful', response);
-        },
-        error: (error) => {
-          console.error('Login error', error);
-        },
-      });
+      this.authService
+        .login(
+          this.loginForm.value.EmailOrUsername,
+          this.loginForm.value.password
+        )
+        .subscribe({
+          next: (response) => {
+            console.log('Login successful', response);
+          },
+          error: (error) => {
+            console.error('Login error', error);
+          },
+        });
     }
   }
 }

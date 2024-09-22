@@ -1,46 +1,110 @@
-<div class="container">
-  <h2 dir="rtl">الصلاحيات</h2>
-  <button class="btn btn-primary" (click)="openAddFieldJobForm()">إضافة صلاحية</button>
-  <app-add-field-job
+<app-page-header
+  title="المجموعات"
+  [path]="[{ name: 'المجموعات', link: 'FieldJob' }]"
+>
+  <button class="btn btn-primary" (click)="openAddFieldJobForm()">
+    <i class="bi bi-plus fw-bold"></i>إضافة مجموعة
+  </button>
+</app-page-header>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <h2 class="display-6">الصلاحيات</h2>
+      </div>
+      <div class="col-md-3 text-center">
+        <button class="btn btn-primary" (click)="togglePrivilegesForm()">
+          <i class="bi bi-plus fw-bold"></i> إضافة صلاحية
+        </button>
+
+        <!-- Form for adding privileges, visible when showPrivilegesForm is true -->
+        <div *ngIf="showPrivilegesForm">
+          <form (ngSubmit)="submitPrivileges()">
+            <div class="d-flex justify-content-center">
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control mt-3"
+                  id="privilegeName"
+                  placeholder="اسم الصلاحية"
+                  [(ngModel)]="privilegeName"
+                  name="privilegeName"
+                  required
+                />
+              </div>
+              <div class="px-3 mt-3">
+                <button type="submit" class="btn btn-success">اضافة</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 d-flex align-items-center">
+        <label class="lead" for="rowsPerPage">عدد الصفوف المعروضة</label>
+        <select
+          class="form-control mx-2 w-50"
+          [(ngModel)]="rowsPerPage"
+          id="rowsPerPage"
+        >
+          <option *ngFor="let option of rowOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="البحث"
+          [(ngModel)]="searchQuery"
+        />
+      </div>
+    </div>
+
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>اسم المجموعة</th>
+          <th>تاريخ الإضافة</th>
+          <th>الإعدادات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let group of paginatedFieldJob();
+            let i = index;
+            trackBy: trackById
+          "
+        >
+          <td>{{ i + 1 }}</td>
+          <td>{{ group.name }}</td>
+          <td>{{ group.dateAdding | date : "yyyy-MM-dd   HH:mm:ss" }}</td>
+          <td>
+            <button (click)="viewFieldJob(group)" class="btn btn-info">
+              <i class="fa fa-eye"></i>
+            </button>
+            <button (click)="editFieldJob(group)" class="btn btn-warning">
+              <i class="fa fa-pencil-alt"></i>
+            </button>
+            <button (click)="deleteFieldJob(group.id)" class="btn btn-danger">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-add-field-job
   [privileges]="privileges"
   [editMode]="isEditMode"
   [viewMode]="viewMode"
   [fieldJobToEdit]="fieldJobToEdit"
-  (fieldJobUpdated)="handleFieldJobUpdated()"></app-add-field-job>
-  <input type="text" placeholder="البحث" [(ngModel)]="searchQuery" />
-  <div class="row-control" dir="rtl">
-      <label for="rowsPerPage">عدد الصفوف المعروضة</label>
-      <select [(ngModel)]="rowsPerPage" id="rowsPerPage">
-          <option *ngFor="let option of rowOptions" [value]="option">{{ option }}</option>
-      </select>
-  </div>
-
-  <table class="table table-striped">
-      <thead>
-          <tr>
-              <th>#</th>
-              <th>اسم الصلاحية</th>
-              <th>تاريخ الإضافة</th>
-              <th>الإعدادات</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr *ngFor="let group of paginatedFieldJob(); let i = index; trackBy: trackById">
-              <td>{{ i + 1 }}</td>
-              <td>{{ group.name }}</td>
-              <td>{{group.dateAdding| date:'yyyy-MM-dd   HH:mm:ss'}}</td>
-              <td>
-                  <button (click)="viewFieldJob(group)" class="btn btn-info">
-                      <i class="fa fa-eye"></i>
-                  </button>
-                  <button (click)="editFieldJob(group)" class="btn btn-warning">
-                      <i class="fa fa-pencil-alt"></i>
-                  </button>
-                  <button (click)="deleteFieldJob(group.id)" class="btn btn-danger">
-                      <i class="fa fa-trash"></i>
-                  </button>
-              </td>
-          </tr>
-      </tbody>
-  </table>
-</div>
+  (fieldJobUpdated)="handleFieldJobUpdated()"
+></app-add-field-job>

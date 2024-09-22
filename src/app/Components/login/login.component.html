@@ -1,29 +1,34 @@
-<div class="login-container">
-  
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"  dir="rtl">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      <div class="modal-header">
-        <h5 class="modal-title" id="loginModalLabel">تسجيل الدخول</h5>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <img src="PSimge.png" alt="Logo" style="max-width: 100%; height: auto; width: 300px;">
-        </div>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" dir="rtl">
-          <div class="mb-3">
-            <label for="email" class="form-label">البريد الالكتروني</label>
-            <input type="email" id="email" formControlName="email" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">كلمة السر</label>
-            <input type="password" id="password" formControlName="password" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
-        </form>
-      </div>
-    </div>
+<div class="mt-5 container p-5">
+  <div class="text-center mb-5 w-50 m-auto">
+    <img src="PSimge.png" alt="Logo" class="img-fluid" />
   </div>
- </div>
+  <div class="w-50 m-auto">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" dir="rtl">
+      <div class="mb-3">
+        <label for="EmailOrUsername" class="form-label lead fw-bold"
+          >البريد الالكتروني</label
+        >
+        <input
+          type="text"
+          id="EmailOrUsername"
+          formControlName="EmailOrUsername"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label lead fw-bold">كلمة السر</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary w-50 m-auto d-block mt-4">
+        تسجيل الدخول
+      </button>
+    </form>
+  </div>
 </div>
