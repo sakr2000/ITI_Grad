@@ -8,9 +8,8 @@ import { EmployeeService } from './employee.service';
 import { FieldJobService } from './FieldJob.service';
 import { WeightService } from './weight.service';
 import { TypeOfPaymentService } from './TypeOfPayment.service';
-import { TypeOfChargeService } from './TypeOfCharge.service';
 import { TypeOfReceiptService } from './TypeOfReceipts.service';
-
+import { TypeOfChargeService } from './type-of-charge.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +25,7 @@ export class UnitOfWorkService {
     public FieldJob: FieldJobService,
     public Weight: WeightService,
     public TypeOfPayment:TypeOfPaymentService,
-    public TypeOfCharge:TypeOfChargeService,
-    public TypeOfReceipt:TypeOfReceiptService
+    public TypeOfReceipt:TypeOfReceiptService,
+    public TypeOfCharge: TypeOfChargeService
   ) {}
 }

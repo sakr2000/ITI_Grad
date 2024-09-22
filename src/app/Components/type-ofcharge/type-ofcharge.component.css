@@ -12,3 +12,11 @@
 .accordion-button:not(.collapsed) {
   background-color: #f8f9fa;
 }
+
+ul li p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}

@@ -32,12 +32,14 @@
             <div
               class="form-check form-switch d-flex justify-content-center align-items-center"
             >
-              <input
-                class="form-check-input"
-                type="checkbox"
-                [checked]="govern.status"
-                (change)="toggleStatus(i)"
-              />
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [checked]="govern.status"
+                  (change)="toggleStatus(govern.id)"
+                />
+                <span class="slider round"></span>
+              </label>
             </div>
           </td>
           <td>

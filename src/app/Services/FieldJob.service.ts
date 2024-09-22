@@ -23,7 +23,6 @@ export class FieldJobService {
   }
 
   updateJob(job: any): Observable<any> {
-    debugger;
     return this.http.put<any>(this.apiUrl, job);
   }
 
