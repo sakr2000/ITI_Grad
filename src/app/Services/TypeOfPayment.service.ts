@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CRUD } from '../models/CRUD.interface';
+import { CRUD } from '../Models/CRUD.interface';
 import { Observable } from 'rxjs';
-import { TypeOfPayment } from '../models/TypeOfPayment';
+import { TypeOfPayment } from '../Models/TypeOfPayment';
 @Injectable({
   providedIn: 'root',
 })
@@ -20,7 +20,7 @@ export class TypeOfPaymentService implements CRUD<any> {
     return this.http.post(`${this.api}`, data);
   }
   update(id: number, data: any) {
-    return this.http.put(`${this.api}/${id}`, data); 
+    return this.http.put(`${this.api}/${id}`, data);
   }
 
   delete(id: number) {

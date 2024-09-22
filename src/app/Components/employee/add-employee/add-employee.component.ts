@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
-import { AddEmployee } from '../../../models/Employee/addEmployee.interface';
+import { AddEmployee } from '../../../Models/Employee/addEmployee.interface';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
-import { GetGovern } from '../../../models/Govern/getGovern.interface';
-import { GetBranch } from '../../../models/Branch/getBranch.interface';
-import { FieldJob } from '../../../models/FieldJob';
+import { GetGovern } from '../../../Models/Govern/getGovern.interface';
+import { GetBranch } from '../../../Models/Branch/getBranch.interface';
 import { ToastrService } from 'ngx-toastr';
+import { FieldJob } from '../../../Models/FieldJob';
 
 @Component({
   selector: 'app-add-employee',

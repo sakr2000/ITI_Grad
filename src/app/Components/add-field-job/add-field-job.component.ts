@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
-import { FieldPrivilegeDTO, FieldJob } from '../../models/FieldJob';
+import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
 import { PrivilegesServiceService } from '../../Services/privileges-service.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -42,14 +42,16 @@ export class AddFieldJobComponent implements OnChanges {
     }
     if (this.fieldJobToEdit) {
       this.newFieldJobName = this.fieldJobToEdit.name;
-      this.privileges = this.fieldJobToEdit.fieldPrivilegeDTO.map((priv) => ({
-        privilegeID: priv.privilegeID,
-        name: priv.name,
-        add: priv.add,
-        delete: priv.delete,
-        display: priv.display,
-        edit: priv.edit,
-      }));
+      this.privileges = this.fieldJobToEdit.fieldPrivilegeDTO.map(
+        (priv: any) => ({
+          privilegeID: priv.privilegeID,
+          name: priv.name,
+          add: priv.add,
+          delete: priv.delete,
+          display: priv.display,
+          edit: priv.edit,
+        })
+      );
     } else if (!this.editMode && !this.viewMode) {
       this.newFieldJobName = '';
       this.resetPrivileges();

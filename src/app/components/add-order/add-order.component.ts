@@ -3,7 +3,7 @@ import { BranchService } from '../../Services/branch.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Order , Product} from '../../models/Order';
+import { Order, Product } from '../../Models/Order';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,49 +17,59 @@ import { ToastrService } from 'ngx-toastr';
 export class AddOrderComponent implements OnInit {
   addOrderForm!: FormGroup;
   branches: any[] = [];
-  cities:any[]=[];
+  cities: any[] = [];
   governments: any[] = [];
   typeOfPayments: any[] = [];
   typeOfCharges: any[] = [];
   typeOfReceipts: any[] = [];
-  
-  constructor(private fb: FormBuilder,private unitOfWork:UnitOfWorkService,private toaster: ToastrService) {}
+
+  constructor(
+    private fb: FormBuilder,
+    private unitOfWork: UnitOfWorkService,
+    private toaster: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.addOrderForm = this.fb.group({
-      clientName: ['',[
-        Validators.required,
-        Validators.minLength(3),
-        Validators.pattern('[a-zA-Z0-9]*'),
-      ],],
-      clientNumber: ['',[
-        Validators.required,
-        Validators.pattern('01(0|1|2|5)[0-9]{8}'),
-        Validators.minLength(11),
-        Validators.maxLength(11),
-      ],],
-      clientNumber2: ['',[
-        Validators.pattern('01(0|1|2|5)[0-9]{8}'),
-        Validators.minLength(11),
-        Validators.maxLength(11),
-      ],],
+      clientName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern('[a-zA-Z0-9]*'),
+        ],
+      ],
+      clientNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('01(0|1|2|5)[0-9]{8}'),
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ],
+      ],
+      clientNumber2: [
+        '',
+        [
+          Validators.pattern('01(0|1|2|5)[0-9]{8}'),
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
-      cost: ['', [
-        Validators.required,
-        Validators.min(0)
-      ]],
+      cost: ['', [Validators.required, Validators.min(0)]],
       isForVillage: [false, Validators.required],
       note: [''],
       weight: ['', Validators.min(0)],
-      villageOrStreet: [ '', Validators.required],
+      villageOrStreet: ['', Validators.required],
       branchID: ['', Validators.required],
       governID: ['', Validators.required],
-      cityID:['',Validators.required],
+      cityID: ['', Validators.required],
       typeOfPaymentID: ['', Validators.required],
       typeOfChargeID: ['', Validators.required],
-      typeOfReceiptID:['',Validators.required],
+      typeOfReceiptID: ['', Validators.required],
       orderStatusID: [1],
-      productList: this.fb.array([]) 
+      productList: this.fb.array([]),
     });
 
     this.loadBranches();
@@ -80,7 +90,7 @@ export class AddOrderComponent implements OnInit {
       name: ['', Validators.required],
       quantity: [0, [Validators.required, Validators.min(1)]],
       productWeight: [0, [Validators.required, Validators.min(0.01)]],
-      orderId: [0]  
+      orderId: [0],
     });
     this.productList.push(productForm);
   }
@@ -100,7 +110,9 @@ export class AddOrderComponent implements OnInit {
   loadGovernments() {
     this.unitOfWork.Govern.getAll().subscribe(
       (data) => {
-        this.governments = data.filter((govern: { status: any; }) => govern.status);
+        this.governments = data.filter(
+          (govern: { status: any }) => govern.status
+        );
       },
       (err) => {
         console.error('Error loading governments', err);
@@ -108,10 +120,10 @@ export class AddOrderComponent implements OnInit {
     );
   }
   onGovernmentChange(event: Event) {
-    const selectElement = event.target as HTMLSelectElement; 
+    const selectElement = event.target as HTMLSelectElement;
     const governID = selectElement.value;
-  
-    const selectedGovern = this.governments.find(g => g.id === +governID);
+
+    const selectedGovern = this.governments.find((g) => g.id === +governID);
     if (selectedGovern) {
       this.cities = selectedGovern.cities;
     } else {
@@ -119,11 +131,11 @@ export class AddOrderComponent implements OnInit {
     }
   }
   onSubmit() {
-    debugger
+    debugger;
     if (this.addOrderForm.valid) {
       const orderData: Order = {
         ...this.addOrderForm.value,
-        productList: this.productList.value
+        productList: this.productList.value,
       };
 
       this.unitOfWork.Order.create(orderData).subscribe({
@@ -134,7 +146,7 @@ export class AddOrderComponent implements OnInit {
         error: (err) => {
           console.error('Error saving order', err);
           this.toaster.error('Error saving order', 'Error');
-        }
+        },
       });
     } else {
       console.log(this.addOrderForm.errors);
@@ -179,6 +191,8 @@ export class AddOrderComponent implements OnInit {
     products.forEach((product: any) => {
       totalWeight += product.productWeight * product.quantity;
     });
-    this.addOrderForm.get('weight')?.setValue(totalWeight, { emitEvent: false });
+    this.addOrderForm
+      .get('weight')
+      ?.setValue(totalWeight, { emitEvent: false });
   }
 }

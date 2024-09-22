@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { addGovern } from '../../models/Govern/addgovern.model';
+import { addGovern } from '../../Models/Govern/addgovern.model';
 import { ToastrService } from 'ngx-toastr';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 

@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { AddFieldJobComponent } from '../add-field-job/add-field-job.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
 import { PrivilegesServiceService } from '../../Services/privileges-service.service';
-import { FieldPrivilegeDTO, FieldJob } from '../../models/FieldJob';
+import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
 
 @Component({
   selector: 'app-Fieldjob',

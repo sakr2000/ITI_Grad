@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { addGovern } from '../models/Govern/addgovern.model';
-import { CRUD } from '../models/CRUD.interface';
+import { addGovern } from '../Models/Govern/addgovern.model';
+import { CRUD } from '../Models/CRUD.interface';
 
 @Injectable({
   providedIn: 'root',

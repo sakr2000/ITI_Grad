@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CRUD } from '../models/CRUD.interface';
+import { CRUD } from '../Models/CRUD.interface';
 import { Observable } from 'rxjs';
-import { AddEmployee } from '../models/Employee/addEmployee.interface';
+import { AddEmployee } from '../Models/Employee/addEmployee.interface';
 
 @Injectable({
   providedIn: 'root',

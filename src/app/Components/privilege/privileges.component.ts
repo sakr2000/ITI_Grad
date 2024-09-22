@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { ActivatedRoute } from '@angular/router';
 import { FieldJobService } from '../../Services/FieldJob.service';
-import { FieldJob, FieldPrivilegeDTO } from '../../models/FieldJob';
+import { FieldJob, FieldPrivilegeDTO } from '../../Models/FieldJob';
 
 @Component({
   selector: 'app-privileges',
