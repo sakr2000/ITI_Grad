@@ -8,7 +8,7 @@
       aria-expanded="false"
       aria-controls="TypeOfCharge"
     >
-      <h2 class="text-end">طرق الدفع</h2>
+      <h2 class="text-end">طرق الشحن</h2>
     </button>
   </h2>
   <div
@@ -20,7 +20,7 @@
       @if (addType ==false) {
       <div class="text-start">
         <button class="btn btn-primary mb-3" (click)="this.addType = true">
-          اضافة طريقة دفع
+          اضافة طريقة شحن
         </button>
       </div>
       @if (typesOfCharges.length > 0 ) {
@@ -28,10 +28,10 @@
         <li class="list-group-item bg-primary bg-opacity-10">
           <div class="row">
             <div class="col-md-5">
-              <p>اسم الطريقة</p>
+              <p>طريقة الشحن</p>
             </div>
             <div class="col-md-5">
-              <p>تكلفة الطريقة</p>
+              <p>التكلفة</p>
             </div>
             <div class="col-md-2">
               <p>الإعدادات</p>
@@ -51,7 +51,7 @@
               <button class="btn btn-danger mx-2" (click)="deleteType(item.id)">
                 <span class="bi bi-trash"></span>
               </button>
-              <button class="btn btn-warning" (click)="editType(item)">
+              <button class="btn btn-warning" (click)="editType(item.id)">
                 <span class="bi bi-pencil"></span>
               </button>
             </div>
@@ -65,7 +65,7 @@
       <form [formGroup]="addTypeOfChargeForm">
         <div class="row my-4">
           <div class="col-md-5">
-            <label for="name" class="form-label">طريقة الدفع</label>
+            <label for="name" class="form-label">طريقة الشحن</label>
             <input
               type="text"
               id="name"

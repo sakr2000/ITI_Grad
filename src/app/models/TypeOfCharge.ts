@@ -1,4 +1,5 @@
 export interface TypeOfCharge {
-    name: string; 
-    cost:number;
-  }
+  id: number;
+  name: string;
+  cost: number;
+}

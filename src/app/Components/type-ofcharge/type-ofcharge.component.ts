@@ -8,10 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-interface TypeOfCharge {
-  name: string;
-  cost: number;
-}
+import { TypeOfCharge } from '../../Models/TypeOfCharge';
 @Component({
   selector: 'app-type-ofcharge',
   standalone: true,
@@ -20,7 +17,7 @@ interface TypeOfCharge {
   styleUrl: './type-ofcharge.component.css',
 })
 export class TypeOFChargeComponent implements OnInit {
-  typesOfCharges: any[] = [];
+  typesOfCharges: TypeOfCharge[] = [];
   addType = false;
   addTypeOfChargeForm: FormGroup = new FormGroup({
     id: new FormControl(0),
