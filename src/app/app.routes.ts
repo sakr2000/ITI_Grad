@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainSystemComponent } from './Pages/main-system/main-system.component';
 import { LoginComponent } from './Components/login/login.component';
+import { authGuard } from './Guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -8,7 +9,7 @@ export const routes: Routes = [
     component: MainSystemComponent,
     children: [
       {
-        path: 'Dashboard',
+        path: '',
         loadComponent: () =>
           import(
             './Components/trader-dashboard/trader-dashboard.component'
@@ -67,6 +68,13 @@ export const routes: Routes = [
       },
       {
         path: 'Order',
+        loadComponent: () =>
+          import('./Components/view-order/view-order.component').then(
+            (m) => m.ViewOrderComponent
+          ),
+      },
+      {
+        path: 'Order/add',
         loadComponent: () =>
           import('./Components/add-order/add-order.component').then(
             (m) => m.AddOrderComponent
@@ -129,6 +137,7 @@ export const routes: Routes = [
           ),
       },
     ],
+    canActivate: [authGuard],
   },
   { path: 'login', component: LoginComponent },
 ];

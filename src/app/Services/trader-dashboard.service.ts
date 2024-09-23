@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TraderDashboardService {
-  private apiUrl = 'https://your-api-url.com/orders';
+  private apiUrl = '';
 
   constructor(private http: HttpClient) {}
 

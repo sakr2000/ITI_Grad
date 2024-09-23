@@ -3,16 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PageHeaderComponent } from '../page-header/page-header.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-view-order',
   standalone: true,
-  imports: [NgxPaginationModule,FormsModule, CommonModule,],
+  imports: [
+    NgxPaginationModule,
+    FormsModule,
+    CommonModule,
+    PageHeaderComponent,
+    RouterLink,
+  ],
   templateUrl: './view-order.component.html',
-  styleUrl: './view-order.component.css'
+  styleUrl: './view-order.component.css',
 })
 export class ViewOrderComponent {
-  orders: any[] =[
+  orders: any[] = [
     {
       serialNumber: 40330529,
       date: new Date('2021-09-21T00:25:00'),
@@ -20,7 +28,7 @@ export class ViewOrderComponent {
       clientPhone: '01111464656',
       governorate: 'محافظة الوادي الجديد',
       city: 'الطارف',
-      cost: 500
+      cost: 500,
     },
     {
       serialNumber: 82694133,
@@ -29,7 +37,7 @@ export class ViewOrderComponent {
       clientPhone: '01122255588',
       governorate: 'القاهرة',
       city: 'مدينتي',
-      cost: 100
+      cost: 100,
     },
     {
       serialNumber: 69037711,
@@ -38,7 +46,7 @@ export class ViewOrderComponent {
       clientPhone: '01122255588',
       governorate: 'القاهرة',
       city: 'مدينتي',
-      cost: 100
+      cost: 100,
     },
     {
       serialNumber: 78382639,
@@ -47,8 +55,8 @@ export class ViewOrderComponent {
       clientPhone: '01122255588',
       governorate: 'القاهرة',
       city: 'مدينتي',
-      cost: 100
-    }
+      cost: 100,
+    },
   ];
   page: number = 1;
   constructor(private http: HttpClient) {}
@@ -56,15 +64,10 @@ export class ViewOrderComponent {
     this.loadOrders();
   }
   loadOrders(): void {
-    this.http.get<any[]>('api').subscribe(data => {
+    this.http.get<any[]>('api').subscribe((data) => {
       this.orders = data;
     });
   }
-  deleteOrder(orderId: number): void {
-    
-  }
-  printOrder(orderId: number): void {
-    
-  }
-
+  deleteOrder(orderId: number): void {}
+  printOrder(orderId: number): void {}
 }

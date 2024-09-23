@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 interface UserOptions {
   darkMode: boolean;
   lang: string;
@@ -8,27 +8,33 @@ interface UserOptions {
 @Injectable({
   providedIn: 'root',
 })
-export class UserOptionsService implements OnInit {
-  public userOptions: UserOptions = {
-    darkMode: false,
-    lang: 'en',
-    rtl: false,
-    sideNavHide: false,
-  };
-
+export class UserOptionsService implements OnInit, OnDestroy {
+  ActiveUser: any;
   ngOnInit(): void {
-    if (localStorage.getItem('options')) {
-      this.userOptions = JSON.parse(localStorage.getItem('options')!);
+    this.ActiveUser = JSON.parse(sessionStorage.getItem('user')!);
+  }
+
+  getUserData() {
+    if (this.ActiveUser) {
+      return this.ActiveUser;
+    } else if (sessionStorage.getItem('user')) {
+      this.ActiveUser = JSON.parse(sessionStorage.getItem('user')!);
+      return this.ActiveUser;
     } else {
-      this.saveChanges();
+      return null;
     }
   }
 
-  changeProps<T extends keyof UserOptions>(prop: T, value: UserOptions[T]) {
-    this.userOptions[prop] = value;
-    this.saveChanges();
+  setUserData(user: any) {
+    this.ActiveUser = user;
+    sessionStorage.setItem('user', JSON.stringify(this.ActiveUser));
   }
-  saveChanges() {
-    localStorage.setItem('options', JSON.stringify(this.userOptions));
+  saveData() {
+    if (this.ActiveUser) {
+      sessionStorage.setItem('user', JSON.stringify(this.ActiveUser));
+    }
+  }
+  ngOnDestroy(): void {
+    this.saveData();
   }
 }

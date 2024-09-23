@@ -6,13 +6,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Order, Product } from '../../Models/Order';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
+import { PageHeaderComponent } from '../page-header/page-header.component';
 
 @Component({
-  standalone: true,
   selector: 'app-add-order',
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    PageHeaderComponent,
+  ],
+  standalone: true,
   templateUrl: './add-order.component.html',
   styleUrls: ['./add-order.component.css'],
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
 })
 export class AddOrderComponent implements OnInit {
   addOrderForm!: FormGroup;

@@ -39,12 +39,13 @@ export class TraderDashboardComponent implements OnInit {
   }
 
   loadOrderCounts() {
-    this.traderDashboardService.getOrderCounts().subscribe((data) => {
-      this.cards = this.cards.map((card) => ({
-        ...card,
-        count: data[card.route] || card.count, // تحديث كل بطاقة بالعدد الصحيح أو القيمة الأصلية إذا لم يوجد
-      }));
-    });
+    // TODO: get order counts from backend
+    // this.traderDashboardService.getOrderCounts().subscribe((data) => {
+    //   this.cards = this.cards.map((card) => ({
+    //     ...card,
+    //     count: data[card.route] || card.count, // تحديث كل بطاقة بالعدد الصحيح أو القيمة الأصلية إذا لم يوجد
+    //   }));
+    // });
   }
 
   onCardClick(route: string) {

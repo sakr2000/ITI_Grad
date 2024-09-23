@@ -1,7 +1,9 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+import { UserOptionsService } from './user-options.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,11 @@ import { tap } from 'rxjs/operators';
 export class AuthenticationService {
   private apiUrl = 'http://localhost:5298/api/Account';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private user: UserOptionsService
+  ) {}
 
   login(EmailOrUsername: string, Password: string): Observable<any> {
     const headers = new HttpHeaders({
@@ -23,7 +29,8 @@ export class AuthenticationService {
     return this.http.post(`${this.apiUrl}`, payload, { headers }).pipe(
       tap({
         next: (response: any) => {
-          localStorage.setItem('token', response['token']);
+          console.log(response);
+          this.user.setUserData(response);
         },
         error: (error) => {
           if (error.status === 400) {
@@ -36,11 +43,16 @@ export class AuthenticationService {
     );
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
+  logout(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/logout`);
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+  isAuthenticated(): Observable<boolean> {
+    return this.http
+      .get<{ isAuthenticated: boolean }>(`${this.apiUrl}/auth/check`)
+      .pipe(
+        map((response) => response.isAuthenticated),
+        catchError(() => [false])
+      );
   }
 }

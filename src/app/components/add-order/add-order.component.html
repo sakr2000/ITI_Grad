@@ -1,3 +1,11 @@
+<app-page-header
+  title="إضافة طلب"
+  [path]="[
+    { name: 'الطلبات', link: '/Order' },
+    { name: 'اضافة طلب', link: '/Order/add' }
+  ]"
+></app-page-header>
+
 <div class="section">
   <div class="container mt-4">
     <h2 class="text-end mb-4">إضافة طلب</h2>
@@ -5,24 +13,43 @@
     <form [formGroup]="addOrderForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-md-3 mb-3">
-          <div class="form-group  ">
-            <label for="type" class="mb-2">النوع</label>
-            <select id="typeOfReceiptID" formControlName="typeOfReceiptID" class="form-select"
+          <div class="form-group">
+            <label for="typeOfReceiptID" class="mb-2">النوع</label>
+            <select
+              id="typeOfReceiptID"
+              formControlName="typeOfReceiptID"
+              class="form-select"
               [ngClass]="{
-                'is-invalid': addOrderForm.get('typeOfReceiptID')?.invalid && addOrderForm.get('typeOfReceiptID')?.touched,
-                'is-valid': addOrderForm.get('typeOfReceiptID')?.valid && addOrderForm.get('typeOfReceiptID')?.touched
-              }">
+                'is-invalid':
+                  addOrderForm.get('typeOfReceiptID')?.invalid &&
+                  addOrderForm.get('typeOfReceiptID')?.touched,
+                'is-valid':
+                  addOrderForm.get('typeOfReceiptID')?.valid &&
+                  addOrderForm.get('typeOfReceiptID')?.touched
+              }"
+            >
               <option value="" disabled selected>اختر نوع الطلب</option>
-              <option *ngFor="let receipt of typeOfReceipts" [value]="receipt.id">{{ receipt.name }}</option>
+              <option
+                *ngFor="let receipt of typeOfReceipts"
+                [value]="receipt.id"
+              >
+                {{ receipt.name }}
+              </option>
             </select>
-            <div *ngIf="addOrderForm.get('typeOfReceiptID')?.invalid && addOrderForm.get('typeOfReceiptID')?.touched" class="text-danger small">
+            <div
+              *ngIf="
+                addOrderForm.get('typeOfReceiptID')?.invalid &&
+                addOrderForm.get('typeOfReceiptID')?.touched
+              "
+              class="text-danger small"
+            >
               النوع مطلوب
             </div>
           </div>
         </div>
         <div class="col-md-3 mb-3">
-          <div class="form-group ">
-            <label for="name" class="mb-2">اسم العميل</label>
+          <div class="form-group">
+            <label for="clientName" class="mb-2">اسم العميل</label>
             <input
               type="text"
               id="clientName"
@@ -30,20 +57,38 @@
               class="form-control"
               placeholder="الاسم"
               [ngClass]="{
-                'is-invalid': addOrderForm.get('clientName')?.invalid && addOrderForm.get('clientName')?.touched,
-                'is-valid': addOrderForm.get('clientName')?.valid && addOrderForm.get('clientName')?.touched
+                'is-invalid':
+                  addOrderForm.get('clientName')?.invalid &&
+                  addOrderForm.get('clientName')?.touched,
+                'is-valid':
+                  addOrderForm.get('clientName')?.valid &&
+                  addOrderForm.get('clientName')?.touched
               }"
             />
-            <div *ngIf="addOrderForm.get('clientName')?.invalid && addOrderForm.get('clientName')?.touched" class="text-danger small">
-              <div *ngIf="addOrderForm.get('clientName')?.errors?.['required']">الاسم مطلوب</div>
-              <div *ngIf="addOrderForm.get('clientName')?.errors?.['minlength']">يجب أن يحتوي الاسم على 3 أحرف على الأقل</div>
-              <div *ngIf="addOrderForm.get('clientName')?.errors?.['pattern']">يجب أن يحتوي الاسم على حروف أو أرقام فقط</div>
+            <div
+              *ngIf="
+                addOrderForm.get('clientName')?.invalid &&
+                addOrderForm.get('clientName')?.touched
+              "
+              class="text-danger small"
+            >
+              <div *ngIf="addOrderForm.get('clientName')?.errors?.['required']">
+                الاسم مطلوب
+              </div>
+              <div
+                *ngIf="addOrderForm.get('clientName')?.errors?.['minlength']"
+              >
+                يجب أن يحتوي الاسم على 3 أحرف على الأقل
+              </div>
+              <div *ngIf="addOrderForm.get('clientName')?.errors?.['pattern']">
+                يجب أن يحتوي الاسم على حروف أو أرقام فقط
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-md-3 mb-3">
-          <div class="form-group ">
+          <div class="form-group">
             <label for="clientNumber" class="mb-2">رقم الهاتف الأول</label>
             <input
               type="text"
@@ -52,20 +97,42 @@
               class="form-control"
               placeholder="رقم الهاتف الأول"
               [ngClass]="{
-                'is-invalid': addOrderForm.get('clientNumber')?.invalid && addOrderForm.get('clientNumber')?.touched,
-                'is-valid': addOrderForm.get('clientNumber')?.valid && addOrderForm.get('clientNumber')?.touched
+                'is-invalid':
+                  addOrderForm.get('clientNumber')?.invalid &&
+                  addOrderForm.get('clientNumber')?.touched,
+                'is-valid':
+                  addOrderForm.get('clientNumber')?.valid &&
+                  addOrderForm.get('clientNumber')?.touched
               }"
             />
-            <div *ngIf="addOrderForm.get('clientNumber')?.invalid && addOrderForm.get('clientNumber')?.touched" class="text-danger small">
-              <div *ngIf="addOrderForm.get('clientNumber')?.errors?.['required']">رقم الهاتف مطلوب</div>
-              <div *ngIf="addOrderForm.get('clientNumber')?.errors?.['pattern']">رقم الهاتف غير صالح</div>
-              <div *ngIf="addOrderForm.get('clientNumber')?.errors?.['minlength']">يجب أن يحتوي على 11 رقما</div>
+            <div
+              *ngIf="
+                addOrderForm.get('clientNumber')?.invalid &&
+                addOrderForm.get('clientNumber')?.touched
+              "
+              class="text-danger small"
+            >
+              <div
+                *ngIf="addOrderForm.get('clientNumber')?.errors?.['required']"
+              >
+                رقم الهاتف مطلوب
+              </div>
+              <div
+                *ngIf="addOrderForm.get('clientNumber')?.errors?.['pattern']"
+              >
+                رقم الهاتف غير صالح
+              </div>
+              <div
+                *ngIf="addOrderForm.get('clientNumber')?.errors?.['minlength']"
+              >
+                يجب أن يحتوي على 11 رقما
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-md-3 mb-3">
-          <div class="form-group ">
+          <div class="form-group">
             <label for="clientNumber2" class="mb-2">رقم الهاتف الثاني</label>
             <input
               type="text"
@@ -74,19 +141,37 @@
               class="form-control"
               placeholder="رقم الهاتف الثاني"
               [ngClass]="{
-                'is-invalid': addOrderForm.get('clientNumber2')?.invalid && addOrderForm.get('clientNumber2')?.touched,
-                'is-valid': addOrderForm.get('clientNumber2')?.valid && addOrderForm.get('clientNumber2')?.touched
+                'is-invalid':
+                  addOrderForm.get('clientNumber2')?.invalid &&
+                  addOrderForm.get('clientNumber2')?.touched,
+                'is-valid':
+                  addOrderForm.get('clientNumber2')?.valid &&
+                  addOrderForm.get('clientNumber2')?.touched
               }"
             />
-            <div *ngIf="addOrderForm.get('clientNumber2')?.invalid && addOrderForm.get('clientNumber2')?.touched" class="text-danger small">
-              <div *ngIf="addOrderForm.get('clientNumber2')?.errors?.['pattern']">رقم الهاتف غير صالح</div>
-              <div *ngIf="addOrderForm.get('clientNumber2')?.errors?.['minlength']">يجب أن يحتوي على 11 رقما</div>
+            <div
+              *ngIf="
+                addOrderForm.get('clientNumber2')?.invalid &&
+                addOrderForm.get('clientNumber2')?.touched
+              "
+              class="text-danger small"
+            >
+              <div
+                *ngIf="addOrderForm.get('clientNumber2')?.errors?.['pattern']"
+              >
+                رقم الهاتف غير صالح
+              </div>
+              <div
+                *ngIf="addOrderForm.get('clientNumber2')?.errors?.['minlength']"
+              >
+                يجب أن يحتوي على 11 رقما
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-md-3 mb-3">
-          <div class="form-group ">
+          <div class="form-group">
             <label for="email" class="mb-2">البريد الإلكتروني</label>
             <input
               type="email"
@@ -95,46 +180,96 @@
               class="form-control"
               placeholder="البريد الإلكتروني"
               [ngClass]="{
-                'is-invalid': addOrderForm.get('email')?.invalid && addOrderForm.get('email')?.touched,
-                'is-valid': addOrderForm.get('email')?.valid && addOrderForm.get('email')?.touched
+                'is-invalid':
+                  addOrderForm.get('email')?.invalid &&
+                  addOrderForm.get('email')?.touched,
+                'is-valid':
+                  addOrderForm.get('email')?.valid &&
+                  addOrderForm.get('email')?.touched
               }"
             />
-            <div *ngIf="addOrderForm.get('email')?.invalid && addOrderForm.get('email')?.touched" class="text-danger small">
-              <div *ngIf="addOrderForm.get('email')?.errors?.['required']">البريد الإلكتروني مطلوب</div>
-              <div *ngIf="addOrderForm.get('email')?.errors?.['email']">البريد الإلكتروني غير صالح</div>
+            <div
+              *ngIf="
+                addOrderForm.get('email')?.invalid &&
+                addOrderForm.get('email')?.touched
+              "
+              class="text-danger small"
+            >
+              <div *ngIf="addOrderForm.get('email')?.errors?.['required']">
+                البريد الإلكتروني مطلوب
+              </div>
+              <div *ngIf="addOrderForm.get('email')?.errors?.['email']">
+                البريد الإلكتروني غير صالح
+              </div>
             </div>
           </div>
         </div>
 
         <div class="col-md-4 mb-3">
-          <div class="form-group ">
+          <div class="form-group">
             <label for="governID" class="mb-2">المحافظة</label>
-            <select id="governID" formControlName="governID" class="form-select" (change)="onGovernmentChange($event)"
+            <select
+              id="governID"
+              formControlName="governID"
+              class="form-select"
+              (change)="onGovernmentChange($event)"
               [ngClass]="{
-                'is-invalid': addOrderForm.get('governID')?.invalid && addOrderForm.get('governID')?.touched,
-                'is-valid': addOrderForm.get('governID')?.valid && addOrderForm.get('governID')?.touched
-              }">
+                'is-invalid':
+                  addOrderForm.get('governID')?.invalid &&
+                  addOrderForm.get('governID')?.touched,
+                'is-valid':
+                  addOrderForm.get('governID')?.valid &&
+                  addOrderForm.get('governID')?.touched
+              }"
+            >
               <option value="" disabled selected>اختر المحافظة</option>
-              <option *ngFor="let government of governments" [value]="government.id">{{ government.name }}</option>
+              <option
+                *ngFor="let government of governments"
+                [value]="government.id"
+              >
+                {{ government.name }}
+              </option>
             </select>
-            <div *ngIf="addOrderForm.get('governID')?.invalid && addOrderForm.get('governID')?.touched" class="text-danger small">
+            <div
+              *ngIf="
+                addOrderForm.get('governID')?.invalid &&
+                addOrderForm.get('governID')?.touched
+              "
+              class="text-danger small"
+            >
               المحافظة مطلوبة
             </div>
           </div>
         </div>
 
         <div class="col-md-4 mb-3">
-          <div class="form-group ">
+          <div class="form-group">
             <label for="cityID" class="mb-2">المدينة</label>
-            <select id="cityID" formControlName="cityID" class="form-select"
+            <select
+              id="cityID"
+              formControlName="cityID"
+              class="form-select"
               [ngClass]="{
-                'is-invalid': addOrderForm.get('cityID')?.invalid && addOrderForm.get('cityID')?.touched,
-                'is-valid': addOrderForm.get('cityID')?.valid && addOrderForm.get('cityID')?.touched
-              }">
+                'is-invalid':
+                  addOrderForm.get('cityID')?.invalid &&
+                  addOrderForm.get('cityID')?.touched,
+                'is-valid':
+                  addOrderForm.get('cityID')?.valid &&
+                  addOrderForm.get('cityID')?.touched
+              }"
+            >
               <option value="" disabled selected>اختر المدينة</option>
-              <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+              <option *ngFor="let city of cities" [value]="city.id">
+                {{ city.name }}
+              </option>
             </select>
-            <div *ngIf="addOrderForm.get('cityID')?.invalid && addOrderForm.get('cityID')?.touched" class="text-danger small">
+            <div
+              *ngIf="
+                addOrderForm.get('cityID')?.invalid &&
+                addOrderForm.get('cityID')?.touched
+              "
+              class="text-danger small"
+            >
               المدينة مطلوبة
             </div>
           </div>
@@ -151,11 +286,17 @@
                 class="form-control me-3"
                 placeholder="القرية والشارع"
                 [ngClass]="{
-                  'is-invalid': addOrderForm.get('villageOrStreet')?.invalid && addOrderForm.get('villageOrStreet')?.touched,
-                  'is-valid': addOrderForm.get('villageOrStreet')?.valid && addOrderForm.get('villageOrStreet')?.touched
+                  'is-invalid':
+                    addOrderForm.get('villageOrStreet')?.invalid &&
+                    addOrderForm.get('villageOrStreet')?.touched,
+                  'is-valid':
+                    addOrderForm.get('villageOrStreet')?.valid &&
+                    addOrderForm.get('villageOrStreet')?.touched
                 }"
               />
-              <div class="form-check form-switch d-flex flex-column align-items-center">
+              <div
+                class="form-check form-switch d-flex flex-column align-items-center"
+              >
                 <small class="text-muted mb-1"> التوصيل لقرية ؟</small>
                 <input
                   class="form-check-input"
@@ -166,68 +307,122 @@
               </div>
             </div>
             <div
-              *ngIf="addOrderForm.get('villageOrStreet')?.invalid && addOrderForm.get('villageOrStreet')?.touched"
+              *ngIf="
+                addOrderForm.get('villageOrStreet')?.invalid &&
+                addOrderForm.get('villageOrStreet')?.touched
+              "
               class="text-danger small mt-1"
             >
               القرية والشارع مطلوب
             </div>
           </div>
         </div>
-        
-        
+
         <div class="col-md-4 mb-3">
-          <label for="shippingType" class="mb-2">نوع الشحن</label>
-          <select id="typeOfChargeID" formControlName="typeOfChargeID" class="form-select"
-          [ngClass]="{
-            'is-invalid': addOrderForm.get('typeOfChargeID')?.invalid && addOrderForm.get('typeOfChargeID')?.touched,
-            'is-valid': addOrderForm.get('typeOfChargeID')?.valid && addOrderForm.get('typeOfChargeID')?.touched
-          }">
+          <label for="typeOfChargeID" class="mb-2">نوع الشحن</label>
+          <select
+            id="typeOfChargeID"
+            formControlName="typeOfChargeID"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                addOrderForm.get('typeOfChargeID')?.invalid &&
+                addOrderForm.get('typeOfChargeID')?.touched,
+              'is-valid':
+                addOrderForm.get('typeOfChargeID')?.valid &&
+                addOrderForm.get('typeOfChargeID')?.touched
+            }"
+          >
             <option value="" disabled selected>اختر نوع الشحن</option>
-            <option *ngFor="let charge of typeOfCharges" [value]="charge.id">{{ charge.name }}</option>
+            <option *ngFor="let charge of typeOfCharges" [value]="charge.id">
+              {{ charge.name }}
+            </option>
           </select>
-          <div *ngIf="addOrderForm.get('typeOfChargeID')?.invalid && addOrderForm.get('typeOfChargeID')?.touched" class="text-danger small">
+          <div
+            *ngIf="
+              addOrderForm.get('typeOfChargeID')?.invalid &&
+              addOrderForm.get('typeOfChargeID')?.touched
+            "
+            class="text-danger small"
+          >
             نوع الشحن مطلوب
           </div>
         </div>
         <div class="col-md-4 mb-3">
-          <label for="paymentType" class="mb-2">نوع الدفع</label>
-          <select id="typeOfPaymentID" formControlName="typeOfPaymentID" class="form-select"[ngClass]="{
-            'is-invalid': addOrderForm.get('typeOfPaymentID')?.invalid && addOrderForm.get('typeOfPaymentID')?.touched,
-            'is-valid': addOrderForm.get('typeOfPaymentID')?.valid && addOrderForm.get('typeOfPaymentID')?.touched
-          }">
-             <option value="" disabled selected>اختر نوع الدفع</option>
-             <option *ngFor="let payment of typeOfPayments" [value]="payment.id">{{ payment.name }}</option>
+          <label for="typeOfPaymentID" class="mb-2">نوع الدفع</label>
+          <select
+            id="typeOfPaymentID"
+            formControlName="typeOfPaymentID"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                addOrderForm.get('typeOfPaymentID')?.invalid &&
+                addOrderForm.get('typeOfPaymentID')?.touched,
+              'is-valid':
+                addOrderForm.get('typeOfPaymentID')?.valid &&
+                addOrderForm.get('typeOfPaymentID')?.touched
+            }"
+          >
+            <option value="" disabled selected>اختر نوع الدفع</option>
+            <option *ngFor="let payment of typeOfPayments" [value]="payment.id">
+              {{ payment.name }}
+            </option>
           </select>
-          <div *ngIf="addOrderForm.get('typeOfPaymentID')?.invalid && addOrderForm.get('typeOfPaymentID')?.touched" class="text-danger small">
+          <div
+            *ngIf="
+              addOrderForm.get('typeOfPaymentID')?.invalid &&
+              addOrderForm.get('typeOfPaymentID')?.touched
+            "
+            class="text-danger small"
+          >
             نوع الدفع مطلوب
           </div>
         </div>
 
         <div class="col-md-4 mb-3">
-          <label for="branch" class="mb-2">الفرع</label>
-          <select id="branchID" formControlName="branchID" class="form-select"[ngClass]="{
-            'is-invalid': addOrderForm.get('branchID')?.invalid && addOrderForm.get('tbranchID')?.touched,
-            'is-valid': addOrderForm.get('branchID')?.valid && addOrderForm.get('branchID')?.touched
-          }">
+          <label for="branchID" class="mb-2">الفرع</label>
+          <select
+            id="branchID"
+            formControlName="branchID"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                addOrderForm.get('branchID')?.invalid &&
+                addOrderForm.get('tbranchID')?.touched,
+              'is-valid':
+                addOrderForm.get('branchID')?.valid &&
+                addOrderForm.get('branchID')?.touched
+            }"
+          >
             <option value="" disabled selected>اختر الفرع</option>
             <option *ngFor="let branch of branches" [value]="branch.id">
               {{ branch.name }}
             </option>
           </select>
-          <div *ngIf="addOrderForm.get('branchID')?.invalid && addOrderForm.get('branchID')?.touched" class="text-danger small">
-          الفرع مطلوب
+          <div
+            *ngIf="
+              addOrderForm.get('branchID')?.invalid &&
+              addOrderForm.get('branchID')?.touched
+            "
+            class="text-danger small"
+          >
+            الفرع مطلوب
           </div>
         </div>
       </div>
 
       <div class="row mb-3">
         <div class="col-md-12 text-end">
-          <button type="button" class="btn custom-save-btn" (click)="addProduct()">
+          <button
+            type="button"
+            class="btn custom-save-btn"
+            (click)="addProduct()"
+          >
             إضافة منتج
           </button>
         </div>
       </div>
-      
+
       <!-- الجدول الخاص بالمنتجات -->
       <div class="row mb-3">
         <div class="col-md-12">
@@ -241,7 +436,10 @@
               </tr>
             </thead>
             <tbody formArrayName="productList">
-              <tr *ngFor="let product of productList.controls; let i = index" [formGroupName]="i">
+              <tr
+                *ngFor="let product of productList.controls; let i = index"
+                [formGroupName]="i"
+              >
                 <td class="col-md-4 mb-3">
                   <input
                     type="text"
@@ -249,11 +447,21 @@
                     formControlName="name"
                     placeholder="اسم المنتج"
                     [ngClass]="{
-                      'is-invalid': product.get('name')?.invalid && product.get('name')?.touched,
-                      'is-valid': product.get('name')?.valid && product.get('name')?.touched
+                      'is-invalid':
+                        product.get('name')?.invalid &&
+                        product.get('name')?.touched,
+                      'is-valid':
+                        product.get('name')?.valid &&
+                        product.get('name')?.touched
                     }"
                   />
-                  <div *ngIf="product.get('name')?.invalid && product.get('name')?.touched" class="text-danger small">
+                  <div
+                    *ngIf="
+                      product.get('name')?.invalid &&
+                      product.get('name')?.touched
+                    "
+                    class="text-danger small"
+                  >
                     اسم المنتج مطلوب
                   </div>
                 </td>
@@ -264,11 +472,21 @@
                     formControlName="quantity"
                     min="1"
                     [ngClass]="{
-                      'is-invalid': product.get('quantity')?.invalid && product.get('quantity')?.touched,
-                      'is-valid': product.get('quantity')?.valid && product.get('quantity')?.touched
+                      'is-invalid':
+                        product.get('quantity')?.invalid &&
+                        product.get('quantity')?.touched,
+                      'is-valid':
+                        product.get('quantity')?.valid &&
+                        product.get('quantity')?.touched
                     }"
                   />
-                  <div *ngIf="product.get('quantity')?.invalid && product.get('quantity')?.touched" class="text-danger small">
+                  <div
+                    *ngIf="
+                      product.get('quantity')?.invalid &&
+                      product.get('quantity')?.touched
+                    "
+                    class="text-danger small"
+                  >
                     الكمية يجب أن تكون أكبر من 0
                   </div>
                 </td>
@@ -279,16 +497,30 @@
                     formControlName="productWeight"
                     min="1"
                     [ngClass]="{
-                      'is-invalid': product.get('productWeight')?.invalid && product.get('productWeight')?.touched,
-                      'is-valid': product.get('productWeight')?.valid && product.get('productWeight')?.touched
+                      'is-invalid':
+                        product.get('productWeight')?.invalid &&
+                        product.get('productWeight')?.touched,
+                      'is-valid':
+                        product.get('productWeight')?.valid &&
+                        product.get('productWeight')?.touched
                     }"
                   />
-                  <div *ngIf="product.get('productWeight')?.invalid && product.get('productWeight')?.touched" class="text-danger small">
+                  <div
+                    *ngIf="
+                      product.get('productWeight')?.invalid &&
+                      product.get('productWeight')?.touched
+                    "
+                    class="text-danger small"
+                  >
                     الوزن يجب أن يكون أكبر من 0
                   </div>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-danger" (click)="removeProduct(i)">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="removeProduct(i)"
+                  >
                     حذف
                   </button>
                 </td>
@@ -297,32 +529,47 @@
           </table>
         </div>
       </div>
-      
 
       <!-- الحقول الإضافية أسفل الجدول -->
       <div class="row mb-3">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="cost" class="mb-2">التكلفة الإجمالية</label>
-              <input
-                type="number"
-                id="cost"
-                formControlName="cost"
-                class="form-control"
-                placeholder="أدخل التكلفة الإجمالية"
-                [ngClass]="{
-                  'is-invalid': addOrderForm.get('cost')?.invalid && addOrderForm.get('cost')?.touched,
-                  'is-valid': addOrderForm.get('cost')?.valid && addOrderForm.get('cost')?.touched
-                }"
-              />
-              <div *ngIf="addOrderForm.get('cost')?.invalid && addOrderForm.get('cost')?.touched" class="text-danger small">
-                التكلفة الإجمالية مطلوبة
-              </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="cost" class="mb-2">التكلفة الإجمالية</label>
+            <input
+              type="number"
+              id="cost"
+              formControlName="cost"
+              class="form-control"
+              placeholder="أدخل التكلفة الإجمالية"
+              [ngClass]="{
+                'is-invalid':
+                  addOrderForm.get('cost')?.invalid &&
+                  addOrderForm.get('cost')?.touched,
+                'is-valid':
+                  addOrderForm.get('cost')?.valid &&
+                  addOrderForm.get('cost')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                addOrderForm.get('cost')?.invalid &&
+                addOrderForm.get('cost')?.touched
+              "
+              class="text-danger small"
+            >
+              التكلفة الإجمالية مطلوبة
             </div>
           </div>
+        </div>
         <div class="col-md-6">
           <label for="weight" class="form-label">إجمالي الوزن (كجم)</label>
-            <input id="weight" formControlName="weight" type="number" class="form-control" readonly />
+          <input
+            id="weight"
+            formControlName="weight"
+            type="number"
+            class="form-control"
+            readonly
+          />
         </div>
       </div>
 
@@ -346,7 +593,7 @@
       </div>
 
       <!-- حقول بيانات التاجر -->
-      
+
       <div class="row mb-3">
         <div class="col-md-6">
           <label for="phoneNumber" class="form-label">رقم الهاتف</label>
