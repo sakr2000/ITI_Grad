@@ -21,6 +21,7 @@ export interface Product {
     typeOfPaymentID: number;
     typeOfChargeID: number;
     orderStatusID: number;
+    sellerID:string,
     typeOfReceiptID:number;
     productList: Product[];
   }

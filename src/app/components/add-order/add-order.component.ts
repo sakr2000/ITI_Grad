@@ -75,6 +75,7 @@ export class AddOrderComponent implements OnInit {
       typeOfChargeID: ['', Validators.required],
       typeOfReceiptID: ['', Validators.required],
       orderStatusID: [1],
+      sellerID:["9ef10519-9e30-471b-ad2b-f6f1798cfd15"],
       productList: this.fb.array([]),
     });
 
