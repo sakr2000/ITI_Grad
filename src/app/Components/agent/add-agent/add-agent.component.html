@@ -1,0 +1,314 @@
+<app-page-header
+  title="اضافة مندوب"
+  [path]="[
+    { name: 'المناديب', link: '/Agents' },
+    { name: 'اضافة مندوب', link: '/Agents/add' }
+  ]"
+></app-page-header>
+
+<div class="section p-4">
+  <h2 class="text-end mb-4">اضافة مندوب</h2>
+  <form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+    <div class="row my-4">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="name">الاسم</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="الاسم"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('name')?.invalid && agentForm.get('name')?.touched,
+              'is-valid':
+                agentForm.get('name')?.valid && agentForm.get('name')?.touched,
+            }"
+          />
+
+          <div
+            *ngIf="
+              agentForm.get('name')?.invalid && agentForm.get('name')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="agentForm.get('name')?.errors?.['required']">
+              الاسم مطلوب
+            </div>
+            <div *ngIf="agentForm.get('name')?.errors?.['minlength']">
+              يجب أن يحتوي الاسم على 3 أحرف على الأقل
+            </div>
+            <div *ngIf="agentForm.get('name')?.errors?.['pattern']">
+              يجب أن يحتوي الاسم على حروف أو أرقام فقط
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="email">البريد الالكتروني</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="البريد الالكتروني"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('email')?.invalid &&
+                agentForm.get('email')?.touched,
+              'is-valid':
+                agentForm.get('email')?.valid && agentForm.get('email')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              agentForm.get('email')?.invalid && agentForm.get('email')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="agentForm.get('email')?.errors?.['required']">
+              البريد الالكتروني مطلوب
+            </div>
+            <div *ngIf="agentForm.get('email')?.errors?.['email']">
+              البريد الالكتروني غير صالح
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="password">كلمة المرور</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="كلمة المرور"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('password')?.invalid &&
+                agentForm.get('password')?.touched,
+              'is-valid':
+                agentForm.get('password')?.valid &&
+                agentForm.get('password')?.touched
+            }"
+          />
+
+          <div
+            *ngIf="
+              agentForm.get('password')?.invalid &&
+              agentForm.get('password')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            <div *ngIf="agentForm.get('password')?.errors?.['required']">
+              كلمة المرور مطلوبة
+            </div>
+            <div *ngIf="agentForm.get('password')?.errors?.['minlength']">
+              يجب أن يحتوي كلمة المرور على 6 أحرف على الأقل
+            </div>
+            <div *ngIf="agentForm.get('password')?.errors?.['pattern']">
+              يجب أن يحتوي كلمة المرور على حروف أو أرقام
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="branch">الفرع</label>
+          <select
+            id="branch"
+            formControlName="branchID"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('branchID')?.invalid &&
+                agentForm.get('branchID')?.touched,
+              'is-valid':
+                agentForm.get('branchID')?.valid &&
+                agentForm.get('branchID')?.touched
+            }"
+          >
+            <option value="" selected disabled>اختر الفرع</option>
+            @for (branch of branches; track $index) {
+            <option value="{{ branch.id }}">{{ branch.name }}</option>
+            }
+          </select>
+
+          <div
+            *ngIf="
+              agentForm.get('branchID')?.invalid &&
+              agentForm.get('branchID')?.touched
+            "
+            class="invalid-feedback small"
+          >
+            الفرع مطلوب
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="role">المحافظات</label>
+          <select
+            id="role"
+            formControlName="governID"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('governID')?.invalid &&
+                agentForm.get('governID')?.touched,
+              'is-valid':
+                agentForm.get('governID')?.valid &&
+                agentForm.get('governID')?.touched
+            }"
+          >
+            <option value="" selected disabled>اختر المحافظات</option>
+            @for (govern of governments; track $index) {
+            <option value="{{ govern.id }}">{{ govern.name }}</option>
+            }
+          </select>
+          <div
+            *ngIf="agentForm.get('governID')?.invalid"
+            class="invalid-feedback small"
+          >
+            المحافظة مطلوبة
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="phoneNumber">رقم الهاتف</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            formControlName="phone"
+            class="form-control"
+            placeholder="رقم الهاتف"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('phone')?.invalid &&
+                agentForm.get('phone')?.touched,
+              'is-valid':
+                agentForm.get('phone')?.valid && agentForm.get('phone')?.touched
+            }"
+          />
+
+          <div
+            *ngIf="agentForm.get('phone')?.invalid"
+            class="invalid-feedback small"
+          >
+            <div *ngIf="agentForm.get('phone')?.errors?.['required']">
+              رقم الهاتف مطلوب
+            </div>
+            <div *ngIf="agentForm.get('phoneNumber')?.errors?.['pattern']">
+              رقم الهاتف غير صالح
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="address">العنوان</label>
+          <input
+            id="address"
+            formControlName="address"
+            class="form-control"
+            placeholder="العنوان"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('address')?.invalid &&
+                agentForm.get('address')?.touched,
+              'is-valid':
+                agentForm.get('address')?.valid &&
+                agentForm.get('address')?.touched
+            }"
+          />
+
+          <div
+            *ngIf="agentForm.get('address')?.invalid"
+            class="invalid-feedback small"
+          >
+            العنوان مطلوب
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="typeOfDiscount">نوع الخصم</label>
+          <select
+            id="typeOfDiscount"
+            formControlName="typeOfOfferID"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('typeOfOfferID')?.invalid &&
+                agentForm.get('typeOfOfferID')?.touched,
+              'is-valid':
+                agentForm.get('typeOfOfferID')?.valid &&
+                agentForm.get('typeOfOfferID')?.touched
+            }"
+          >
+            <option value="" selected disabled>اختر نوع الخصم</option>
+            @for (offer of typeOfOffers; track $index) {
+            <option value="{{ offer.id }}">{{ offer.name }}</option>
+            }
+          </select>
+          <div
+            *ngIf="agentForm.get('typeOfOfferID')?.invalid"
+            class="invalid-feedback small"
+          >
+            نوع الخصم مطلوب
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="companyPercent">نسبة الشركة</label>
+          <input
+            type="number"
+            id="companyPercent"
+            formControlName="thePrecentageOfCompanyFromOffer"
+            class="form-control"
+            placeholder="نسبة الشركة"
+            [ngClass]="{
+              'is-invalid':
+                agentForm.get('thePrecentageOfCompanyFromOffer')?.invalid &&
+                agentForm.get('thePrecentageOfCompanyFromOffer')?.touched,
+              'is-valid':
+                agentForm.get('thePrecentageOfCompanyFromOffer')?.valid &&
+                agentForm.get('thePrecentageOfCompanyFromOffer')?.touched
+            }"
+          />
+
+          <div
+            *ngIf="agentForm.get('thePrecentageOfCompanyFromOffer')?.invalid"
+            class="invalid-feedback small"
+          >
+            نسبة الشركة مطلوبة
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <button
+        type="submit"
+        class="btn btn-primary w-25"
+        [disabled]="!agentForm.valid"
+      >
+        حفظ
+      </button>
+    </div>
+  </form>
+</div>
