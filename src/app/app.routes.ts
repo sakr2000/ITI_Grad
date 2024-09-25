@@ -90,6 +90,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'Order/Report',
+        loadComponent: () =>
+          import('./Components/report/report.component').then(
+            (m) => m.ReportComponent
+          ),
+      },
+      {
         path: 'Order/add',
         loadComponent: () =>
           import('./Components/add-order/add-order.component').then(

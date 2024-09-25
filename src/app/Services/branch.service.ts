@@ -23,9 +23,9 @@ export class BranchService implements CRUD<any> {
     return this.http.post<any>(this.apiUrl, body, { headers });
   }
   update(id: number, data: any): Observable<any> {
-    throw new Error('Method not implemented.');
+    return this.http.put(this.apiUrl, data);
   }
   delete(id: number): Observable<any> {
-    throw new Error('Method not implemented.');
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

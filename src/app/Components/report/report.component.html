@@ -1,0 +1,139 @@
+<app-page-header
+  title="تقرير الطلبات حسب الحالة"
+  [path]="[
+    { name: 'الطلبات', link: '/Order' },
+    {
+      name: 'تقرير الطلبات',
+      link: '/Order/Report'
+    }
+  ]"
+></app-page-header>
+
+<div class="section">
+  <div class="container">
+    <form [formGroup]="reprotForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="orderStatus">حالة الطلب</label>
+            <select
+              name="orderStatus"
+              class="form-select"
+              formControlName="orderStatus"
+              id="orderStatus"
+              [ngClass]="{
+                    'is-invalid':
+                      reprotForm.get('orderStatus')?.invalid &&
+                      reprotForm.get('orderStatus')?.touched,
+                      'is-valid':
+                      reprotForm.get('orderStatus')?.valid &&
+                      reprotForm.get('orderStatus')?.touched,
+                  }"
+            >
+              <option value="" selected disabled>اختر حالة الطلب</option>
+            </select>
+
+            <div
+              *ngIf="
+                reprotForm.get('orderStatus')?.errors &&
+                reprotForm.get('orderStatus')?.touched
+              "
+              class="invalid-feedback"
+            >
+              يجب اختيار حالة الطلب
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="startDate">من</label>
+            <input
+              type="date"
+              name="startDate"
+              class="form-control"
+              formControlName="startDate"
+              id="startDate"
+              [ngClass]="{
+                    'is-invalid':
+                      reprotForm.get('startDate')?.invalid &&
+                      reprotForm.get('startDate')?.touched,
+                      'is-valid':
+                      reprotForm.get('startDate')?.valid &&
+                      reprotForm.get('startDate')?.touched,
+                  }"
+            />
+
+            <div
+              *ngIf="
+                reprotForm.get('startDate')?.errors &&
+                reprotForm.get('startDate')?.touched
+              "
+              class="invalid-feedback"
+            >
+              يلزم تحديد تاريخ البداية
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="endDate">الى</label>
+            <input
+              type="date"
+              name="endDate"
+              class="form-control"
+              formControlName="endDate"
+              id="endDate"
+              [ngClass]="{
+                    'is-invalid':
+                      reprotForm.get('endDate')?.invalid &&
+                      reprotForm.get('endDate')?.touched,
+                      'is-valid':
+                      reprotForm.get('endDate')?.valid &&
+                      reprotForm.get('endDate')?.touched,
+                  }"
+            />
+
+            <div
+              *ngIf="
+                reprotForm.get('endDate')?.errors &&
+                reprotForm.get('endDate')?.touched
+              "
+              class="invalid-feedback"
+            >
+              يلزم تحديد تاريخ النهاية
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary">بحث</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="mt-5">
+      <table
+        class="table table-bordered table-hover table-responsive text-center"
+      >
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>الرقم التسلسلى</th>
+            <th>الحالة</th>
+            <th>التاجر</th>
+            <th>العميل</th>
+            <th>رقم الهاتف</th>
+            <th>المحافظة</th>
+            <th>المدينة</th>
+            <th>تكلفة الطلب</th>
+            <th>المبلغ المستلم</th>
+            <th>تكلفة الشحن</th>
+            <th>قيمة الشحن المدفوعة</th>
+            <th>قيمة الشركة</th>
+            <th>التاريخ</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>

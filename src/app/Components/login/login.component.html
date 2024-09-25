@@ -4,27 +4,68 @@
   </div>
   <div class="w-50 m-auto">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" dir="rtl">
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <label for="EmailOrUsername" class="form-label lead fw-bold"
-          >البريد الالكتروني</label
+          >البريد الالكتروني او اسم المستخدم</label
         >
         <input
           type="text"
           id="EmailOrUsername"
           formControlName="EmailOrUsername"
-          class="form-control"
-          required
+          class="form-control shadow-sm"
+          placeholder="ادهل البريد الالكتروني او اسم المستخدم"
+          [ngClass]="{
+            'is-invalid':
+              loginForm.get('EmailOrUsername')?.invalid &&
+              loginForm.get('EmailOrUsername')?.touched,
+            'is-valid':
+              loginForm.get('EmailOrUsername')?.valid &&
+              loginForm.get('EmailOrUsername')?.touched
+          }"
         />
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label lead fw-bold">كلمة السر</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          class="form-control"
-          required
-        />
+
+        <div
+          *ngIf="
+            loginForm.get('EmailOrUsername')?.invalid &&
+            loginForm.get('EmailOrUsername')?.touched
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="loginForm.get('EmailOrUsername')?.errors?.['required']">
+            البريد الالكتروني او اسم المستخدم مطلوب
+          </div>
+        </div>
+        <div class="form-group my-3">
+          <label for="password" class="form-label lead fw-bold"
+            >كلمة المرور</label
+          >
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control shadow-sm"
+            placeholder="كلمة المرور"
+            [ngClass]="{
+              'is-invalid':
+                loginForm.get('password')?.invalid &&
+                loginForm.get('password')?.touched,
+              'is-valid':
+                loginForm.get('password')?.valid &&
+                loginForm.get('password')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="loginForm.get('password')?.errors?.['required']">
+              كلمة المرور مطلوبة
+            </div>
+          </div>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary w-50 m-auto d-block mt-4">
         تسجيل الدخول

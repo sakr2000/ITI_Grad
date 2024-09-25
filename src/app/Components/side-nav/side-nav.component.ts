@@ -2,26 +2,30 @@ import { AuthenticationService } from './../../Services/authentication.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserDataService } from '../../Services/userData.service';
+import { CommonModule } from '@angular/common';
+import { FieldPrivilegeDTO } from '../../Models/FieldJob';
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.css',
 })
 export class SideNavComponent {
   @ViewChild('header') header!: ElementRef;
   @ViewChild('headerToggleBtn') headerToggleBtn!: ElementRef;
-
+  privileges: FieldPrivilegeDTO[];
   constructor(
-    private _options: UserDataService,
+    public user: UserDataService,
     private router: Router,
     private auth: AuthenticationService
-  ) {}
+  ) {
+    this.privileges = user.getPrivileges() ?? [];
+  }
 
   get username(): string {
-    return (this._options.getUserData()?.userName as string) || '';
+    return (this.user.getUserData()?.userName as string) || '';
   }
   headerToggle() {
     this.header.nativeElement.classList.toggle('header-show');
@@ -35,6 +39,12 @@ export class SideNavComponent {
       'dropdown-active'
     );
     e.stopImmediatePropagation();
+  }
+
+  hasPrivilege(p: string): FieldPrivilegeDTO {
+    return (
+      this.privileges.find((x) => x.name == p) ?? ({} as FieldPrivilegeDTO)
+    );
   }
 
   logout() {

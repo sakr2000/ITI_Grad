@@ -35,12 +35,20 @@ export class UserDataService implements OnInit, OnDestroy {
     }
   }
 
+  hasRole(role: string): boolean {
+    return this.ActiveUser ? this.ActiveUser.role.includes(role) : false;
+  }
+
   isAdmin(): boolean {
-    if (this.ActiveUser) {
-      return this.ActiveUser.role.includes('Admin');
-    } else {
-      return false;
-    }
+    return this.hasRole('Admin');
+  }
+
+  isSeller(): boolean {
+    return this.hasRole('Seller');
+  }
+
+  isEmployee(): boolean {
+    return this.hasRole('Employee');
   }
 
   setUserData(user: any) {
