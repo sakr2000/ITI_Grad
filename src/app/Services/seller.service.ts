@@ -24,7 +24,7 @@ export class SellerService implements CRUD<any> {
     return this.http.put(`${this.api}/${id}`, data); // not finished yet
   }
 
-  delete(id: number) {
+  delete(id: string) {
     return this.http.delete(`${this.api}/${id}`);
   }
 }

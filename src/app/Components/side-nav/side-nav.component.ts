@@ -1,7 +1,7 @@
 import { AuthenticationService } from './../../Services/authentication.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { UserOptionsService } from '../../Services/user-options.service';
+import { UserDataService } from '../../Services/userData.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -15,7 +15,7 @@ export class SideNavComponent {
   @ViewChild('headerToggleBtn') headerToggleBtn!: ElementRef;
 
   constructor(
-    private _options: UserOptionsService,
+    private _options: UserDataService,
     private router: Router,
     private auth: AuthenticationService
   ) {}

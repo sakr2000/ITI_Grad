@@ -8,6 +8,7 @@ import {
 
 import { AuthenticationService } from '../../Services/authentication.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       EmailOrUsername: ['', [Validators.required]],
@@ -53,6 +55,7 @@ export class LoginComponent implements OnInit {
           },
           error: (error) => {
             console.error('Login error', error);
+            this.toastr.error(error.error.message);
           },
         });
     }

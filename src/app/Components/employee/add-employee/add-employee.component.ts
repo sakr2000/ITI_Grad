@@ -14,6 +14,8 @@ import { GetGovern } from '../../../Models/Govern/getGovern.interface';
 import { GetBranch } from '../../../Models/Branch/getBranch.interface';
 import { ToastrService } from 'ngx-toastr';
 import { FieldJob } from '../../../Models/FieldJob';
+import { privilegeGuard } from '../../../Guards/privilege.guard';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-employee',
@@ -27,7 +29,8 @@ export class AddEmployeeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _unitOfWork: UnitOfWorkService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private router: Router
   ) {}
   governs: GetGovern[] = [];
   branches: GetBranch[] = [];
@@ -39,7 +42,7 @@ export class AddEmployeeComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('[a-zA-Z0-9]*'),
+          Validators.pattern('[a-zA-Z0-9\u0621-\u064A]*'),
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
@@ -89,11 +92,12 @@ export class AddEmployeeComponent implements OnInit {
       ).subscribe({
         next: (data) => {
           console.log(data);
-          this.toaster.success('Employee Added Successfully', 'Success');
+          this.toaster.success('تم الاضافة بنجاح', 'تم');
+          this.router.navigate(['/Employee']);
         },
         error: (err) => {
           console.log(err);
-          this.toaster.error('Error Adding Employee', 'Error');
+          this.toaster.error('خطأ أثناء الاضافة', 'خطأ');
         },
       });
     }

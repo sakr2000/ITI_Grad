@@ -5,7 +5,9 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { GetEmployee } from '../../../models/Employee/getEmployee.interface';
+import { GetEmployee } from '../../../Models/Employee/getEmployee.interface';
+import { UserDataService } from '../../../Services/userData.service';
+import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
 
 @Component({
   selector: 'app-display-employees',
@@ -16,10 +18,11 @@ import { GetEmployee } from '../../../models/Employee/getEmployee.interface';
 })
 export class DisplayEmployeesComponent {
   employees: GetEmployee[] = [];
-
+  Privileges!: FieldPrivilegeDTO;
   constructor(
     private _unitOfWork: UnitOfWorkService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    public User: UserDataService
   ) {}
 
   ngOnInit() {
@@ -32,6 +35,10 @@ export class DisplayEmployeesComponent {
         this.toaster.error(err.error.message, 'خطأ');
       },
     });
+
+    this.Privileges =
+      this.User.getPrivileges()?.find((x) => x.name == 'الموظفين') ??
+      ({} as FieldPrivilegeDTO);
   }
 
   updateList() {

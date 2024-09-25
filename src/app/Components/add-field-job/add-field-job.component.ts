@@ -109,12 +109,12 @@ export class AddFieldJobComponent implements OnChanges {
 
       this.fieldJobService.updateJob(updatedFieldJob).subscribe(
         () => {
-          this.toaster.success('FieldJob updated successfully', 'Success');
+          this.toaster.success('تم التعديل بنجاح', 'تم');
           this.closeModal();
           this.fieldJobUpdated.emit();
         },
         (error) => {
-          this.toaster.error('Error updating FieldJob', 'Error');
+          this.toaster.error('حدث خطأ عند التعديل', 'خطأ');
         }
       );
     } else {
@@ -125,12 +125,12 @@ export class AddFieldJobComponent implements OnChanges {
 
       this.fieldJobService.addJob(newFieldJob).subscribe(
         () => {
-          this.toaster.success('FieldJob created successfully', 'Success');
+          this.toaster.success('تم الاضافة بنجاح', 'تم');
           this.closeModal();
           this.fieldJobUpdated.emit();
         },
         (error) => {
-          this.toaster.error('Error creating FieldJob', 'Error');
+          this.toaster.error('حدث خطأ عند الاضافة', 'خطأ');
         }
       );
     }

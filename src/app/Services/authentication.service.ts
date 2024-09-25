@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { UserOptionsService } from './user-options.service';
+import { UserDataService } from './userData.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,22 +11,18 @@ import { UserOptionsService } from './user-options.service';
 export class AuthenticationService {
   private apiUrl = 'http://localhost:5298/api/Account';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private user: UserOptionsService
-  ) {}
+  constructor(private http: HttpClient, private user: UserDataService) {}
 
   login(EmailOrUsername: string, Password: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    const payload = {
-      email: EmailOrUsername.includes('@') ? EmailOrUsername : null,
-      username: EmailOrUsername.includes('@') ? null : EmailOrUsername,
+    let payload: any = {
       password: Password,
     };
-    return this.http.post(`${this.apiUrl}`, payload, { headers }).pipe(
+    payload =
+      EmailOrUsername.includes('@') && !EmailOrUsername.includes('admin')
+        ? { ...payload, email: EmailOrUsername }
+        : { ...payload, username: EmailOrUsername };
+
+    return this.http.post(`${this.apiUrl}`, payload).pipe(
       tap({
         next: (response: any) => {
           console.log(response);
