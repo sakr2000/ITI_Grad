@@ -14,7 +14,7 @@
     class="logo d-flex align-items-center justify-content-center"
   >
     <!-- <img src="assets/images/Logo.svg" alt=""> -->
-    <h1 class="sitename">UserName</h1>
+    <h1 class="sitename">{{ username }}</h1>
   </a>
 
   <nav id="navmenu" class="navmenu">
@@ -27,19 +27,13 @@
           ><i class="bi bi-house navicon"></i>الصفحة الرئيسية</a
         >
       </li>
-      <li>
-        <a
-          [routerLink]="['FieldJob']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+      <li *ngIf="user.isAdmin() || hasPrivilege('المجموعات').display">
+        <a [routerLink]="['FieldJob']" [routerLinkActive]="['active']"
           ><i class="bi bi-file-earmark-person navicon"></i> المجموعات</a
         >
       </li>
       <li>
-        <a
-          [routerLink]="['Branch']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a [routerLink]="['Branch']" [routerLinkActive]="['active']"
           ><i class="bi bi-shop navicon"></i> الفروع</a
         >
       </li>
@@ -49,40 +43,44 @@
           <i #toggleDropdownbtn class="bi bi-chevron-down toggle-dropdown"></i
         ></a>
         <ul>
-          <li><a>الموظفين</a></li>
-          <li><a>التجار</a></li>
-          <li><a>المناديب</a></li>
+          <li>
+            <a [routerLink]="['Employees']" [routerLinkActive]="['active']"
+              >الموظفين</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['Sellers']" [routerLinkActive]="['active']"
+              >التجار</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['Agents']" [routerLinkActive]="['active']"
+              >المناديب</a
+            >
+          </li>
         </ul>
       </li>
       <li>
-        <a
-          [routerLink]="['Order']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a [routerLink]="['Order']" [routerLinkActive]="['active']"
           ><i class="bi bi-box-seam navicon"></i> الطلبات</a
         >
       </li>
       <li>
-        <a
-          [routerLink]="['Govern']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
+        <a [routerLink]="['Govern']" [routerLinkActive]="['active']"
           ><i class="bi bi-map navicon"></i> المحافظات</a
         >
       </li>
       <li>
         <a
+          [routerLink]="['Settings']"
           [routerLinkActive]="['active']"
           [routerLinkActiveOptions]="{ exact: true }"
           ><i class="bi bi-gear navicon"></i> الإعدادات</a
         >
       </li>
       <li>
-        <a
-          [routerLink]="['test']"
-          [routerLinkActive]="['active']"
-          [routerLinkActiveOptions]="{ exact: true }"
-          ><i class="bi bi-lightning navicon"></i> اختبار</a
+        <a (click)="logout()"
+          ><i class="bi bi-box-arrow-left navicon"></i> تسجيل الخروج</a
         >
       </li>
     </ul>

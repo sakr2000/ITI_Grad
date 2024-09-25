@@ -10,9 +10,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FieldPrivilegeDTO, FieldJob } from '../../Models/Privilege';
 import { FieldJobService } from '../../Services/FieldJob.service';
-import { HttpClient } from '@angular/common/http';
+import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
+import { PrivilegesServiceService } from '../../Services/privileges-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-field-job',
@@ -27,13 +28,12 @@ export class AddFieldJobComponent implements OnChanges {
   @Input() viewMode: boolean = false;
   @Input() fieldJobToEdit?: FieldJob;
   @Output() fieldJobUpdated = new EventEmitter<void>();
-
   newFieldJobName = '';
   @ViewChild('modal') modal!: ElementRef;
-
   constructor(
     private fieldJobService: FieldJobService,
-    private http: HttpClient
+    private privilegeService: PrivilegesServiceService,
+    private toaster: ToastrService
   ) {}
 
   ngOnChanges() {
@@ -42,14 +42,16 @@ export class AddFieldJobComponent implements OnChanges {
     }
     if (this.fieldJobToEdit) {
       this.newFieldJobName = this.fieldJobToEdit.name;
-      this.privileges = this.fieldJobToEdit.fieldPrivilegeDTO.map((priv) => ({
-        privilegeID: priv.privilegeID,
-        name: priv.name,
-        add: priv.add,
-        delete: priv.delete,
-        display: priv.display,
-        edit: priv.edit,
-      }));
+      this.privileges = this.fieldJobToEdit.fieldPrivilegeDTO.map(
+        (priv: any) => ({
+          privilegeID: priv.privilegeID,
+          name: priv.name,
+          add: priv.add,
+          delete: priv.delete,
+          display: priv.display,
+          edit: priv.edit,
+        })
+      );
     } else if (!this.editMode && !this.viewMode) {
       this.newFieldJobName = '';
       this.resetPrivileges();
@@ -59,25 +61,22 @@ export class AddFieldJobComponent implements OnChanges {
     if (!this.privileges) {
       this.privileges = [];
     }
-    this.http
-      .get('http://localhost:5298/api/Privilege')
-      .subscribe((response: any) => {
-        this.privileges = response.map((privilege: any) => ({
-          privilegeID: privilege.id,
-          name: privilege.name,
-          add: false,
-          delete: false,
-          display: false,
-          edit: false,
-        }));
-      });
+    this.privilegeService.getPrivileges().subscribe((response: any) => {
+      this.privileges = response.map((privilege: any) => ({
+        privilegeID: privilege.id,
+        name: privilege.name,
+        add: false,
+        delete: false,
+        display: false,
+        edit: false,
+      }));
+    });
   }
   closeModal() {
     this.modal.nativeElement.style.display = 'none';
   }
 
   openModal() {
-    debugger;
     if (!this.editMode && !this.viewMode) {
       this.newFieldJobName = '';
       this.privileges = this.privileges.map((priv) => ({
@@ -110,12 +109,12 @@ export class AddFieldJobComponent implements OnChanges {
 
       this.fieldJobService.updateJob(updatedFieldJob).subscribe(
         () => {
-          alert('FieldJob updated successfully');
+          this.toaster.success('تم التعديل بنجاح', 'تم');
           this.closeModal();
           this.fieldJobUpdated.emit();
         },
         (error) => {
-          alert('Error updating FieldJob');
+          this.toaster.error('حدث خطأ عند التعديل', 'خطأ');
         }
       );
     } else {
@@ -126,12 +125,12 @@ export class AddFieldJobComponent implements OnChanges {
 
       this.fieldJobService.addJob(newFieldJob).subscribe(
         () => {
-          alert('FieldJob created successfully');
+          this.toaster.success('تم الاضافة بنجاح', 'تم');
           this.closeModal();
           this.fieldJobUpdated.emit();
         },
         (error) => {
-          alert('Error creating FieldJob');
+          this.toaster.error('حدث خطأ عند الاضافة', 'خطأ');
         }
       );
     }

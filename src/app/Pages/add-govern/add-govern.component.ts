@@ -8,9 +8,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { GovernService } from '../../Services/govern.service';
 import { ActivatedRoute } from '@angular/router';
-import { Govern } from '../../Models/govern.model';
+import { addGovern } from '../../Models/Govern/addgovern.model';
+import { ToastrService } from 'ngx-toastr';
+import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 
 @Component({
   selector: 'app-add-govern',
@@ -26,8 +27,9 @@ export class AddGovernComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _governService: GovernService,
-    private _activeRoute: ActivatedRoute
+    private _unitOfWork: UnitOfWorkService,
+    private _activeRoute: ActivatedRoute,
+    private _toaster: ToastrService
   ) {
     this.GovernFrom = this.fb.group({
       name: ['', Validators.required],
@@ -38,16 +40,16 @@ export class AddGovernComponent implements OnInit {
     this._activeRoute.params.subscribe((params) => {
       if (params['id']) {
         this.id = params['id'];
-        this._governService
-          .getGovernById(params['id'])
-          .subscribe((data: Govern) => {
+        this._unitOfWork.Govern.getById(params['id']).subscribe(
+          (data: addGovern) => {
             console.log(data);
 
             this.GovernFrom.patchValue(data);
             for (let city of data.cities) {
               this.Cities.push(this.fb.group(city));
             }
-          });
+          }
+        );
       }
     });
   }
@@ -71,27 +73,32 @@ export class AddGovernComponent implements OnInit {
     if (this.GovernFrom.valid) {
       console.log(this.GovernFrom.value);
       if (this.id == 0) {
-        this._governService
-          .addGovern(this.GovernFrom.value as Govern)
-          .subscribe({
-            next: (data) => {
-              console.log(data);
-            },
-            error: (error) => {
-              console.error(error);
-            },
-          });
+        this._unitOfWork.Govern.create(
+          this.GovernFrom.value as addGovern
+        ).subscribe({
+          next: (data) => {
+            console.log(data);
+            this._toaster.success('Govern Added Successfully', 'Success');
+          },
+          error: (error) => {
+            console.error(error);
+            this._toaster.error('Govern Not Added', 'Error');
+          },
+        });
       } else {
-        this._governService
-          .editGovern(this.id, this.GovernFrom.value as Govern)
-          .subscribe({
-            next: (data) => {
-              console.log(data);
-            },
-            error: (error) => {
-              console.error(error);
-            },
-          });
+        this._unitOfWork.Govern.update(
+          this.id,
+          this.GovernFrom.value as addGovern
+        ).subscribe({
+          next: (data) => {
+            console.log(data);
+            this._toaster.success('Govern Edited Successfully', 'Success');
+          },
+          error: (error) => {
+            console.error(error);
+            this._toaster.error('Govern Not Edited', 'Error');
+          },
+        });
       }
     }
   }

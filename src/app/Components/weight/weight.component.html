@@ -1,0 +1,139 @@
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button
+      class="accordion-button collapsed"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#WeightCharge"
+      aria-expanded="false"
+      aria-controls="WeightCharge"
+    >
+      <h2 class="text-end">تكلفة وزن الطلب</h2>
+    </button>
+  </h2>
+  <div
+    id="WeightCharge"
+    class="accordion-collapse collapse"
+    data-bs-parent="#accordionExample"
+  >
+    <div class="accordion-body">
+      @if (!editWeight ) {
+
+      <div class="row">
+        <div class="col-md-5">
+          <h4>
+            تكلفة الشحن الإفتراضية بالجنيه حتى وزن :
+            <span class="fw-bold text-primary">{{
+              weightCharge.defaultWeight || 0
+            }}</span>
+            كجم
+          </h4>
+        </div>
+        <div class="col-md-5">
+          <h4>
+            سعر كل كجم اضافى (بالجنيه) :
+            <span class="fw-bold text-primary">{{
+              weightCharge.additionalWeight || 0
+            }}</span>
+          </h4>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" (click)="editWeight = true">
+            تعديل
+          </button>
+        </div>
+      </div>
+      }@else {
+
+      <form [formGroup]="WeightForm" (ngSubmit)="saveWeight()">
+        <div class="row">
+          <div class="col-md-4">
+            <label class="form-label" for="weight">
+              الوزن الإفتراضي للطلب</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="weight"
+              name="weight"
+              formControlName="defaultWeight"
+              placeholder="الوزن الإفتراضي للطلب"
+              [ngClass]="{
+                'is-invalid':
+                  WeightForm.get('defaultWeight')?.errors &&
+                  WeightForm.get('defaultWeight')?.touched,
+                'is-valid':
+                  !WeightForm.get('defaultWeight')?.errors &&
+                  WeightForm.get('defaultWeight')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                WeightForm.get('defaultWeight')?.errors &&
+                WeightForm.get('defaultWeight')?.touched
+              "
+              class="invalid-feedback small"
+            >
+              <div
+                *ngIf="WeightForm.get('defaultWeight')?.errors?.['required']"
+              >
+                الوزن الإفتراضي للطلب مطلوب
+              </div>
+              <div *ngIf="WeightForm.get('defaultWeight')?.errors?.['min']">
+                الوزن الإفتراضي للطلب يجب الا يقل عن 0
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="extra"> سعر كل كجم اضافى </label>
+            <input
+              type="number"
+              class="form-control"
+              id="extra"
+              name="extra"
+              formControlName="additionalWeight"
+              placeholder="سعر كل كجم اضافى"
+              [ngClass]="{
+                'is-invalid':
+                  WeightForm.get('additionalWeight')?.errors &&
+                  WeightForm.get('additionalWeight')?.touched,
+                'is-valid':
+                  !WeightForm.get('additionalWeight')?.errors &&
+                  WeightForm.get('additionalWeight')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                WeightForm.get('additionalWeight')?.errors &&
+                WeightForm.get('additionalWeight')?.touched
+              "
+              class="invalid-feedback small"
+            >
+              <div
+                *ngIf="WeightForm.get('additionalWeight')?.errors?.['required']"
+              >
+                سعر كل كجم اضافى مطلوب
+              </div>
+              <div *ngIf="WeightForm.get('additionalWeight')?.errors?.['min']">
+                سعر كل كجم اضافى يجب الا يقل عن 0
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-start mt-4">
+          <button
+            class="btn btn-primary mx-3"
+            type="submit"
+            [disabled]="!WeightForm.valid"
+          >
+            حفظ
+          </button>
+          <button class="btn btn-secondary" (click)="editWeight = false">
+            الغاء
+          </button>
+        </div>
+      </form>
+      }
+    </div>
+  </div>
+</div>

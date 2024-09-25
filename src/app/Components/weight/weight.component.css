@@ -1,0 +1,14 @@
+.accordion-button::after {
+  margin-left: 0px;
+  margin-right: auto;
+}
+
+.accordion-button,
+.accordion-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #f8f9fa;
+}

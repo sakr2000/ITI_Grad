@@ -1,0 +1,116 @@
+<app-page-header
+  title="عرض الطلبات"
+  [path]="[{ name: 'عرض الطلبات', link: 'Order' }]"
+>
+  <div class="d-flex gap-2">
+    <a [routerLink]="['add']" class="btn btn-primary">
+      <i class="fa fa-plus mx-2"></i>
+      <span>إضافة طلب</span>
+    </a>
+
+    <a [routerLink]="['Report']" class="btn btn-primary">
+      <i class="fa fa-file mx-2"></i>
+      <span>تقرير الطلبات</span>
+    </a>
+  </div>
+</app-page-header>
+
+<div class="section p-4">
+  <div class="actions">
+    <button class="btn btn-primary" (click)="filterOrdersByStatus(null)">
+      كل
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(1)">
+      جديد
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(2)">
+      قيد الإنتظار
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(3)">
+      نم التسليم للمندوب
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(4)">
+      تم التسليم
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(5)">
+      لا يمكن الوصول
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(6)">
+      تم التأجيل
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(7)">
+      تم التسليم جزئا
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(8)">
+      تم الالغاء من قبل المستلم
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(9)">
+      تم الرفض مع الدفع
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(10)">
+      رفض مع سداد جزء
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(11)">
+      رفض و لم يتم الدفع
+    </button>
+  </div>
+
+  <div class="table-controls">
+    <input type="text" class="form-control" placeholder="Search" />
+    <button class="btn btn-secondary">PDF</button>
+    <button class="btn btn-secondary">Excel</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>الرقم التسلسلي</th>
+        <th>التاريخ</th>
+        <th>بيانات العميل</th>
+        <th>المحافظة</th>
+        <th>المدينة</th>
+        <th>تكلفة الطلب</th>
+        <th>تعديل الطلب</th>
+        <th>تغيير الحالة</th>
+        <th>حذف</th>
+        <th>طباعة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let order of filteredOrders
+            | paginate : { itemsPerPage: 5, currentPage: page }
+        "
+      >
+        <td>{{ order.serialNumber }}</td>
+        <td>{{ order.date | date : "yyyy-MM-dd   HH:mm:ss" }}</td>
+        <td>
+          {{ order.clientName }} <br />
+          {{ order.clientPhone }}
+        </td>
+        <td>{{ order.governorate }}</td>
+        <td>{{ order.city }}</td>
+        <td>{{ order.cost }}</td>
+        <td>
+          <button class="btn btn-success"><i class="fa fa-edit"></i></button>
+        </td>
+        <td>
+          <button class="btn btn-primary">الحالة</button>
+        </td>
+        <td>
+          <button
+            class="btn btn-danger"
+            (click)="deleteOrder(order.serialNumber)"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-info"><i class="fa fa-print"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>

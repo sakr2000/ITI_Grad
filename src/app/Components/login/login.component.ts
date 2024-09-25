@@ -1,27 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   ReactiveFormsModule,
+  FormControl,
 } from '@angular/forms';
 
-import { AuthService } from '../../Services/auth.service';
+import { AuthenticationService } from '../../Services/authentication.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
-  loginForm: FormGroup;
+export class LoginComponent implements OnInit {
+  loginForm: FormGroup = new FormGroup({
+    EmailOrUsername: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
-    this.loginForm = this.fb.group({
-      EmailOrUsername: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
+  ngOnInit(): void {
+    this.authService.isAuthenticated().subscribe({
+      next: (isAuthenticated) => {
+        if (isAuthenticated) {
+          this.router.navigate(['']);
+        }
+      },
     });
   }
 
@@ -35,11 +50,17 @@ export class LoginComponent {
         .subscribe({
           next: (response) => {
             console.log('Login successful', response);
+            this.router.navigate(['']);
           },
           error: (error) => {
-            console.error('Login error', error);
+            this.toastr.error(
+              'البريد الإلكتروني او كلمة المرور غير صحيحة',
+              'خطأ'
+            );
           },
         });
+    } else {
+      this.loginForm.markAllAsTouched();
     }
   }
 }

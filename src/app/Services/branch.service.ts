@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CRUD } from '../Models/CRUD.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BranchService {
+export class BranchService implements CRUD<any> {
   private apiUrl = 'http://localhost:5298/api/Branch';
 
   constructor(private http: HttpClient) {}
-
-  addBranch(branchName: string): Observable<any> {
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+  getById(id: number): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
+  create(data: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = { name: branchName };
+    const body = { name: data };
 
     return this.http.post<any>(this.apiUrl, body, { headers });
   }
-
-  getBranches(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  update(id: number, data: any): Observable<any> {
+    return this.http.put(this.apiUrl, data);
+  }
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
