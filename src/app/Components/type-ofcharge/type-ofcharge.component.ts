@@ -43,7 +43,7 @@ export class TypeOFChargeComponent implements OnInit {
 
   addTypeOfCharge() {
     if (this.addTypeOfChargeForm.valid) {
-      if (this.addTypeOfChargeForm.get('id')?.value == 0) {
+      if (!this.addTypeOfChargeForm.get('id')?.value) {
         this._unitOfWork.TypeOfCharge.create(
           this.addTypeOfChargeForm.value
         ).subscribe({

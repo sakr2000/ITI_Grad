@@ -8,22 +8,25 @@ import { AddEmployee } from '../Models/Employee/addEmployee.interface';
   providedIn: 'root',
 })
 export class EmployeeService implements CRUD<any> {
-  api = 'http://localhost:5298';
+  api = 'http://localhost:5298/api/Employee';
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {
-    return this.http.get(`${this.api}/api/Employee`);
+    return this.http.get(`${this.api}/getEmployee`);
   }
   getById(id: number): Observable<any> {
-    return this.http.get(`${this.api}/api/Employee/${id}`);
+    return this.http.get(`${this.api}/${id}`);
   }
   create(data: AddEmployee): Observable<any> {
-    return this.http.post(`${this.api}/AddEmployee`, data);
+    return this.http.post(
+      this.api.replace('/api/Employee', '/AddEmployee'),
+      data
+    );
   }
   update(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.api}/api/Employee/${id}`, data);
+    return this.http.put(`${this.api}/${id}`, data);
   }
   delete(id: string): Observable<any> {
-    return this.http.delete(`${this.api}/api/Employee/${id}`);
+    return this.http.delete(`${this.api}/${id}`);
   }
 }

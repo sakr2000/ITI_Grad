@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MainSystemComponent } from './Pages/main-system/main-system.component';
 import { LoginComponent } from './Components/login/login.component';
 import { authGuard } from './Guards/auth.guard';
+import { privilegeGuard } from './Guards/privilege.guard';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,11 @@ export const routes: Routes = [
           import('./Pages/add-govern/add-govern.component').then(
             (m) => m.AddGovernComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'المحافظات',
+          action: 'add',
+        },
       },
       {
         path: 'Govern/edit/:id',
@@ -37,6 +43,11 @@ export const routes: Routes = [
           import('./Pages/add-govern/add-govern.component').then(
             (m) => m.AddGovernComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'المحافظات',
+          action: 'edit',
+        },
       },
       {
         path: 'FieldJob',
@@ -65,6 +76,11 @@ export const routes: Routes = [
           import('./Components/create-branch/create-branch.component').then(
             (m) => m.CreateBranchComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الفروع',
+          action: 'add',
+        },
       },
       {
         path: 'Order',
@@ -74,11 +90,23 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'Order/Report',
+        loadComponent: () =>
+          import('./Components/report/report.component').then(
+            (m) => m.ReportComponent
+          ),
+      },
+      {
         path: 'Order/add',
         loadComponent: () =>
           import('./Components/add-order/add-order.component').then(
             (m) => m.AddOrderComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الطلبات',
+          action: 'add',
+        },
       },
       {
         path: 'Sellers',
@@ -93,6 +121,11 @@ export const routes: Routes = [
           import('./Components/seller/add-seller/trader.component').then(
             (m) => m.TraderComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'التجار',
+          action: 'add',
+        },
       },
       {
         path: 'Employees',
@@ -107,6 +140,11 @@ export const routes: Routes = [
           import(
             './Components/employee/add-employee/add-employee.component'
           ).then((m) => m.AddEmployeeComponent),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الموظفين',
+          action: 'add',
+        },
       },
       {
         path: 'Agents',
@@ -121,6 +159,11 @@ export const routes: Routes = [
           import('./Components/agent/add-agent/add-agent.component').then(
             (m) => m.AddAgentComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'المناديب',
+          action: 'add',
+        },
       },
       {
         path: 'Agents/edit/:id',
@@ -128,6 +171,11 @@ export const routes: Routes = [
           import('./Components/agent/add-agent/add-agent.component').then(
             (m) => m.AddAgentComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'المناديب',
+          action: 'edit',
+        },
       },
       {
         path: 'Settings',
@@ -135,6 +183,11 @@ export const routes: Routes = [
           import('./Pages/settings-page/settings.component').then(
             (m) => m.SettingsComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'Settings',
+          action: 'view',
+        },
       },
     ],
     canActivate: [authGuard],

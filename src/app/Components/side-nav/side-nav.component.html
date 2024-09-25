@@ -27,7 +27,7 @@
           ><i class="bi bi-house navicon"></i>الصفحة الرئيسية</a
         >
       </li>
-      <li>
+      <li *ngIf="user.isAdmin() || hasPrivilege('المجموعات').display">
         <a [routerLink]="['FieldJob']" [routerLinkActive]="['active']"
           ><i class="bi bi-file-earmark-person navicon"></i> المجموعات</a
         >

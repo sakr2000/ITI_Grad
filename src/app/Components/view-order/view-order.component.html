@@ -8,7 +8,7 @@
       <span>إضافة طلب</span>
     </a>
 
-    <a [routerLink]="['report']" class="btn btn-primary">
+    <a [routerLink]="['Report']" class="btn btn-primary">
       <i class="fa fa-file mx-2"></i>
       <span>تقرير الطلبات</span>
     </a>
@@ -17,18 +17,42 @@
 
 <div class="section p-4">
   <div class="actions">
-    <button class="btn btn-primary " (click)="filterOrdersByStatus(null)">كل</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(1)">جديد</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(2)">قيد الإنتظار</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(3)">نم التسليم للمندوب</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(4)">تم التسليم</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(5)">لا يمكن الوصول</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(6)">تم التأجيل</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(7)">تم التسليم جزئا</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(8)">تم الالغاء من قبل المستلم</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(9)">تم الرفض مع الدفع</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(10)">رفض مع سداد جزء</button>
-    <button class="btn btn-outline-primary"(click)="filterOrdersByStatus(11)">رفض و لم يتم الدفع</button>
+    <button class="btn btn-primary" (click)="filterOrdersByStatus(null)">
+      كل
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(1)">
+      جديد
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(2)">
+      قيد الإنتظار
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(3)">
+      نم التسليم للمندوب
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(4)">
+      تم التسليم
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(5)">
+      لا يمكن الوصول
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(6)">
+      تم التأجيل
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(7)">
+      تم التسليم جزئا
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(8)">
+      تم الالغاء من قبل المستلم
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(9)">
+      تم الرفض مع الدفع
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(10)">
+      رفض مع سداد جزء
+    </button>
+    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(11)">
+      رفض و لم يتم الدفع
+    </button>
   </div>
 
   <div class="table-controls">
@@ -55,7 +79,8 @@
     <tbody>
       <tr
         *ngFor="
-          let order  of filteredOrders | paginate : { itemsPerPage: 5, currentPage: page }
+          let order of filteredOrders
+            | paginate : { itemsPerPage: 5, currentPage: page }
         "
       >
         <td>{{ order.serialNumber }}</td>
@@ -74,7 +99,10 @@
           <button class="btn btn-primary">الحالة</button>
         </td>
         <td>
-          <button class="btn btn-danger" (click)="deleteOrder(order.serialNumber)">
+          <button
+            class="btn btn-danger"
+            (click)="deleteOrder(order.serialNumber)"
+          >
             <i class="fa fa-trash"></i>
           </button>
         </td>
