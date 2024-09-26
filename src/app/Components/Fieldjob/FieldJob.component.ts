@@ -2,13 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
-import { Router } from '@angular/router';
-
-import { HttpClient } from '@angular/common/http';
 import { AddFieldJobComponent } from '../add-field-job/add-field-job.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
-import { PrivilegesServiceService } from '../../Services/privileges-service.service';
+import { PrivilegesService } from '../../Services/privileges-service.service';
 import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
+import { UserDataService } from '../../Services/userData.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-Fieldjob',
@@ -37,9 +36,9 @@ export class FieldJobComponent {
   privilegeName: string = '';
   constructor(
     private fieldJobService: FieldJobService,
-    private router: Router,
-    private http: HttpClient,
-    private privilegeService: PrivilegesServiceService
+    private privilegeService: PrivilegesService,
+    public User: UserDataService,
+    private toaster: ToastrService
   ) {}
   ngOnInit(): void {
     this.fetchPrivileges();
@@ -103,9 +102,10 @@ export class FieldJobComponent {
     this.fieldJobService.deleteJob(id).subscribe({
       next: () => {
         this.loadFieldJob();
+        this.toaster.success('تم حذف الصلاحية بنجاح', 'نجاح');
       },
       error: (error) => {
-        console.error('Error deleting FieldJob:', error);
+        this.toaster.error(error.error.message, 'خطأ');
       },
     });
   }
@@ -129,7 +129,7 @@ export class FieldJobComponent {
         const privilege = { name: this.privilegeName };
         this.privilegeService.createPrivilege(privilege).subscribe({
           next: (response) => {
-            console.log('Privilege added successfully:', response);
+            this.toaster.success('تم اضافة الصلاحية بنجاح');
             this.privilegeName = '';
             this.showPrivilegesForm = false;
             this.loadFieldJob();
@@ -140,6 +140,8 @@ export class FieldJobComponent {
           },
         });
       }
+    } else {
+      this.toaster.error('يجب ادخال اسم الصلاحية', 'خطأ');
     }
   }
 }

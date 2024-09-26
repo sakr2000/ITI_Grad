@@ -4,11 +4,11 @@ import { UserDataService } from '../Services/userData.service';
 import { FieldPrivilegeDTO } from '../Models/FieldJob';
 
 export const privilegeGuard: CanActivateFn = (route, state) => {
-  const router = inject(Router);
   const userData = inject(UserDataService);
+  if (userData.getUserData()?.role.includes('Admin')) return true;
+  const router = inject(Router);
   const entity = route.data['entity'];
   const action = route.data['action'];
-  if (userData.getUserData()?.role.includes('Admin')) return true;
   const permissions: FieldPrivilegeDTO[] | undefined =
     userData.getUserData()?.fieldJob?.fieldPrivilegeDTO;
   console.log(permissions, entity, action);
@@ -20,6 +20,11 @@ export const privilegeGuard: CanActivateFn = (route, state) => {
       ]
     );
     return hasPermission;
+  } else if (
+    userData.getUserData()?.role.includes('Seller') &&
+    entity === 'الطلبات'
+  ) {
+    return true;
   }
 
   router.navigate(['/unauthorized']);

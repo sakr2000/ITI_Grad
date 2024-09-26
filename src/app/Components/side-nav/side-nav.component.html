@@ -32,45 +32,62 @@
           ><i class="bi bi-file-earmark-person navicon"></i> المجموعات</a
         >
       </li>
-      <li>
+      <li *ngIf="user.isAdmin() || hasPrivilege('الفروع').display">
         <a [routerLink]="['Branch']" [routerLinkActive]="['active']"
           ><i class="bi bi-shop navicon"></i> الفروع</a
         >
       </li>
-      <li class="dropdown">
+      <li
+        class="dropdown"
+        *ngIf="
+          user.isAdmin() ||
+          hasPrivilege('الموظفين').display ||
+          hasPrivilege('التجار').display ||
+          hasPrivilege('المناديب').display
+        "
+      >
         <a (click)="toggleDropdown($event, toggleDropdownbtn)"
           ><i class="bi bi-person navicon"></i> <span>المستخدمين</span>
           <i #toggleDropdownbtn class="bi bi-chevron-down toggle-dropdown"></i
         ></a>
         <ul>
+          @if (user.isAdmin()|| hasPrivilege('الموظفين').display) {
+
           <li>
             <a [routerLink]="['Employees']" [routerLinkActive]="['active']"
               >الموظفين</a
             >
           </li>
+          } @if (user.isAdmin() || hasPrivilege('التجار').display) {
           <li>
             <a [routerLink]="['Sellers']" [routerLinkActive]="['active']"
               >التجار</a
             >
           </li>
+          } @if (user.isAdmin() || hasPrivilege('المناديب').display) {
           <li>
             <a [routerLink]="['Agents']" [routerLinkActive]="['active']"
               >المناديب</a
             >
           </li>
+          }
         </ul>
       </li>
-      <li>
+      <li
+        *ngIf="
+          user.isAdmin() || user.isSeller() || hasPrivilege('الطلبات').display
+        "
+      >
         <a [routerLink]="['Order']" [routerLinkActive]="['active']"
           ><i class="bi bi-box-seam navicon"></i> الطلبات</a
         >
       </li>
-      <li>
+      <li *ngIf="user.isAdmin() || hasPrivilege('المحافظات').display">
         <a [routerLink]="['Govern']" [routerLinkActive]="['active']"
           ><i class="bi bi-map navicon"></i> المحافظات</a
         >
       </li>
-      <li>
+      <li *ngIf="user.isAdmin()">
         <a
           [routerLink]="['Settings']"
           [routerLinkActive]="['active']"

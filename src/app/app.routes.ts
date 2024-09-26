@@ -24,6 +24,11 @@ export const routes: Routes = [
           import('./Pages/display-governs/display-governs.component').then(
             (m) => m.DisplayGovernsComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'المحافظات',
+          action: 'display',
+        },
       },
       {
         path: 'Govern/add',
@@ -55,6 +60,11 @@ export const routes: Routes = [
           import('./Components/Fieldjob/FieldJob.component').then(
             (m) => m.FieldJobComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الصلاحيات',
+          action: 'display',
+        },
       },
       {
         path: 'Branch',
@@ -62,6 +72,11 @@ export const routes: Routes = [
           import('./Components/branches/branches.component').then(
             (m) => m.BranchesComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الفروع',
+          action: 'display',
+        },
       },
       {
         path: 'Branch/edit/:id',
@@ -69,6 +84,11 @@ export const routes: Routes = [
           import('./Components/create-branch/create-branch.component').then(
             (m) => m.CreateBranchComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الفروع',
+          action: 'edit',
+        },
       },
       {
         path: 'Branch/add',
@@ -85,21 +105,31 @@ export const routes: Routes = [
       {
         path: 'Order',
         loadComponent: () =>
-          import('./Components/view-order/view-order.component').then(
+          import('./Components/order/view-order/view-order.component').then(
             (m) => m.ViewOrderComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الطلبات',
+          action: 'display',
+        },
       },
       {
         path: 'Order/Report',
         loadComponent: () =>
-          import('./Components/report/report.component').then(
+          import('./Components/order/report/report.component').then(
             (m) => m.ReportComponent
           ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الطلبات',
+          action: 'display',
+        },
       },
       {
         path: 'Order/add',
         loadComponent: () =>
-          import('./Components/add-order/add-order.component').then(
+          import('./Components/order/add-order/add-order.component').then(
             (m) => m.AddOrderComponent
           ),
         canActivate: [privilegeGuard],
@@ -114,6 +144,11 @@ export const routes: Routes = [
           import(
             './Components/seller/display-sellers/display-sellers.component'
           ).then((m) => m.DisplaySellersComponent),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'التجار',
+          action: 'display',
+        },
       },
       {
         path: 'Sellers/add',
@@ -133,6 +168,11 @@ export const routes: Routes = [
           import(
             './Components/employee/display-employees/display-employees.component'
           ).then((m) => m.DisplayEmployeesComponent),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الموظفين',
+          action: 'display',
+        },
       },
       {
         path: 'Employees/add',
@@ -152,6 +192,11 @@ export const routes: Routes = [
           import(
             './Components/agent/display-agents/display-agents.component'
           ).then((m) => m.DisplayAgentsComponent),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'المناديب',
+          action: 'display',
+        },
       },
       {
         path: 'Agents/add',
@@ -185,7 +230,7 @@ export const routes: Routes = [
           ),
         canActivate: [privilegeGuard],
         data: {
-          entity: 'Settings',
+          entity: 'الاعدادات',
           action: 'view',
         },
       },

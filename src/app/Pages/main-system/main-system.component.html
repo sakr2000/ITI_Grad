@@ -1,5 +1,6 @@
 <app-side-nav *ngIf="toggled"></app-side-nav>
 <main>
+  <app-loading></app-loading>
   <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
   <router-outlet></router-outlet>
 </main>

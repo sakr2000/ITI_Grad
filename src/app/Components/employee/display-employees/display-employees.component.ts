@@ -1,3 +1,4 @@
+import { GetUser } from './../../../Models/user.model';
 import { UnitOfWorkService } from './../../../Services/unitOfWork.service';
 import { Component } from '@angular/core';
 import { PageHeaderComponent } from '../../page-header/page-header.component';
@@ -19,6 +20,7 @@ import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
 export class DisplayEmployeesComponent {
   employees: GetEmployee[] = [];
   Privileges!: FieldPrivilegeDTO;
+  tempo!: boolean;
   constructor(
     private _unitOfWork: UnitOfWorkService,
     private toaster: ToastrService,
@@ -29,13 +31,14 @@ export class DisplayEmployeesComponent {
     this._unitOfWork.Employee.getAll().subscribe({
       next: (data) => {
         this.employees = data;
+        console.log(data);
       },
       error: (err) => {
         console.log(err);
         this.toaster.error(err.error.message, 'خطأ');
       },
     });
-
+    this.tempo = this.User.isAdmin();
     this.Privileges =
       this.User.getPrivileges()?.find((x) => x.name == 'الموظفين') ??
       ({} as FieldPrivilegeDTO);

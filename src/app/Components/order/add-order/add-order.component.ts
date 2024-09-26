@@ -1,12 +1,12 @@
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { BranchService } from '../../Services/branch.service';
+import { BranchService } from '../../../Services/branch.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Order, Product } from '../../Models/Order';
-import { UnitOfWorkService } from '../../Services/unitOfWork.service';
+import { Order, Product } from '../../../Models/Order';
+import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
-import { PageHeaderComponent } from '../page-header/page-header.component';
+import { PageHeaderComponent } from '../../page-header/page-header.component';
 
 @Component({
   selector: 'app-add-order',
@@ -75,7 +75,7 @@ export class AddOrderComponent implements OnInit {
       typeOfChargeID: ['', Validators.required],
       typeOfReceiptID: ['', Validators.required],
       orderStatusID: [1],
-      sellerID:["9ef10519-9e30-471b-ad2b-f6f1798cfd15"],
+      sellerID: ['9ef10519-9e30-471b-ad2b-f6f1798cfd15'],
       productList: this.fb.array([]),
     });
 

@@ -13,19 +13,18 @@
       <div class="col-md-9">
         <h2 class="display-6">الصلاحيات</h2>
       </div>
+      @if(User.isAdmin()){
       <div class="col-md-3 text-center">
         <button class="btn btn-primary" (click)="togglePrivilegesForm()">
           <i class="bi bi-plus fw-bold"></i> إضافة صلاحية
         </button>
-
-        <!-- Form for adding privileges, visible when showPrivilegesForm is true -->
         <div *ngIf="showPrivilegesForm">
           <form (ngSubmit)="submitPrivileges()">
             <div class="d-flex justify-content-center">
-              <div class="mb-3">
+              <div class="my-3">
                 <input
                   type="text"
-                  class="form-control mt-3"
+                  class="form-control"
                   id="privilegeName"
                   placeholder="اسم الصلاحية"
                   [(ngModel)]="privilegeName"
@@ -33,13 +32,14 @@
                   required
                 />
               </div>
-              <div class="px-3 mt-3">
+              <div class="px-3">
                 <button type="submit" class="btn btn-success">اضافة</button>
               </div>
             </div>
           </form>
         </div>
       </div>
+      }
     </div>
     <div class="row">
       <div class="col-md-6 d-flex align-items-center">

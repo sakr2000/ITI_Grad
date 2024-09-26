@@ -36,7 +36,8 @@ export class UserDataService implements OnInit, OnDestroy {
   }
 
   hasRole(role: string): boolean {
-    return this.ActiveUser ? this.ActiveUser.role.includes(role) : false;
+    let user = this.getUserData();
+    return user ? user.role.includes(role) : false;
   }
 
   isAdmin(): boolean {
