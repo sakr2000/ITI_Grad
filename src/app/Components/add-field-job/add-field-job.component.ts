@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
-import { PrivilegesService } from '../../Services/privileges-service.service';
+import { PrivilegesService } from '../../Services/privileges.service';
 import { ToastrService } from 'ngx-toastr';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 
@@ -58,7 +58,7 @@ export class AddFieldJobComponent implements OnChanges {
   }
   validatePrivileges(): boolean {
     if (this.newFieldJobName === '') {
-      this.toaster.error('يجب تحديد اسم الصلاحية', 'خطأ');
+      this.toaster.error('يجب تحديد اسم المجموعة', 'خطأ');
       return false;
     }
     for (let privilege of this.privileges) {
@@ -66,7 +66,7 @@ export class AddFieldJobComponent implements OnChanges {
         privilege.add || privilege.delete || privilege.edit;
       if (hasOtherChecks && !privilege.display) {
         this.toaster.error(
-          `يجب تحديد صلاحية العرض مع  ${privilege.name}`,
+          `يجب اضافة صلاحية العرض مع  ${privilege.name}`,
           'خطأ'
         );
         return false;

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FieldJobService } from '../../Services/FieldJob.service';
 import { AddFieldJobComponent } from '../add-field-job/add-field-job.component';
 import { PageHeaderComponent } from '../page-header/page-header.component';
-import { PrivilegesService } from '../../Services/privileges-service.service';
+import { PrivilegesService } from '../../Services/privileges.service';
 import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
 import { UserDataService } from '../../Services/userData.service';
 import { ToastrService } from 'ngx-toastr';

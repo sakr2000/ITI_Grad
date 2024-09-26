@@ -28,8 +28,9 @@ export class UserDataService implements OnInit, OnDestroy {
   }
 
   getPrivileges(): FieldPrivilegeDTO[] | null {
-    if (this.ActiveUser) {
-      return this.ActiveUser.fieldJob?.fieldPrivilegeDTO ?? null;
+    let user = this.getUserData();
+    if (user) {
+      return user.fieldJob?.fieldPrivilegeDTO ?? null;
     } else {
       return null;
     }

@@ -12,6 +12,11 @@
   animation: fadeIn 0.3s;
 }
 
+.spinner-border {
+  width: 4rem;
+  height: 4rem;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

@@ -20,7 +20,7 @@ export class TypeOfPaymentService implements CRUD<any> {
     return this.http.post(`${this.api}`, data);
   }
   update(id: number, data: any) {
-    return this.http.put(`${this.api}/${id}`, data);
+    return this.http.put(this.api, data);
   }
 
   delete(id: number) {

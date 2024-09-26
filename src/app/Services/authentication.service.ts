@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -18,7 +17,8 @@ export class AuthenticationService {
       password: Password,
     };
     payload =
-      EmailOrUsername.includes('@') && !EmailOrUsername.includes('admin')
+      EmailOrUsername.includes('@') &&
+      !(EmailOrUsername.includes('admin') && EmailOrUsername.includes('@'))
         ? { ...payload, email: EmailOrUsername }
         : { ...payload, username: EmailOrUsername };
 

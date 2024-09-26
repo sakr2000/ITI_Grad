@@ -1,28 +1,29 @@
-<div class="modal" #modal id="addFieldJobModal">
-  <div class="modal-dialog">
+<div class="modal bg-dark bg-opacity-25" #modal id="addFieldJobModal">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" dir="rtl">
-      <div class="modal-header">
+      <div class="modal-header justify-content-between align-items-center">
         <h4 class="modal-title">
           @if (editMode) {
-          <span>تعديل صلاحية</span>
+          <span>تعديل مجموعة</span>
           }@else if (viewMode) {
-          <span>عرض صلاحية</span>
+          <span>عرض مجموعة</span>
           }@else {
-          <span>إضافة صلاحية</span>
+          <span>إضافة مجموعة</span>
           }
         </h4>
         <button
           type="button"
-          class="close custom-close-btn"
+          class="btn-close m-0 focus-ring-danger"
+          data-bs-dismiss="modal"
+          aria-label="Close"
           (click)="closeModal()"
-        >
-          &times;
-        </button>
+        ></button>
       </div>
       <div class="modal-body">
         <input
           type="text"
-          placeholder="اسم الصلاحية"
+          class="form-control w-100 mb-3"
+          placeholder="اسم المجموعة"
           [(ngModel)]="newFieldJobName"
           [disabled]="viewMode"
           required
@@ -30,7 +31,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th>اسم الصلاحية</th>
+              <th>الصلاحية</th>
               <th>إضافة</th>
               <th>حذف</th>
               <th>عرض</th>
@@ -74,15 +75,19 @@
       </div>
       <div class="modal-footer">
         <button
+          type="button"
+          class="btn btn-secondary px-4"
+          (click)="closeModal()"
+        >
+          إلغاء
+        </button>
+        <button
           *ngIf="!viewMode"
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary mx-3 px-4"
           (click)="saveFieldJob()"
         >
           حفظ
-        </button>
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">
-          إلغاء
         </button>
       </div>
     </div>
