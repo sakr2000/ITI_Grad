@@ -1,14 +1,14 @@
 <app-page-header
-  title="إضافة طلب"
-  [path]="[
-    { name: 'الطلبات', link: '/Order' },
-    { name: 'اضافة طلب', link: '/Order/add' }
-  ]"
+[title]="isEditMode ? 'تعديل طلب' : 'إضافة طلب'"
+[path]="[
+{ name: 'الطلبات', link: '/Order' },
+{ name: isEditMode ? 'تعديل طلب' : 'اضافة طلب', link: isEditMode ? '/Order/edit' : '/Order/add' }
+]"
 ></app-page-header>
 
 <div class="section">
   <div class="container mt-4">
-    <h2 class="text-end mb-4">إضافة طلب</h2>
+    <h2 class="text-end mb-4">{{ isEditMode ? 'تعديل طلب' : 'إضافة طلب' }}</h2>
 
     <form [formGroup]="addOrderForm" (ngSubmit)="onSubmit()">
       <div class="row">

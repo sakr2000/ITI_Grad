@@ -10,13 +10,19 @@ export class OrderService implements CRUD<any> {
   url = 'http://localhost:5298/api/Order';
   constructor(private http: HttpClient) {}
   getById(id: number): Observable<any> {
-    return this.http.get(`${this.url}/GetOrderById${id}`);
+    return this.http.get(`${this.url}/GetOrderById/${id}`);
   }
   create(data: Order): Observable<any> {
     return this.http.post(`${this.url}`, data);
   }
-  update(id: number, data: Order): Observable<any> {
-    return this.http.put(`${this.url}/${id}`, data);
+  createByAdmin(data: Order): Observable<any> {
+    return this.http.post(`http://localhost:5298/api/Order/AdminAddOrder`, data);
+  }
+  update(id:number, data: Order): Observable<any> {
+    return this.http.put(`${this.url}`, data);
+  }
+  updateOrder( data: Order): Observable<any> {
+    return this.http.put(`${this.url}`, data);
   }
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);

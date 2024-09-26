@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PageHeaderComponent } from '../page-header/page-header.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 import { map } from 'rxjs';
 
@@ -27,7 +27,7 @@ export class ViewOrderComponent {
   page: number = 1;
   selectedStatusId: number | null = null; 
 
-  constructor(private http: HttpClient, private unitOfWork: UnitOfWorkService) {}
+  constructor(private http: HttpClient, private unitOfWork: UnitOfWorkService,private router: Router) {}
 
   ngOnInit(): void {
     this.loadOrders();
@@ -42,8 +42,8 @@ export class ViewOrderComponent {
         clientPhone: order.clientNumber,
         governorateID: order.governID,
         cityID: order.cityID,
-        governorate: '',
-        city: '',
+        governorate: order.govern,
+        city: order.city,
         cost: order.cost,
         orderStatusID: order.orderStatusID 
       }));

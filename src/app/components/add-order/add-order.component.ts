@@ -7,6 +7,7 @@ import { Order, Product } from '../../Models/Order';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
 import { PageHeaderComponent } from '../page-header/page-header.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-order',
@@ -28,14 +29,27 @@ export class AddOrderComponent implements OnInit {
   typeOfPayments: any[] = [];
   typeOfCharges: any[] = [];
   typeOfReceipts: any[] = [];
+  orderId: number | null = null;
+  isEditMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private unitOfWork: UnitOfWorkService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('orderId');
+      debugger
+      if (id) {
+        this.orderId = +id;
+        this.isEditMode = true;
+        this.loadOrderForEdit(this.orderId);
+      }
+    });
     this.addOrderForm = this.fb.group({
       clientName: [
         '',
@@ -75,12 +89,16 @@ export class AddOrderComponent implements OnInit {
       typeOfChargeID: ['', Validators.required],
       typeOfReceiptID: ['', Validators.required],
       orderStatusID: [1],
-      sellerID:["9ef10519-9e30-471b-ad2b-f6f1798cfd15"],
+      sellerID:["8a5a6095-9b31-4693-9fc1-8a53c29a3e23"],
       productList: this.fb.array([]),
     });
 
     this.loadBranches();
-    this.loadGovernments();
+    this.loadGovernments().add(() => {
+      if (this.orderId) {
+        this.loadOrderForEdit(this.orderId);
+      }
+    });
     this.loadTypeOfCharges();
     this.loadTypeOfPayments();
     this.loadTypeOfReceipts();
@@ -88,16 +106,38 @@ export class AddOrderComponent implements OnInit {
       this.calculateTotalWeight();
     });
   }
-
+  loadOrderForEdit(orderId: number): void {
+    this.unitOfWork.Order.getById(orderId).subscribe({
+      next: (order) => {
+        this.addOrderForm.patchValue(order);  
+  
+        
+        const selectedGovern = this.governments.find(g => g.id === order.governID);
+        if (selectedGovern) {
+          this.cities = selectedGovern.cities;
+        }
+        this.addOrderForm.patchValue({
+          cityID: order.cityID
+        });this.productList.clear();
+  
+        order.productList.forEach((product: any) => this.addProduct(product));
+      },
+      error: (err) => {
+        console.error('Error loading order data:', err);
+        this.toaster.error('Failed to load order data', 'Error');
+      }
+    });
+  }
+  
   get productList(): FormArray {
     return this.addOrderForm.get('productList') as FormArray;
   }
-  addProduct() {
+  addProduct(product?: any) {
     const productForm = this.fb.group({
-      name: ['', Validators.required],
-      quantity: [0, [Validators.required, Validators.min(1)]],
-      productWeight: [0, [Validators.required, Validators.min(0.01)]],
-      orderId: [0],
+      name: [product?.name || '', Validators.required],
+      quantity: [product?.quantity || 0, [Validators.required, Validators.min(1)]],
+      productWeight: [product?.productWeight || 0, [Validators.required, Validators.min(0.01)]],
+      orderId: [product?.orderId || 0],
     });
     this.productList.push(productForm);
   }
@@ -115,7 +155,7 @@ export class AddOrderComponent implements OnInit {
     );
   }
   loadGovernments() {
-    this.unitOfWork.Govern.getAll().subscribe(
+    return this.unitOfWork.Govern.getAll().subscribe(
       (data) => {
         this.governments = data.filter(
           (govern: { status: any }) => govern.status
@@ -138,28 +178,49 @@ export class AddOrderComponent implements OnInit {
     }
   }
   onSubmit() {
-    debugger;
     if (this.addOrderForm.valid) {
-      const orderData: Order = {
-        ...this.addOrderForm.value,
-        productList: this.productList.value,
+      const orderDataa = {
+        id: this.orderId ? this.orderId : 0,  
+        clientName: this.addOrderForm.value.clientName,
+        clientNumber: this.addOrderForm.value.clientNumber,
+        clientNumber2: this.addOrderForm.value.clientNumber2 || '',  
+        email: this.addOrderForm.value.email,
+        cost: this.addOrderForm.value.cost,
+        isForVillage: this.addOrderForm.value.isForVillage,
+        note: this.addOrderForm.value.note || '',  
+        weight: this.addOrderForm.value.weight,
+        villageOrStreet: this.addOrderForm.value.villageOrStreet,
+        sellerID:"8a5a6095-9b31-4693-9fc1-8a53c29a3e23",
+        branchID: +this.addOrderForm.value.branchID, 
+        governID: +this.addOrderForm.value.governID,
+        cityID: +this.addOrderForm.value.cityID,
+        typeOfPaymentID: +this.addOrderForm.value.typeOfPaymentID,
+        typeOfChargeID: +this.addOrderForm.value.typeOfChargeID,
+        orderStatusID: this.addOrderForm.value.orderStatusID,
+        typeOfReceiptID: +this.addOrderForm.value.typeOfReceiptID,
+        productList: this.addOrderForm.value.productList.map((product: any) => ({
+          id: product.id || 0,  
+          name: product.name,
+          quantity: product.quantity,
+          productWeight: product.productWeight,
+          orderId: this.orderId || 0  
+        }))
       };
-
-      this.unitOfWork.Order.create(orderData).subscribe({
-        next: (response) => {
-          console.log('Order saved successfully', response);
-          this.toaster.success('Order saved successfully', 'Success');
-        },
-        error: (err) => {
-          console.error('Error saving order', err);
-          this.toaster.error('Error saving order', 'Error');
-        },
-      });
+      if (this.orderId) {
+        
+        this.unitOfWork.Order.updateOrder( orderDataa).subscribe({
+          next: () => this.toaster.success('Order updated successfully', 'Success'),
+          error: (err) => this.toaster.error('Error updating order', 'Error')
+        });
+      } else {
+        
+        this.unitOfWork.Order.create(orderDataa).subscribe({
+          next: () => this.toaster.success('Order created successfully', 'Success'),
+          error: (err) => this.toaster.error('Error creating order', 'Error')
+        });
+      }
     } else {
-      console.log(this.addOrderForm.errors);
-      console.log(this.addOrderForm.controls);
-      console.log('Form is invalid!');
-      this.toaster.error('Error saving order', 'Error');
+      this.toaster.error('Invalid form data', 'Error');
     }
   }
   loadTypeOfPayments() {
