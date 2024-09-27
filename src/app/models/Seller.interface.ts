@@ -14,3 +14,17 @@ export interface AddSeller {
     specialCharge: number;
   }[];
 }
+
+export interface GetSeller {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  branchID: number;
+  storeName: string;
+  pickUp: number;
+  valueOfRejectedOrder: number;
+  branchName: string;
+  governor: string;
+  city: string;
+}

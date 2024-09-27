@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
+import { GetAgent } from '../../../Models/Agent.interface';
 
 @Component({
   selector: 'app-display-agents',
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './display-agents.component.css',
 })
 export class DisplayAgentsComponent implements OnInit {
-  Agents: any[] = [];
+  Agents: GetAgent[] = [];
 
   constructor(
     private _unitOfWork: UnitOfWorkService,

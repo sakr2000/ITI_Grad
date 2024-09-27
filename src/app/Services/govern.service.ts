@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { addGovern } from '../Models/Govern/addgovern.model';
+import { addGovern } from '../Models/Govern.interface';
 import { CRUD } from '../Models/CRUD.interface';
 
 @Injectable({

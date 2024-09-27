@@ -7,11 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
-import { AddEmployee } from '../../../Models/Employee/addEmployee.interface';
+import { AddEmployee } from '../../../Models/Employee.interface';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
-import { GetGovern } from '../../../Models/Govern/getGovern.interface';
-import { GetBranch } from '../../../Models/Branch/getBranch.interface';
+import { GetGovern } from '../../../Models/Govern.interface';
+import { GetBranch } from '../../../Models/Branch.interface';
 import { ToastrService } from 'ngx-toastr';
 import { FieldJob } from '../../../Models/FieldJob';
 import { privilegeGuard } from '../../../Guards/privilege.guard';

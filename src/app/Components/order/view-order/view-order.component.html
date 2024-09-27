@@ -24,7 +24,8 @@
 </app-page-header>
 
 <div class="section p-4">
-  @if (orders.length > 0 && User.isAdmin() || privileges.display) {
+  @if (orders.length > 0 && (User.isAdmin() || User.isSeller() ||
+  privileges.display)) {
   <div class="actions">
     <button class="btn btn-primary" (click)="filterOrdersByStatus(null)">
       كل
@@ -100,8 +101,8 @@
           {{ order.clientName }} <br />
           {{ order.clientPhone }}
         </td>
-        <td>{{ order.governorate }}</td>
-        <td>{{ order.city }}</td>
+        <td>{{ order.governorateName }}</td>
+        <td>{{ order.cityName }}</td>
         <td>{{ order.cost }}</td>
         <td>
           <button class="btn btn-success"><i class="fa fa-edit"></i></button>

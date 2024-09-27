@@ -1,10 +1,8 @@
-import { User } from './../../../Models/user.model';
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { RouterLink } from '@angular/router';
-import { SellerService } from '../../../Services/seller.service';
 import { ToastrService } from 'ngx-toastr';
-import { GetSeller } from '../../../Models/Seller/getSeller.interface';
+import { GetSeller } from '../../../Models/Seller.interface';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
 import { UserDataService } from '../../../Services/userData.service';
 import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
@@ -26,8 +24,6 @@ export class DisplaySellersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
-
     this._unitOfWork.Selller.getAll().subscribe({
       next: (data) => {
         this.data = data;

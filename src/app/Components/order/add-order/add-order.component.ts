@@ -2,7 +2,7 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Order } from '../../../Models/Order';
+import { addOrder } from '../../../Models/Order.interface';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
 import { PageHeaderComponent } from '../../page-header/page-header.component';
@@ -140,7 +140,7 @@ export class AddOrderComponent implements OnInit {
   }
   onSubmit() {
     if (this.addOrderForm.valid) {
-      const orderData: Order = {
+      const orderData: addOrder = {
         ...this.addOrderForm.value,
         productList: this.productList.value,
       };

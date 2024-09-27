@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -10,6 +9,7 @@ import { map } from 'rxjs';
 import { UserDataService } from '../../../Services/userData.service';
 import { ToastrService } from 'ngx-toastr';
 import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
+import { GetOrder } from '../../../Models/Order.interface';
 
 @Component({
   selector: 'app-view-order',
@@ -31,7 +31,6 @@ export class ViewOrderComponent {
   selectedStatusId: number | null = null;
   privileges!: FieldPrivilegeDTO;
   constructor(
-    private http: HttpClient,
     private _unitOfWork: UnitOfWorkService,
     public User: UserDataService,
     private toastr: ToastrService
@@ -49,51 +48,20 @@ export class ViewOrderComponent {
       next: (response) => {
         console.log(response);
 
-        // this.orders = response.map((order) => ({
-        //   serialNumber: order.id,
-        //   date: new Date(order.date),
-        //   clientName: order.clientName,
-        //   clientPhone: order.clientNumber,
-        //   governorateID: order.governID,
-        //   cityID: order.cityID,
-        //   governorate: '',
-        //   city: '',
-        //   cost: order.cost,
-        //   orderStatusID: order.orderStatusID,
-        // }));
+        this.orders = response.map((order: GetOrder) => ({
+          serialNumber: order.id,
+          date: new Date(order.date),
+          clientName: order.clientName,
+          clientPhone: order.clientNumber,
+          governorateName: order.governName,
+          cityName: order.cityName,
+          cost: order.cost,
+          orderStatusID: order.orderStatusID,
+        }));
 
-        this.populateGovernAndCityNames();
         this.filteredOrders = this.orders;
       },
     });
-  }
-
-  populateGovernAndCityNames(): void {
-    this.orders.forEach((order) => {
-      this.getGovernorateName(order.governorateID).subscribe(
-        (governorateName: string) => {
-          order.governorate = governorateName;
-        }
-      );
-
-      this.getCityName(order.cityID).subscribe((cityName: string) => {
-        order.city = cityName;
-      });
-    });
-  }
-
-  getGovernorateName(governID: number) {
-    const apiUrl = `http://localhost:5298/api/Govern/${governID}`;
-    return this.http
-      .get<{ name: string }>(apiUrl)
-      .pipe(map((response) => response.name));
-  }
-
-  getCityName(cityID: number) {
-    const apiUrl = `http://localhost:5298/api/City/${cityID}`;
-    return this.http
-      .get<{ name: string }>(apiUrl)
-      .pipe(map((response) => response.name));
   }
 
   filterOrdersByStatus(statusId: number | null): void {
@@ -110,11 +78,9 @@ export class ViewOrderComponent {
   deleteOrder(orderId: number): void {
     this._unitOfWork.Order.delete(orderId).subscribe({
       next: () => {
-        this.orders = this.orders.filter(
-          (order) => order.serialNumber !== orderId
-        );
+        this.orders = this.orders.filter((order) => order.id !== orderId);
         this.filteredOrders = this.filteredOrders.filter(
-          (order) => order.serialNumber !== orderId
+          (order) => order.id !== orderId
         );
         this.toastr.success('تم حذف الطلب بنجاح', 'تم الحذف');
       },
