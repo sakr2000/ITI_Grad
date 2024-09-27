@@ -1,0 +1,119 @@
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button
+      class="accordion-button collapsed"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#TypeOfPayment"
+      aria-expanded="false"
+      aria-controls="TypeOfPayment"
+    >
+      <h2 class="text-end">طرق الدفع</h2>
+    </button>
+  </h2>
+  <div
+    id="TypeOfPayment"
+    class="accordion-collapse collapse"
+    data-bs-parent="#accordionExample"
+  >
+    <div class="accordion-body">
+      @if (addType ==false) {
+      <div class="text-start">
+        <button class="btn btn-primary mb-3" (click)="this.addType = true">
+          اضافة طريقة دفع
+        </button>
+      </div>
+      @if (typesOfPayments.length > 0 ) {
+      <ul class="list-group list-group-flush text-center fs-5">
+        <li class="list-group-item bg-primary bg-opacity-10">
+          <div class="row">
+            <div class="col-md-3">
+              <p>#</p>
+            </div>
+            <div class="col-md-7">
+              <p>طريقة الدفع</p>
+            </div>
+            <div class="col-md-2">
+              <p>الإعدادات</p>
+            </div>
+          </div>
+        </li>
+        @for (item of typesOfPayments; track $index) {
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-3">
+              <p>{{ $index + 1 }}</p>
+            </div>
+            <div class="col-md-7">
+              <p>{{ item.name }}</p>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-danger mx-2" (click)="deleteType(item.id)">
+                <span class="bi bi-trash"></span>
+              </button>
+              <button class="btn btn-warning" (click)="editType(item.id)">
+                <span class="bi bi-pencil"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+        }
+      </ul>
+      }@else {
+      <p class="text-center">لا يوجد بيانات</p>
+      } } @if (addType == true) {
+      <form [formGroup]="addTypeOfPaymentForm">
+        <div class="row my-4">
+          <div class="col-md-10">
+            <label for="name" class="form-label">طريقة الدفع</label>
+            <input
+              type="text"
+              id="name"
+              class="form-control"
+              formControlName="name"
+              placeholder="أدخل اسم الطريقة"
+              [ngClass]="{
+                'is-invalid':
+                  addTypeOfPaymentForm.get('name')?.invalid &&
+                  addTypeOfPaymentForm.get('name')?.touched,
+                'is-valid':
+                  addTypeOfPaymentForm.get('name')?.valid &&
+                  addTypeOfPaymentForm.get('name')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                addTypeOfPaymentForm.get('name')?.invalid &&
+                addTypeOfPaymentForm.get('name')?.touched
+              "
+              class="invalid-feedback small"
+            >
+              <div
+                *ngIf="addTypeOfPaymentForm.get('name')?.errors?.['required']"
+              >
+                الاسم مطلوب
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 d-flex align-items-end justify-content-end">
+            <button
+              type="submit"
+              class="btn btn-primary px-3 mx-3"
+              (click)="addTypeOfCharge()"
+            >
+              حفظ
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary px-3"
+              (click)="this.addType = false"
+            >
+              الغاء
+            </button>
+          </div>
+        </div>
+      </form>
+      }
+    </div>
+  </div>
+</div>

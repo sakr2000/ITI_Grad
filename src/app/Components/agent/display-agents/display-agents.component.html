@@ -29,18 +29,21 @@
         <td>{{ agent.name }}</td>
         <td>{{ agent.email }}</td>
         <td>{{ agent.phone }}</td>
-        <td>{{ agent.branchID }}</td>
+        <td>{{ agent.branch }}</td>
         <td>
           <label class="switch">
-            <input type="checkbox" [checked]="agent.status" />
+            <input type="checkbox" checked />
             <span class="slider round"></span>
           </label>
         </td>
         <td>
-          <a [routerLink]="['edit', agent.id]" class="btn btn-warning"
-            ><i class="fa fa-edit"></i></a
+          <a [routerLink]="['edit', agent.id]" class="btn btn-outline-warning"
+            ><i class="fa fa-pen"></i></a
           >&nbsp;
-          <button class="btn btn-danger" (click)="deleteAgent(agent.id)">
+          <button
+            class="btn btn-outline-danger"
+            (click)="deleteAgent(agent.id)"
+          >
             <i class="fa fa-trash"></i>
           </button>
         </td>

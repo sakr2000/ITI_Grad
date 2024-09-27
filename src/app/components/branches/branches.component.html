@@ -1,5 +1,9 @@
 <app-page-header title="الفروع" [path]="[{ name: 'الفروع', link: 'Branch' }]">
-  <a [routerLink]="['add']" class="btn btn-primary">
+  <a
+    *ngIf="user.isAdmin() || privileges.add"
+    [routerLink]="['add']"
+    class="btn btn-primary"
+  >
     <i class="fa fa-plus mx-2"></i>
     <span>إضافة فرع</span>
   </a>
@@ -7,7 +11,7 @@
 
 <div class="section">
   <div class="container mt-4">
-    @if (branches.length > 0) {
+    @if (branches.length > 0 && (user.isAdmin() || privileges.display)) {
     <h2 class="text-center mb-4">الفروع</h2>
     <div class="form-group mb-3">
       <input
@@ -51,6 +55,7 @@
             </label>
           </td>
           <td>
+            @if (user.isAdmin() || privileges.edit) {
             <button
               *ngIf="editingBranchId !== branch.id"
               class="btn btn-edit btn-sm"
@@ -60,7 +65,7 @@
             </button>
             <button
               *ngIf="editingBranchId === branch.id"
-              class="btn btn-save btn-sm"
+              class="btn btn-save btn-sm text-success"
               (click)="saveBranch(branch)"
             >
               <i class="fas fa-save"></i>
@@ -68,18 +73,19 @@
 
             <button
               *ngIf="editingBranchId === branch.id"
-              class="btn btn-cancel btn-sm"
+              class="btn btn-cancel btn-sm text-danger"
               (click)="cancelEdit()"
             >
               <i class="fas fa-times"></i>
             </button>
-
+            } @if (user.isAdmin() || privileges.delete) {
             <button
               class="btn btn-delete btn-sm"
               (click)="deleteBranch(branch.id)"
             >
               <i class="fas fa-trash-alt"></i>
             </button>
+            }
           </td>
         </tr>
       </tbody>

@@ -1,6 +1,7 @@
 main {
   background-color: #ededed;
   min-height: 100vh;
+  position: relative;
 }
 
 @media (min-width: 1200px) {

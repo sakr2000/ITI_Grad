@@ -28,15 +28,17 @@ export class UserDataService implements OnInit, OnDestroy {
   }
 
   getPrivileges(): FieldPrivilegeDTO[] | null {
-    if (this.ActiveUser) {
-      return this.ActiveUser.fieldJob?.fieldPrivilegeDTO ?? null;
+    let user = this.getUserData();
+    if (user) {
+      return user.fieldJob?.fieldPrivilegeDTO ?? null;
     } else {
       return null;
     }
   }
 
   hasRole(role: string): boolean {
-    return this.ActiveUser ? this.ActiveUser.role.includes(role) : false;
+    let user = this.getUserData();
+    return user ? user.role.includes(role) : false;
   }
 
   isAdmin(): boolean {

@@ -1,3 +1,4 @@
 export interface TypeOfPayment {
-    name: string; 
-  }
+  id: number;
+  name: string;
+}

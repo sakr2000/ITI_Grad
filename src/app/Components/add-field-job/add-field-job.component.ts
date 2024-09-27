@@ -5,15 +5,14 @@ import {
   Input,
   ViewChild,
   OnChanges,
-  SimpleChanges,
   EventEmitter,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FieldJobService } from '../../Services/FieldJob.service';
 import { FieldPrivilegeDTO, FieldJob } from '../../Models/FieldJob';
-import { PrivilegesServiceService } from '../../Services/privileges-service.service';
+import { PrivilegesService } from '../../Services/privileges.service';
 import { ToastrService } from 'ngx-toastr';
+import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 
 @Component({
   selector: 'app-add-field-job',
@@ -31,8 +30,8 @@ export class AddFieldJobComponent implements OnChanges {
   newFieldJobName = '';
   @ViewChild('modal') modal!: ElementRef;
   constructor(
-    private fieldJobService: FieldJobService,
-    private privilegeService: PrivilegesServiceService,
+    private _unitOfWork: UnitOfWorkService,
+    private privilegeService: PrivilegesService,
     private toaster: ToastrService
   ) {}
 
@@ -57,6 +56,38 @@ export class AddFieldJobComponent implements OnChanges {
       this.resetPrivileges();
     }
   }
+  validatePrivileges(): boolean {
+    if (this.newFieldJobName === '') {
+      this.toaster.error('يجب تحديد اسم المجموعة', 'خطأ');
+      return false;
+    }
+    for (let privilege of this.privileges) {
+      const hasOtherChecks =
+        privilege.add || privilege.delete || privilege.edit;
+      if (hasOtherChecks && !privilege.display) {
+        this.toaster.error(
+          `يجب اضافة صلاحية العرض مع  ${privilege.name}`,
+          'خطأ'
+        );
+        return false;
+      }
+    }
+
+    const allUnchecked = this.privileges.every(
+      (privilege) =>
+        !privilege.add &&
+        !privilege.delete &&
+        !privilege.display &&
+        !privilege.edit
+    );
+
+    if (allUnchecked) {
+      this.toaster.error('يجب تحديد صلاحيات واحدة على الاقل', 'خطأ');
+      return false;
+    }
+    return true;
+  }
+
   resetPrivileges() {
     if (!this.privileges) {
       this.privileges = [];
@@ -92,6 +123,9 @@ export class AddFieldJobComponent implements OnChanges {
   }
 
   saveFieldJob() {
+    if (!this.validatePrivileges()) {
+      return;
+    }
     const selectedPrivileges = this.privileges.map((priv) => ({
       PrivilegeID: priv.privilegeID,
       add: priv.add,
@@ -107,7 +141,7 @@ export class AddFieldJobComponent implements OnChanges {
         fieldPrivilegeCollection: selectedPrivileges,
       };
 
-      this.fieldJobService.updateJob(updatedFieldJob).subscribe(
+      this._unitOfWork.FieldJob.updateJob(updatedFieldJob).subscribe(
         () => {
           this.toaster.success('تم التعديل بنجاح', 'تم');
           this.closeModal();
@@ -123,7 +157,7 @@ export class AddFieldJobComponent implements OnChanges {
         FieldPrivilegeDTo: selectedPrivileges,
       };
 
-      this.fieldJobService.addJob(newFieldJob).subscribe(
+      this._unitOfWork.FieldJob.addJob(newFieldJob).subscribe(
         () => {
           this.toaster.success('تم الاضافة بنجاح', 'تم');
           this.closeModal();

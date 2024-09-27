@@ -1,6 +1,6 @@
 <app-page-header
   title="الموظفين"
-  [path]="[{ name: 'الموظفين', link: 'Employees' }]"
+  [path]="[{ name: 'الموظفين', link: '/Employees' }]"
 >
   @if (User.isAdmin() || Privileges.add) {
   <a [routerLink]="['add']" class="btn btn-primary">
@@ -44,7 +44,7 @@
         </td>
         <td>
           @if (User.isAdmin() || Privileges.edit) {
-          <a [routerLink]="['edit', e.id]" class="btn btn-outline-warning"
+          <a [routerLink]="['edit', e.id]" class="btn btn-outline-warning mx-2"
             ><i class="fa fa-pen"></i
           ></a>
           } @if (User.isAdmin() || Privileges.delete) {

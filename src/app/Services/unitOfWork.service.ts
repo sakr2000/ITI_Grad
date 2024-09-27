@@ -9,9 +9,10 @@ import { FieldJobService } from './FieldJob.service';
 import { WeightService } from './weight.service';
 import { TypeOfPaymentService } from './TypeOfPayment.service';
 import { TypeOfReceiptService } from './TypeOfReceipts.service';
-import { TypeOfChargeService } from './type-of-charge.service';
 import { AgentService } from './agent.service';
 import { TypeOfOfferService } from './type-of-offer.service';
+import { TypeOfChargeService } from './TypeOfCharge.service';
+import { OrderStatusService } from './order-status.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,7 @@ export class UnitOfWorkService {
     public Branch: BranchService,
     public City: CityService,
     public Order: OrderService,
+    public OrderStatus: OrderStatusService,
     public Employee: EmployeeService,
     public FieldJob: FieldJobService,
     public Agent: AgentService,

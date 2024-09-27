@@ -9,8 +9,8 @@ import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
-import { GetGovern } from '../../../Models/Govern/getGovern.interface';
-import { GetBranch } from '../../../Models/Branch/getBranch.interface';
+import { GetGovern } from '../../../Models/Govern.interface';
+import { GetBranch } from '../../../Models/Branch.interface';
 import { CommonModule } from '@angular/common';
 import { TypeOfOffer } from '../../../Models/TypeOFOffer.interface';
 

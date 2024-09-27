@@ -1,12 +1,12 @@
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { BranchService } from '../../Services/branch.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Order, Product } from '../../Models/Order';
-import { UnitOfWorkService } from '../../Services/unitOfWork.service';
+import { addOrder } from '../../../Models/Order.interface';
+import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
-import { PageHeaderComponent } from '../page-header/page-header.component';
+import { PageHeaderComponent } from '../../page-header/page-header.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-order',
@@ -32,7 +32,8 @@ export class AddOrderComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private unitOfWork: UnitOfWorkService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +76,7 @@ export class AddOrderComponent implements OnInit {
       typeOfChargeID: ['', Validators.required],
       typeOfReceiptID: ['', Validators.required],
       orderStatusID: [1],
-      sellerID:["9ef10519-9e30-471b-ad2b-f6f1798cfd15"],
+      sellerID: ['9ef10519-9e30-471b-ad2b-f6f1798cfd15'],
       productList: this.fb.array([]),
     });
 
@@ -115,16 +116,16 @@ export class AddOrderComponent implements OnInit {
     );
   }
   loadGovernments() {
-    this.unitOfWork.Govern.getAll().subscribe(
-      (data) => {
+    this.unitOfWork.Govern.getAll().subscribe({
+      next: (data) => {
         this.governments = data.filter(
           (govern: { status: any }) => govern.status
         );
       },
-      (err) => {
+      error: (err) => {
         console.error('Error loading governments', err);
-      }
-    );
+      },
+    });
   }
   onGovernmentChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
@@ -138,9 +139,8 @@ export class AddOrderComponent implements OnInit {
     }
   }
   onSubmit() {
-    debugger;
     if (this.addOrderForm.valid) {
-      const orderData: Order = {
+      const orderData: addOrder = {
         ...this.addOrderForm.value,
         productList: this.productList.value,
       };
@@ -148,49 +148,55 @@ export class AddOrderComponent implements OnInit {
       this.unitOfWork.Order.create(orderData).subscribe({
         next: (response) => {
           console.log('Order saved successfully', response);
-          this.toaster.success('Order saved successfully', 'Success');
+          this.toaster
+            .success('تم حفظ الطلب بنجاح', 'نجاح')
+            .onHidden.subscribe({
+              next: () => {
+                this.router.navigate(['/Order']);
+              },
+            });
         },
         error: (err) => {
           console.error('Error saving order', err);
-          this.toaster.error('Error saving order', 'Error');
+          this.toaster.error('حدث خطأ عند حفظ الطلب', 'خطأ');
         },
       });
     } else {
       console.log(this.addOrderForm.errors);
       console.log(this.addOrderForm.controls);
       console.log('Form is invalid!');
-      this.toaster.error('Error saving order', 'Error');
+      this.toaster.error('رجاءً تأكد من المعلومات المدخلة', 'خطأ');
     }
   }
   loadTypeOfPayments() {
-    this.unitOfWork.TypeOfPayment.getAll().subscribe(
-      (data) => {
+    this.unitOfWork.TypeOfPayment.getAll().subscribe({
+      next: (data) => {
         this.typeOfPayments = data;
       },
-      (err) => {
+      error: (err) => {
         console.error('Error loading type of payments', err);
-      }
-    );
+      },
+    });
   }
   loadTypeOfCharges() {
-    this.unitOfWork.TypeOfCharge.getAll().subscribe(
-      (data) => {
+    this.unitOfWork.TypeOfCharge.getAll().subscribe({
+      next: (data) => {
         this.typeOfCharges = data;
       },
-      (err) => {
+      error: (err) => {
         console.error('Error loading type of charges', err);
-      }
-    );
+      },
+    });
   }
   loadTypeOfReceipts() {
-    this.unitOfWork.TypeOfReceipt.getAll().subscribe(
-      (data) => {
+    this.unitOfWork.TypeOfReceipt.getAll().subscribe({
+      next: (data) => {
         this.typeOfReceipts = data;
       },
-      (err) => {
+      error: (err) => {
         console.error('Error loading type of receipts', err);
-      }
-    );
+      },
+    });
   }
   calculateTotalWeight() {
     const products = this.productList.value;
