@@ -139,9 +139,9 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'Order/edit/:orderId',  // Edit order route with orderId parameter
+        path: 'Order/edit/:orderId',  
         loadComponent: () =>
-          import('./Components/add-order/add-order.component').then(
+          import('./Components/order/add-order/add-order.component').then(
             (m) => m.AddOrderComponent
           ),
         canActivate: [privilegeGuard],
