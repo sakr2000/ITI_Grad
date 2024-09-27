@@ -5,7 +5,25 @@ export interface Product {
   productWeight: number;
   orderId?: number;
 }
-
+export interface updateOrder{
+  id: number;
+  clientName: string;
+  clientNumber: string;
+  clientNumber2: string;
+  email: string;
+  cost: number;
+  isForVillage: boolean;
+  note: string;
+  weight: number;
+  villageOrStreet: string;
+  branchID: number;
+  sellerID: string;
+  typeOfPaymentID: number;
+  typeOfChargeID: number;
+  orderStatusID: number;
+  typeOfReceiptID: number;
+  products: Product[];
+}
 export interface addOrder {
   clientName: string;
   clientNumber: string;

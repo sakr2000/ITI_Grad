@@ -14,7 +14,7 @@ export class SellerService implements CRUD<any> {
   getAll(): Observable<any> {
     return this.http.get(`${this.api}/GetAll`);
   }
-  getById(id: number): Observable<any> {
+  getById(id: string): Observable<any> {
     return this.http.get(`${this.api}/${id}`);
   }
   create(data: AddSeller): Observable<any> {
