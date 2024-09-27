@@ -9,8 +9,8 @@
   ]"
 ></app-page-header>
 
-<div class="section">
-  <div class="container">
+<div class="section px-2 py-5">
+  <div class="container-fluid">
     <form [formGroup]="reprotForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-md-3">
@@ -31,6 +31,9 @@
                   }"
             >
               <option value="" selected disabled>اختر حالة الطلب</option>
+              @for (status of status; track $index) {
+              <option value="{{ status.id }}">{{ status.name }}</option>
+              }
             </select>
 
             <div
@@ -52,13 +55,11 @@
               name="startDate"
               class="form-control"
               formControlName="startDate"
+              max="{{ reprotForm.get('endDate')?.value }}"
               id="startDate"
               [ngClass]="{
                     'is-invalid':
                       reprotForm.get('startDate')?.invalid &&
-                      reprotForm.get('startDate')?.touched,
-                      'is-valid':
-                      reprotForm.get('startDate')?.valid &&
                       reprotForm.get('startDate')?.touched,
                   }"
             />
@@ -82,13 +83,11 @@
               name="endDate"
               class="form-control"
               formControlName="endDate"
+              min="{{ reprotForm.get('startDate')?.value }}"
               id="endDate"
               [ngClass]="{
                     'is-invalid':
                       reprotForm.get('endDate')?.invalid &&
-                      reprotForm.get('endDate')?.touched,
-                      'is-valid':
-                      reprotForm.get('endDate')?.valid &&
                       reprotForm.get('endDate')?.touched,
                   }"
             />
@@ -132,8 +131,35 @@
             <th>التاريخ</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <tr
+            *ngFor="
+              let item of reportData
+                | paginate : { itemsPerPage: 10, currentPage: page };
+              let i = index
+            "
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.orderID }}</td>
+            <td>{{ item.orderStatusName }}</td>
+            <td>{{ item.sellerName }}</td>
+            <td>{{ item.clientName }}</td>
+            <td>{{ item.phoneNumber }}</td>
+            <td>{{ item.clientGover }}</td>
+            <td>{{ item.clientCity }}</td>
+            <td>{{ item.orderCost }}</td>
+            <td>{{ item.amountRecive }}</td>
+            <td>{{ item.chargeCost }}</td>
+            <td>{{ item.paidCharge }}</td>
+            <td>{{ item.companyAmount }}</td>
+            <td>{{ item.orderDate | date }}</td>
+          </tr>
+        </tbody>
       </table>
+      <pagination-controls
+        *ngIf="reportData.length > 10"
+        (pageChange)="page = $event"
+      ></pagination-controls>
     </div>
   </div>
 </div>

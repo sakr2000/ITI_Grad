@@ -5,9 +5,9 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { GetEmployee } from '../../../Models/Employee/getEmployee.interface';
 import { UserDataService } from '../../../Services/userData.service';
 import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
+import { GetEmployee } from '../../../Models/Employee.interface';
 
 @Component({
   selector: 'app-display-employees',
@@ -19,6 +19,7 @@ import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
 export class DisplayEmployeesComponent {
   employees: GetEmployee[] = [];
   Privileges!: FieldPrivilegeDTO;
+  tempo!: boolean;
   constructor(
     private _unitOfWork: UnitOfWorkService,
     private toaster: ToastrService,
@@ -29,13 +30,14 @@ export class DisplayEmployeesComponent {
     this._unitOfWork.Employee.getAll().subscribe({
       next: (data) => {
         this.employees = data;
+        console.log(data);
       },
       error: (err) => {
         console.log(err);
         this.toaster.error(err.error.message, 'خطأ');
       },
     });
-
+    this.tempo = this.User.isAdmin();
     this.Privileges =
       this.User.getPrivileges()?.find((x) => x.name == 'الموظفين') ??
       ({} as FieldPrivilegeDTO);

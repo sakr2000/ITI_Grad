@@ -13,6 +13,7 @@
       <thead>
         <th>#</th>
         <th>اسم التاجر</th>
+        <th>اسم المتجر</th>
         <th>البريد الالكتروني</th>
         <th>رقم الهاتف</th>
         <th>الفرع</th>
@@ -25,18 +26,21 @@
         <tr>
           <td>{{ $index + 1 }}</td>
           <td>{{ seller.name }}</td>
+          <td>{{ seller.storeName }}</td>
           <td>{{ seller.email }}</td>
           <td>{{ seller.phone }}</td>
-          <td>{{ seller.branchID }}</td>
+          <td>{{ seller.branchName }}</td>
           @if (User.isAdmin() || Privileges.edit || Privileges.delete) {
           <td>
             @if (User.isAdmin() || Privileges.edit) {
-            <a [routerLink]="['edit', seller.id]" class="btn btn-warning mx-2"
-              ><span class="bi bi-pencil"></span
+            <a
+              [routerLink]="['edit', seller.id]"
+              class="btn btn-outline-warning mx-2"
+              ><i class="fa fa-pen"></i
             ></a>
             } @if (User.isAdmin() || Privileges.delete) {
-            <a (click)="delete(seller.id)" class="btn btn-danger"
-              ><span class="bi bi-trash"></span
+            <a (click)="delete(seller.id)" class="btn btn-outline-danger"
+              ><i class="fa fa-trash"></i
             ></a>
             }
           </td>

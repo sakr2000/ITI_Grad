@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PageHeaderComponent } from '../page-header/page-header.component';
@@ -7,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { UnitOfWorkService } from '../../Services/unitOfWork.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserDataService } from '../../Services/userData.service';
+import { FieldPrivilegeDTO } from '../../Models/FieldJob';
 interface Branch {
   id: number;
   name: string;
@@ -25,7 +25,7 @@ export class BranchesComponent implements OnInit {
   branches: Branch[] = [];
   filteredBranches: Branch[] = [];
   editingBranchId: number | null = null;
-
+  privileges: FieldPrivilegeDTO = {} as FieldPrivilegeDTO;
   constructor(
     private _unitOfWork: UnitOfWorkService,
     private toastr: ToastrService,
@@ -34,6 +34,10 @@ export class BranchesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBranches();
+
+    this.privileges =
+      this.user.getPrivileges()?.find((p) => p.name === 'الفروع') ??
+      ({} as FieldPrivilegeDTO);
   }
 
   getBranches(): void {

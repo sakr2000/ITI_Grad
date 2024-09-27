@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Privilege } from '../models/Privilege';
+import { Privilege } from '../Models/Privilege';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PrivilegesServiceService {
+export class PrivilegesService {
   private apiUrl = 'http://localhost:5298/api/Privilege';
 
   constructor(private http: HttpClient) {}

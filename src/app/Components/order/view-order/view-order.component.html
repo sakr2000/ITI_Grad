@@ -3,12 +3,20 @@
   [path]="[{ name: 'عرض الطلبات', link: 'Order' }]"
 >
   <div class="d-flex gap-2">
-    <a [routerLink]="['add']" class="btn btn-primary">
+    <a
+      *ngIf="User.isAdmin() || User.isSeller() || privileges.add"
+      [routerLink]="['add']"
+      class="btn btn-primary"
+    >
       <i class="fa fa-plus mx-2"></i>
       <span>إضافة طلب</span>
     </a>
 
-    <a [routerLink]="['Report']" class="btn btn-primary">
+    <a
+      *ngIf="User.isAdmin() || privileges.display"
+      [routerLink]="['Report']"
+      class="btn btn-primary"
+    >
       <i class="fa fa-file mx-2"></i>
       <span>تقرير الطلبات</span>
     </a>
@@ -16,6 +24,8 @@
 </app-page-header>
 
 <div class="section p-4">
+  @if (orders.length > 0 && (User.isAdmin() || User.isSeller() ||
+  privileges.display)) {
   <div class="actions">
     <button class="btn btn-primary" (click)="filterOrdersByStatus(null)">
       كل
@@ -71,8 +81,10 @@
         <th>المدينة</th>
         <th>تكلفة الطلب</th>
         <th>تعديل الطلب</th>
-        <th>تغيير الحالة</th>
-        <th>حذف</th>
+        <th *ngIf="User.isAdmin() || privileges.edit">تغيير الحالة</th>
+        <th *ngIf="User.isAdmin() || User.isSeller() || privileges.delete">
+          حذف
+        </th>
         <th>طباعة</th>
       </tr>
     </thead>
@@ -89,18 +101,18 @@
           {{ order.clientName }} <br />
           {{ order.clientPhone }}
         </td>
-        <td>{{ order.governorate }}</td>
-        <td>{{ order.city }}</td>
+        <td>{{ order.governorateName }}</td>
+        <td>{{ order.cityName }}</td>
         <td>{{ order.cost }}</td>
         <td>
           <a [routerLink]="['/Order/edit', order.serialNumber]" class="btn btn-success">
             <i class="fa fa-edit"></i>
           </a>
         </td>
-        <td>
+        <td *ngIf="User.isAdmin() || privileges.edit">
           <button class="btn btn-primary">الحالة</button>
         </td>
-        <td>
+        <td *ngIf="User.isAdmin() || User.isSeller() || privileges.delete">
           <button
             class="btn btn-danger"
             (click)="deleteOrder(order.serialNumber)"
@@ -115,4 +127,7 @@
     </tbody>
   </table>
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  }@else {
+  <p class="text-center text-muted">لا يوجد طلبات</p>
+  }
 </div>
