@@ -35,12 +35,12 @@
             البريد الالكتروني او اسم المستخدم مطلوب
           </div>
         </div>
-        <div class="form-group my-3">
+        <div class="form-group my-3 position-relative">
           <label for="password" class="form-label lead fw-bold"
             >كلمة المرور</label
           >
           <input
-            type="password"
+            [type]="showPassword ? 'text' : 'password'"
             id="password"
             formControlName="password"
             class="form-control shadow-sm"
@@ -54,6 +54,20 @@
                 loginForm.get('password')?.touched
             }"
           />
+
+          <i
+            class="fa"
+            [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+            (click)="togglePasswordVisibility()"
+            style="
+              position: absolute;
+              top: 50px;
+              left: 35px;
+              color: #6c757d;
+              cursor: pointer;
+            "
+          ></i>
+
           <div
             *ngIf="
               loginForm.get('password')?.invalid &&
