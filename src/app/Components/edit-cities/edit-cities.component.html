@@ -1,0 +1,100 @@
+<app-page-header
+  [title]="id == 0 ? 'إضافة محافظة' : 'تعديل محافظة'"
+  [path]="[
+    { name: 'المحافظات', link: '/Govern' },
+    { name: id == 0 ? 'إضافة محافظة' : 'تعديل محافظة', link: '/Govern/add' }
+  ]"
+>
+</app-page-header>
+<!-- add govern -->
+<div class="section">
+  <div class="container mt-4">
+    <form [formGroup]="editGovernForm" (ngSubmit)="onSubmit()">
+      <div class="row mb-3 align-items-end">
+        <div class="col-9">
+          <label for="governName" class="form-label">اسم المحافظة</label>
+          <input
+            id="governName"
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="أدخل اسم المحافظة"
+            [ngClass]="{
+              'is-invalid':
+                editGovernForm.get('name')?.invalid &&
+                editGovernForm.get('name')?.touched
+            }"
+          />
+          <div
+            *ngIf="
+              editGovernForm.get('name')?.invalid &&
+              editGovernForm.get('name')?.touched
+            "
+            class="invalid-feedback"
+          >
+            يجب أدخال اسم المحافظة
+          </div>
+        </div>
+        <div class="col-3 text-center">
+          <button type="submit" class="btn btn-primary">
+            تعديل اسم المحافظة
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary mx-3"
+            (click)="openModal(0)"
+          >
+            اضافة مدينة
+          </button>
+        </div>
+      </div>
+    </form>
+
+    @if (citiesList.length > 0) {
+    <div class="text-center my-4">
+      <div class="row fw-bold">
+        <div class="col-sm-12 col-md-2">#</div>
+        <div class="col-sm-12 col-md-5">المدينة</div>
+        <div class="col-sm-12 col-md-2">الإعدادات</div>
+      </div>
+      <div class="my-3" *ngFor="let city of citiesList; let i = index">
+        <div class="row">
+          <div class="col-sm-12 col-md-2">
+            {{ i + 1 }}
+          </div>
+          <div class="col-sm-12 col-md-5">
+            {{ city.name }}
+          </div>
+          <div class="col-sm-12 col-md-2">
+            <button
+              type="button"
+              class="btn btn-primary mx-2"
+              (click)="openModal(city.id)"
+            >
+              <i class="fa fa-pen"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="deleteCity(city.id)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    <div *ngIf="id == 0" class="text-center">
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!editGovernForm.valid"
+      >
+        حفظ
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-add-city (citiesChanged)="ngOnInit()"></app-add-city>

@@ -170,7 +170,7 @@
           </div>
         </div>
 
-        <div class="col-md-3 mb-3">
+        <div class="col-md-4 mb-3">
           <div class="form-group">
             <label for="email" class="mb-2">البريد الإلكتروني</label>
             <input
@@ -278,12 +278,12 @@
         <div class="col-md-4 mb-3">
           <div class="form-group">
             <label for="villageOrStreet" class="mb-2">القرية والشارع</label>
-            <div class="d-flex align-items-center">
+            <div class="d-flex flex-column justify-content-center">
               <input
                 type="text"
                 id="villageOrStreet"
                 formControlName="villageOrStreet"
-                class="form-control me-3"
+                class="form-control"
                 placeholder="القرية والشارع"
                 [ngClass]="{
                   'is-invalid':
@@ -295,9 +295,18 @@
                 }"
               />
               <div
-                class="form-check form-switch d-flex flex-column align-items-center"
+                *ngIf="
+                  addOrderForm.get('villageOrStreet')?.invalid &&
+                  addOrderForm.get('villageOrStreet')?.touched
+                "
+                class="text-danger small mt-1"
               >
-                <small class="text-muted mb-1"> التوصيل لقرية ؟</small>
+                القرية والشارع مطلوب
+              </div>
+              <div
+                class="form-check form-switch d-flex align-items-center mt-2"
+              >
+                <small class="ms-3"> التوصيل للقرية ؟</small>
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -305,15 +314,6 @@
                   formControlName="isForVillage"
                 />
               </div>
-            </div>
-            <div
-              *ngIf="
-                addOrderForm.get('villageOrStreet')?.invalid &&
-                addOrderForm.get('villageOrStreet')?.touched
-              "
-              class="text-danger small mt-1"
-            >
-              القرية والشارع مطلوب
             </div>
           </div>
         </div>
@@ -388,7 +388,7 @@
             [ngClass]="{
               'is-invalid':
                 addOrderForm.get('branchID')?.invalid &&
-                addOrderForm.get('tbranchID')?.touched,
+                addOrderForm.get('branchID')?.touched,
               'is-valid':
                 addOrderForm.get('branchID')?.valid &&
                 addOrderForm.get('branchID')?.touched
@@ -411,22 +411,21 @@
         </div>
       </div>
 
-      <div class="row mb-3">
-        <div class="col-md-12 text-end">
-          <button
-            type="button"
-            class="btn custom-save-btn"
-            (click)="addProduct()"
-          >
-            إضافة منتج
-          </button>
-        </div>
+      <div class="d-flex justify-content-center mb-3">
+        <button
+          type="button"
+          class="btn btn-outline-success mb-3"
+          (click)="addProduct()"
+        >
+          <i class="fa fa-plus"></i>
+          إضــافـة مـنتج
+        </button>
       </div>
+      @if (productList.length > 0) {
 
-      <!-- الجدول الخاص بالمنتجات -->
       <div class="row mb-3">
         <div class="col-md-12">
-          <table class="table table-bordered pink-table">
+          <table class="table table-bordered pink-table text-center">
             <thead>
               <tr>
                 <th>اسم المنتج</th>
@@ -529,8 +528,8 @@
           </table>
         </div>
       </div>
+      }
 
-      <!-- الحقول الإضافية أسفل الجدول -->
       <div class="row mb-3">
         <div class="col-md-4">
           <div class="form-group">
@@ -616,9 +615,9 @@
       </div>
 
       <!-- زر حفظ -->
-      <div class="row mb-3">
-        <div class="col-md-12 text-end">
-          <button type="submit" class="btn custom-save-btn">حفظ</button>
+      <div class="row my-4">
+        <div class="col-md-12 text-center">
+          <button type="submit" class="btn btn-primary w-25">حفظ</button>
         </div>
       </div>
     </form>

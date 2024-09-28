@@ -21,7 +21,7 @@ export const routes: Routes = [
       {
         path: 'Govern',
         loadComponent: () =>
-          import('./Pages/display-governs/display-governs.component').then(
+          import('./Components/display-governs/display-governs.component').then(
             (m) => m.DisplayGovernsComponent
           ),
         canActivate: [privilegeGuard],
@@ -33,7 +33,7 @@ export const routes: Routes = [
       {
         path: 'Govern/add',
         loadComponent: () =>
-          import('./Pages/add-govern/add-govern.component').then(
+          import('./Components/add-govern/add-govern.component').then(
             (m) => m.AddGovernComponent
           ),
         canActivate: [privilegeGuard],
@@ -45,8 +45,8 @@ export const routes: Routes = [
       {
         path: 'Govern/edit/:id',
         loadComponent: () =>
-          import('./Pages/add-govern/add-govern.component').then(
-            (m) => m.AddGovernComponent
+          import('./Components/edit-cities/edit-cities.component').then(
+            (m) => m.EditCitiesComponent
           ),
         canActivate: [privilegeGuard],
         data: {

@@ -12,24 +12,6 @@ button {
   padding: 10px 20px;
 }
 
-.custom-save-btn:hover {
-  background: linear-gradient(45deg, #836269, #ff5a70);
-}
-
-.custom-save-btn {
-  background: linear-gradient(45deg, #0b2a4e, #33ce6f);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease;
-}
-
-.custom-save-btn:hover {
-  background: linear-gradient(45deg, #316d1f, #142c35);
-}
 .pink-table {
   background-color: #6d6d6d;
   border-color: #666666;

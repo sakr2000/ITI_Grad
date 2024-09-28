@@ -139,7 +139,7 @@ export class AddOrderComponent implements OnInit {
     }
   }
   onSubmit() {
-    if (this.addOrderForm.valid) {
+    if (this.addOrderForm.valid && this.productList.length > 0) {
       const orderData: addOrder = {
         ...this.addOrderForm.value,
         productList: this.productList.value,
@@ -147,7 +147,7 @@ export class AddOrderComponent implements OnInit {
 
       this.unitOfWork.Order.create(orderData).subscribe({
         next: (response) => {
-          console.log('Order saved successfully', response);
+          this.addOrderForm.reset();
           this.toaster
             .success('تم حفظ الطلب بنجاح', 'نجاح')
             .onHidden.subscribe({
@@ -156,15 +156,22 @@ export class AddOrderComponent implements OnInit {
               },
             });
         },
+        /*************  ✨ Codeium Command ⭐  *************/
+        /**
+         * Handle error when saving order
+         * @param err - Error object
+         */
+
+        /******  dcacef3a-2bb0-4a9a-ada9-f3506a01cec3  *******/
         error: (err) => {
           console.error('Error saving order', err);
           this.toaster.error('حدث خطأ عند حفظ الطلب', 'خطأ');
         },
       });
+    } else if (this.addOrderForm.valid && this.productList.length == 0) {
+      this.toaster.error('رجاءً تأكد من اضافة المنتجات', 'خطأ');
     } else {
-      console.log(this.addOrderForm.errors);
-      console.log(this.addOrderForm.controls);
-      console.log('Form is invalid!');
+      this.addOrderForm.markAllAsTouched();
       this.toaster.error('رجاءً تأكد من المعلومات المدخلة', 'خطأ');
     }
   }

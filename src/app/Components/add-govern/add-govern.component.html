@@ -1,8 +1,8 @@
 <app-page-header
-  [title]="id == 0 ? 'إضافة محافظة' : 'تعديل محافظة'"
+  title="إضافة محافظة"
   [path]="[
     { name: 'المحافظات', link: '/Govern' },
-    { name: id == 0 ? 'إضافة محافظة' : 'تعديل محافظة', link: '/Govern/add' }
+    { name: 'إضافة محافظة', link: '/Govern/add' }
   ]"
 >
 </app-page-header>
@@ -126,42 +126,18 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-sm-12 col-md-6">
-            <label for="specialCharge{{ i }}" class="form-label"
-              >Special Charge for Seller</label
-            >
-            <input
-              id="specialCharge{{ i }}"
-              type="number"
-              class="form-control"
-              formControlName="specialChargeForSeller"
-              placeholder="Enter Special Charge for Seller"
-              [ngClass]="{
-                'is-invalid':
-                  city.get('specialChargeForSeller')?.invalid &&
-                  city.get('specialChargeForSeller')?.touched
-              }"
-            />
-            <div
-              *ngIf="
-                city.get('specialChargeForSeller')?.invalid &&
-                city.get('specialChargeForSeller')?.touched
-              "
-              class="invalid-feedback"
-            >
-              Special charge for seller is required.
-            </div>
-          </div> -->
         </div>
       </div>
 
-      <button
-        type="submit"
-        class="btn btn-success"
-        [disabled]="!GovernFrom.valid"
-      >
-        {{ id == 0 ? "اضافة" : "تعديل" }}
-      </button>
+      <div class="text-center">
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="!GovernFrom.valid"
+        >
+          حفظ
+        </button>
+      </div>
     </form>
   </div>
 </div>
