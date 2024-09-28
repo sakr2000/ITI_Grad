@@ -128,7 +128,9 @@
           </button>
         </td>
         <td>
-          <button class="btn btn-info"><i class="fa fa-print"></i></button>
+          <button class="btn btn-info"
+          (click)="printOrder(order.serialNumber)"
+          ><i class="fa fa-print"></i></button>
         </td>
       </tr>
     </tbody>

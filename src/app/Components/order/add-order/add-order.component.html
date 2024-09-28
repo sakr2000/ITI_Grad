@@ -212,7 +212,7 @@
               id="governID"
               formControlName="governID"
               class="form-select"
-              (change)="onGovernmentChange($event)"
+              (change)="ChangeGovern($event)"
               [ngClass]="{
                 'is-invalid':
                   addOrderForm.get('governID')?.invalid &&
