@@ -10,6 +10,7 @@ import { UserDataService } from '../../../Services/userData.service';
 import { ToastrService } from 'ngx-toastr';
 import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
 import { GetOrder } from '../../../Models/Order.interface';
+import { InvoiceService } from '../../../Services/Invoice.service';
 
 @Component({
   selector: 'app-view-order',
@@ -35,7 +36,8 @@ export class ViewOrderComponent {
   constructor(
     private _unitOfWork: UnitOfWorkService,
     public User: UserDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private Invoice:InvoiceService
   ) {}
 
   ngOnInit(): void {
@@ -111,5 +113,23 @@ export class ViewOrderComponent {
     });
   }
 
-  printOrder(orderId: number): void {}
+  printOrder(orderId: number): void {
+    this.Invoice.getById(orderId).subscribe({
+      next: (pdfBlob) => {
+        const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+
+        const newWindow = window.open(url, '_blank');
+        if (newWindow) {
+          newWindow.focus();
+        } else {
+          this.toastr.error('لا يمكن تحميل الفتورة', 'خطا');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching order PDF:', err);
+        this.toastr.error('PDF حدث خطا اثناء تحويل الملف ل ', 'خطا');
+      }
+    });
+  }
 }

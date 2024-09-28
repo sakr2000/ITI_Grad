@@ -122,7 +122,7 @@ export class AddOrderComponent implements OnInit {
     if (sellerId) {
       this.unitOfWork.Selller.getById(sellerId).subscribe({
         next: seller => {
-          const combinedAddress = `${seller.govern}, ${seller.city}, ${seller.storeName}`;
+          const combinedAddress = `${seller.govern}, ${seller.storeName}`;
           this.addOrderForm.patchValue({ sellerPhoneNumber: seller.phone, sellerAddress: combinedAddress });
         },
         error: () => this.toaster.error('خطا في تحميل بيانات التاجر', 'خطا'),
@@ -249,7 +249,7 @@ export class AddOrderComponent implements OnInit {
     if (selectedSellerId) {
       this.unitOfWork.Selller.getById(selectedSellerId).subscribe({
         next: (seller) => {
-          const combinedAddress = `${seller.govern}, ${seller.city}, ${seller.storeName}`;
+          const combinedAddress = `${seller.govern}, ${seller.storeName}`;
           this.addOrderForm.patchValue({
             sellerPhoneNumber: seller.phone,
             sellerAddress: combinedAddress,
