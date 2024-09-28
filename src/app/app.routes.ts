@@ -139,6 +139,18 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'Order/edit/:orderId',  
+        loadComponent: () =>
+          import('./Components/order/add-order/add-order.component').then(
+            (m) => m.AddOrderComponent
+          ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'الطلبات',
+          action: 'edit',
+        },
+      },
+      {
         path: 'Sellers',
         loadComponent: () =>
           import(

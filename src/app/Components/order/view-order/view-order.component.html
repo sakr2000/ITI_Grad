@@ -27,48 +27,107 @@
   @if (orders.length > 0 && (User.isAdmin() || User.isSeller() ||
   privileges.display)) {
   <div class="actions">
-    <button class="btn btn-primary" (click)="filterOrdersByStatus(null)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === null, 'btn-outline-primary': activeStatus !== null}"
+      (click)="filterOrdersByStatus(null)"
+    >
       كل
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(1)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 1, 'btn-outline-primary': activeStatus !== 1}"
+      (click)="filterOrdersByStatus(1)"
+    >
       جديد
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(2)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 2, 'btn-outline-primary': activeStatus !== 2}"
+      (click)="filterOrdersByStatus(2)"
+    >
       قيد الإنتظار
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(3)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 3, 'btn-outline-primary': activeStatus !== 3}"
+      (click)="filterOrdersByStatus(3)"
+    >
       نم التسليم للمندوب
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(4)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 11, 'btn-outline-primary': activeStatus !== 11}"
+      (click)="filterOrdersByStatus(11)"
+    >
       تم التسليم
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(5)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 4, 'btn-outline-primary': activeStatus !== 4}"
+      (click)="filterOrdersByStatus(4)"
+    >
       لا يمكن الوصول
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(6)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 5, 'btn-outline-primary': activeStatus !== 5}"
+      (click)="filterOrdersByStatus(5)"
+    >
       تم التأجيل
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(7)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 6, 'btn-outline-primary': activeStatus !== 6}"
+      (click)="filterOrdersByStatus(6)"
+    >
       تم التسليم جزئا
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(8)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 7, 'btn-outline-primary': activeStatus !== 7}"
+      (click)="filterOrdersByStatus(7)"
+    >
       تم الالغاء من قبل المستلم
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(9)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 8, 'btn-outline-primary': activeStatus !== 8}"
+      (click)="filterOrdersByStatus(8)"
+    >
       تم الرفض مع الدفع
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(10)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 9, 'btn-outline-primary': activeStatus !== 9}"
+      (click)="filterOrdersByStatus(9)"
+    >
       رفض مع سداد جزء
     </button>
-    <button class="btn btn-outline-primary" (click)="filterOrdersByStatus(11)">
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 10, 'btn-outline-primary': activeStatus !== 10}"
+      (click)="filterOrdersByStatus(10)"
+    >
       رفض و لم يتم الدفع
     </button>
+    <button
+      class="btn"
+      [ngClass]="{'btn-primary': activeStatus === 12, 'btn-outline-primary': activeStatus !== 12}"
+      (click)="filterOrdersByStatus(12)"
+    >
+      تم الرفض
+    </button>
   </div>
-
   <div class="table-controls">
-    <input type="text" class="form-control" placeholder="Search" />
+    <input
+    type="text"
+    class="form-control"
+    placeholder="بحث بالرقم التسلسلي للطلب"
+    [(ngModel)]="searchTerm" 
+    (input)="onSearchChange()" 
+  />
     <button class="btn btn-secondary">PDF</button>
-    <button class="btn btn-secondary">Excel</button>
   </div>
 
   <table class="table table-striped">
@@ -105,7 +164,9 @@
         <td>{{ order.cityName }}</td>
         <td>{{ order.cost }}</td>
         <td>
-          <button class="btn btn-success"><i class="fa fa-edit"></i></button>
+          <a [routerLink]="['/Order/edit', order.serialNumber]" class="btn btn-success">
+            <i class="fa fa-edit"></i>
+          </a>
         </td>
         <td *ngIf="User.isAdmin() || privileges.edit">
           <button class="btn btn-primary">الحالة</button>

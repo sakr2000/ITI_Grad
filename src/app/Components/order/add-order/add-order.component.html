@@ -1,14 +1,14 @@
 <app-page-header
-  title="إضافة طلب"
-  [path]="[
-    { name: 'الطلبات', link: '/Order' },
-    { name: 'اضافة طلب', link: '/Order/add' }
-  ]"
+[title]="isEditMode ? 'تعديل طلب' : 'إضافة طلب'"
+[path]="[
+{ name: 'الطلبات', link: '/Order' },
+{ name: isEditMode ? 'تعديل طلب' : 'اضافة طلب', link: isEditMode ? '/Order/edit' : '/Order/add' }
+]"
 ></app-page-header>
 
 <div class="section">
   <div class="container mt-4">
-    <h2 class="text-end mb-4">إضافة طلب</h2>
+    <h2 class="text-end mb-4">{{ isEditMode ? 'تعديل طلب' : 'إضافة طلب' }}</h2>
 
     <form [formGroup]="addOrderForm" (ngSubmit)="onSubmit()">
       <div class="row">
@@ -409,8 +409,39 @@
             الفرع مطلوب
           </div>
         </div>
-      </div>
-
+        
+        <div class="col-md-4 mb-3" *ngIf="userDataService.isAdmin()">
+          <label for="sellerID" class="mb-2">تاجر</label>
+          <select
+            id="sellerID"
+            formControlName="sellerID"
+            class="form-select"
+            [ngClass]="{
+              'is-invalid':
+                addOrderForm.get('sellerID')?.invalid &&
+                addOrderForm.get('sellerID')?.touched,
+              'is-valid':
+                addOrderForm.get('sellerID')?.valid &&
+                addOrderForm.get('sellerID')?.touched
+            }"
+            (change)="onSellerChange($event)"
+          >
+            <option value="" disabled>اختر تاجر</option>
+            <option *ngFor="let seller of sellers" [value]="seller.id">
+              {{ seller.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              addOrderForm.get('sellerID')?.invalid &&
+              addOrderForm.get('sellerID')?.touched
+            "
+            class="text-danger small"
+          >
+            التاجر مطلوب
+          </div>
+        </div>
+        
       <div class="d-flex justify-content-center mb-3">
         <button
           type="button"
@@ -601,6 +632,8 @@
             id="phoneNumber"
             class="form-control custom-border"
             placeholder="رقم الهاتف"
+            formControlName="sellerPhoneNumber"
+            readonly
           />
         </div>
         <div class="col-md-6">
@@ -610,15 +643,18 @@
             id="address"
             class="form-control custom-border"
             placeholder="العنوان"
+            formControlName="sellerAddress"
+            readonly
           />
         </div>
       </div>
 
-      <!-- زر حفظ -->
+
       <div class="row my-4">
         <div class="col-md-12 text-center">
           <button type="submit" class="btn btn-primary w-25">حفظ</button>
         </div>
+      </div>
       </div>
     </form>
   </div>

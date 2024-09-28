@@ -28,8 +28,10 @@ export class ViewOrderComponent {
   orders: any[] = [];
   filteredOrders: any[] = [];
   page: number = 1;
+  activeStatus: number | null = null;
   selectedStatusId: number | null = null;
   privileges!: FieldPrivilegeDTO;
+  searchTerm: string = '';
   constructor(
     private _unitOfWork: UnitOfWorkService,
     public User: UserDataService,
@@ -63,8 +65,25 @@ export class ViewOrderComponent {
       },
     });
   }
-
+  onSearchChange(): void {
+    this.filterOrders();
+  }
+  filterOrders(): void {
+    let filtered = this.orders;
+    if (this.activeStatus !== null) {
+      filtered = filtered.filter(order => order.orderStatusID === this.activeStatus);
+    }
+    if (this.searchTerm.trim() !== '') {
+      filtered = filtered.filter(order => 
+        order.serialNumber.toString().includes(this.searchTerm.trim())
+      );
+    }
+  
+    this.filteredOrders = filtered;
+    this.page = 1; 
+  }
   filterOrdersByStatus(statusId: number | null): void {
+    this.activeStatus =statusId ;
     if (statusId === null) {
       this.filteredOrders = this.orders;
     } else {
@@ -83,6 +102,7 @@ export class ViewOrderComponent {
           (order) => order.id !== orderId
         );
         this.toastr.success('تم حذف الطلب بنجاح', 'تم الحذف');
+        this.loadOrders();
       },
       error: (error) => {
         console.error('Error deleting order:', error);
