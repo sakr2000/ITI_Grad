@@ -21,7 +21,7 @@ export const privilegeGuard: CanActivateFn = (route, state) => {
     );
     return hasPermission;
   } else if (
-    userData.getUserData()?.role.includes('Seller') &&
+    (userData.isSeller() || userData.isAgent()) &&
     entity === 'الطلبات'
   ) {
     return true;

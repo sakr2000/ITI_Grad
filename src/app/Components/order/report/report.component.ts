@@ -66,10 +66,12 @@ export class ReportComponent implements OnInit {
           next: (data: any) => {
             this.reportData = data;
           },
+
           error: (err) => {
+            this.reportData = [];
             console.log(err);
             if (err.status == 404) {
-              this.toastr.error('لا يوجد بيانات', 'خطأ');
+              this.toastr.warning('لا يوجد بيانات', 'خطأ');
             }
           },
         });

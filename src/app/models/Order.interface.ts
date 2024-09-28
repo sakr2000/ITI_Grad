@@ -5,7 +5,7 @@ export interface Product {
   productWeight: number;
   orderId?: number;
 }
-export interface updateOrder{
+export interface updateOrder {
   id: number;
   clientName: string;
   clientNumber: string;
@@ -62,6 +62,7 @@ export interface GetOrder {
   typeOfPaymentID: number;
   typeOfChargeID: number;
   orderStatusID: number;
+  orderStatusName: string;
   typeOfReceiptID: number;
   date: string;
   chargeCost: number;
@@ -74,7 +75,6 @@ export interface OrderStatus {
   id: number;
   name: string;
 }
-
 export interface GetOrderForReport {
   orderID: number;
   orderStatusName: string;
@@ -90,3 +90,18 @@ export interface GetOrderForReport {
   companyAmount: number;
   orderDate: string;
 }
+
+export const statusTranslations: { [key: string]: string } = {
+  New: 'جديد',
+  Wating: 'قيد الانتظار',
+  AssignedToAgent: 'تسليم لمندوب',
+  Canceled: ' تم الإلغاء من قبل العميل',
+  Delivered: 'تم التسليم',
+  PartiallyDelivered: 'تم التسليم جزئيًا',
+  Postponed: 'تم التأجيل',
+  Rejected: 'مرفوض',
+  RejectedWithoutPayment: 'مرفوض بدون دفع',
+  RejectedWithPayment: 'مرفوض مع الدفع',
+  RejectWithPartialPayment: 'مرفوض مع دفع جزء',
+  UnReachable: 'غير قابل للتسليم',
+};

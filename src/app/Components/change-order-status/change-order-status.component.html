@@ -1,0 +1,93 @@
+<div class="modal bg-dark bg-opacity-25" #modal id="addFieldJobModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header justify-content-between align-items-center">
+        <h4 class="modal-title">تغيير حالة الطلب</h4>
+        <button
+          type="button"
+          class="btn-close m-0 focus-ring-danger"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <div class="modal-body p-3">
+        <form [formGroup]="form">
+          <div class="form-group">
+            <label for="status" class="mb-2">حالة الطلب</label>
+            <select formControlName="status" class="form-select" id="status">
+              <option [value]="null" disabled selected>اختر حالة الطلب</option>
+              <option *ngFor="let status of Statuses" [value]="status.id">
+                {{ status.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="form.get('status')?.invalid && form.get('status')?.touched"
+              class="text-danger"
+            >
+              يجب اختيار حالة الطلب
+            </div>
+          </div>
+          <div
+            class="form-group my-3"
+            *ngIf="getStatusName(form.get('status')?.value) === 'مرفوض'"
+          >
+            <label for="rejectReason" class="mb-2">سبب الرفض</label>
+            <textarea
+              formControlName="rejectReason"
+              class="form-control"
+              id="rejectReason"
+            ></textarea>
+            <div
+              *ngIf="
+                form.get('rejectReason')?.invalid &&
+                form.get('rejectReason')?.touched
+              "
+              class="text-danger"
+            >
+              يجب تقديم سبب الرفض
+            </div>
+          </div>
+
+          <div
+            class="form-group my-3"
+            *ngIf="getStatusName(form.get('status')?.value) === 'تسليم لمندوب'"
+          >
+            <label for="agentID" class="mb-2">المندوب</label>
+            <select formControlName="agentID" class="form-control" id="agentID">
+              <option [value]="null" disabled selected>اختر المندوب</option>
+              <option *ngFor="let agent of agents$ | async" [value]="agent.id">
+                {{ agent.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                form.get('agentID')?.invalid && form.get('agentID')?.touched
+              "
+              class="text-danger"
+            >
+              يجب اختيار المندوب
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary px-4"
+          (click)="closeModal()"
+        >
+          إلغاء
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary mx-3 px-4"
+          (click)="save()"
+        >
+          حفظ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

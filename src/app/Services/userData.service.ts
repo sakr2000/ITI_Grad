@@ -53,6 +53,10 @@ export class UserDataService implements OnInit, OnDestroy {
     return this.hasRole('Employee');
   }
 
+  isAgent(): boolean {
+    return this.hasRole('Agent');
+  }
+
   setUserData(user: any) {
     this.ActiveUser = user;
     sessionStorage.setItem('user', JSON.stringify(this.ActiveUser));

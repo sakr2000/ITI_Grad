@@ -75,7 +75,10 @@
       </li>
       <li
         *ngIf="
-          user.isAdmin() || user.isSeller() || hasPrivilege('الطلبات').display
+          user.isAdmin() ||
+          user.isSeller() ||
+          user.isAgent() ||
+          hasPrivilege('الطلبات').display
         "
       >
         <a [routerLink]="['Order']" [routerLinkActive]="['active']"

@@ -1,16 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PageHeaderComponent } from '../../page-header/page-header.component';
 import { RouterLink } from '@angular/router';
 import { UnitOfWorkService } from '../../../Services/unitOfWork.service';
-import { map } from 'rxjs';
 import { UserDataService } from '../../../Services/userData.service';
 import { ToastrService } from 'ngx-toastr';
 import { FieldPrivilegeDTO } from '../../../Models/FieldJob';
-import { GetOrder } from '../../../Models/Order.interface';
 import { InvoiceService } from '../../../Services/Invoice.service';
+import {
+  GetOrder,
+  OrderStatus,
+  statusTranslations,
+} from '../../../Models/Order.interface';
+import { ChangeOrderStatusComponent } from '../../change-order-status/change-order-status.component';
+
 
 @Component({
   selector: 'app-view-order',
@@ -21,17 +26,21 @@ import { InvoiceService } from '../../../Services/Invoice.service';
     CommonModule,
     PageHeaderComponent,
     RouterLink,
+    ChangeOrderStatusComponent,
   ],
   templateUrl: './view-order.component.html',
   styleUrl: './view-order.component.css',
 })
 export class ViewOrderComponent {
   orders: any[] = [];
+  Statuses: OrderStatus[] = [];
   filteredOrders: any[] = [];
   page: number = 1;
   activeStatus: number | null = null;
   selectedStatusId: number | null = null;
   privileges!: FieldPrivilegeDTO;
+  @ViewChild(ChangeOrderStatusComponent)
+  changeStatusModal!: ChangeOrderStatusComponent;
   searchTerm: string = '';
   constructor(
     private _unitOfWork: UnitOfWorkService,
@@ -41,6 +50,7 @@ export class ViewOrderComponent {
   ) {}
 
   ngOnInit(): void {
+    this.loadStatuses();
     this.loadOrders();
     this.privileges =
       this.User.getPrivileges()?.find((p) => p.name === 'الطلبات') ??
@@ -60,7 +70,9 @@ export class ViewOrderComponent {
           governorateName: order.governName,
           cityName: order.cityName,
           cost: order.cost,
-          orderStatusID: order.orderStatusID,
+          status: order.orderStatusID,
+          statusName:
+            statusTranslations[order.orderStatusName] || order.orderStatusName,
         }));
 
         this.filteredOrders = this.orders;
@@ -73,29 +85,37 @@ export class ViewOrderComponent {
   filterOrders(): void {
     let filtered = this.orders;
     if (this.activeStatus !== null) {
-      filtered = filtered.filter(order => order.orderStatusID === this.activeStatus);
+      filtered = filtered.filter(
+        (order) => order.orderStatusID === this.activeStatus
+      );
     }
     if (this.searchTerm.trim() !== '') {
-      filtered = filtered.filter(order => 
+      filtered = filtered.filter((order) =>
         order.serialNumber.toString().includes(this.searchTerm.trim())
       );
     }
-  
+
     this.filteredOrders = filtered;
-    this.page = 1; 
+    this.page = 1;
   }
   filterOrdersByStatus(statusId: number | null): void {
-    this.activeStatus =statusId ;
+    this.activeStatus = statusId;
     if (statusId === null) {
       this.filteredOrders = this.orders;
     } else {
       this.filteredOrders = this.orders.filter(
-        (order) => order.orderStatusID === statusId
+        (order) => order.status === statusId
       );
     }
+    console.log(this.filteredOrders);
+
     this.page = 1;
   }
-
+  changeOrderStatus(orderID: number, currentStatus: number): void {
+    this.changeStatusModal.form.get('status')?.setValue(currentStatus);
+    this.changeStatusModal.form.get('orderId')?.setValue(orderID);
+    this.changeStatusModal.openModal();
+  }
   deleteOrder(orderId: number): void {
     this._unitOfWork.Order.delete(orderId).subscribe({
       next: () => {
@@ -112,7 +132,6 @@ export class ViewOrderComponent {
       },
     });
   }
-
   printOrder(orderId: number): void {
     this.Invoice.getById(orderId).subscribe({
       next: (pdfBlob) => {
@@ -132,4 +151,42 @@ export class ViewOrderComponent {
       }
     });
   }
+
+  loadStatuses() {
+    this._unitOfWork.OrderStatus.getAll().subscribe({
+      next: (response: OrderStatus[]) => {
+        this.Statuses = response.map((status) => ({
+          ...status,
+          name: statusTranslations[status.name] || status.name,
+        }));
+
+        if (this.User.isEmployee()) {
+          this.Statuses = this.Statuses.filter((status) =>
+            [
+              'جديد',
+              'قيد الانتظار',
+              'تسليم لمندوب',
+              'مرفوض',
+              'غير قابل للتسليم',
+            ].includes(status.name)
+          );
+        } else if (this.User.isAgent()) {
+          this.Statuses = this.Statuses.filter(
+            (status) =>
+              ![
+                'جديد',
+                'قيد الانتظار',
+                'تسليم لمندوب',
+                'مرفوض',
+                'غير قابل للتسليم',
+              ].includes(status.name)
+          );
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
 }
