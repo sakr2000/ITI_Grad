@@ -235,7 +235,8 @@ export class AddOrderComponent implements OnInit {
     }
   }
   onSubmit() {
-    if (this.addOrderForm.valid) {
+
+    if (this.addOrderForm.valid && this.productList.length > 0) {
       if (this.isEditMode && this.orderId != null) {
         const orderData: updateOrder = {
           ...this.addOrderForm.value,
@@ -302,8 +303,10 @@ export class AddOrderComponent implements OnInit {
         }
        
       }
+    } else if (this.addOrderForm.valid && this.productList.length == 0) {
+      this.toaster.error('رجاءً تأكد من اضافة المنتجات', 'خطأ');
     } else {
-      console.log('Form is invalid!');
+      this.addOrderForm.markAllAsTouched();
       this.toaster.error('رجاءً تأكد من المعلومات المدخلة', 'خطأ');
     }
   }

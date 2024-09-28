@@ -1,0 +1,120 @@
+<div class="modal bg-dark bg-opacity-25" #modal id="addFieldJobModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" dir="rtl">
+      <div class="modal-header justify-content-between align-items-center">
+        <h4 class="modal-title">{{ id == 0 ? "اضافة" : "تعديل" }} مدينة</h4>
+        <button
+          type="button"
+          class="btn-close m-0 focus-ring-danger"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeModal()"
+        ></button>
+      </div>
+      <form [formGroup]="cityForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">اسم المدينة</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="name"
+              [ngClass]="{
+                'is-invalid':
+                  cityForm.get('name')?.invalid &&
+                  cityForm.get('name')?.touched,
+                'is-valid':
+                  cityForm.get('name')?.valid && cityForm.get('name')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                cityForm.get('name')?.invalid && cityForm.get('name')?.touched
+              "
+              class="text-danger small"
+            >
+              <div *ngIf="cityForm.get('name')?.errors?.['required']">
+                يجب إدخال اسم المدينة
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="normalCharge" class="form-label">تكلفة الشحن</label>
+            <input
+              type="number"
+              class="form-control"
+              id="normalCharge"
+              formControlName="normalCharge"
+              [ngClass]="{
+                'is-invalid':
+                  cityForm.get('normalCharge')?.invalid &&
+                  cityForm.get('normalCharge')?.touched,
+                'is-valid':
+                  cityForm.get('normalCharge')?.valid &&
+                  cityForm.get('normalCharge')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                cityForm.get('normalCharge')?.invalid &&
+                cityForm.get('normalCharge')?.touched
+              "
+              class="text-danger small"
+            >
+              <div *ngIf="cityForm.get('normalCharge')?.errors?.['required']">
+                يجب أدخال تكلفة الشحن
+              </div>
+              <div *ngIf="cityForm.get('normalCharge')?.errors?.['min']">
+                يجب أن تكون تكلفة الشحن اكبر من صفر
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="pickUpCharge" class="form-label">تكلفة ال pickup</label>
+            <input
+              type="number"
+              class="form-control"
+              id="pickUpCharge"
+              formControlName="pickUpCharge"
+              [ngClass]="{
+                'is-invalid':
+                  cityForm.get('pickUpCharge')?.invalid &&
+                  cityForm.get('pickUpCharge')?.touched,
+                'is-valid':
+                  cityForm.get('pickUpCharge')?.valid &&
+                  cityForm.get('pickUpCharge')?.touched
+              }"
+            />
+            <div
+              *ngIf="
+                cityForm.get('pickUpCharge')?.invalid &&
+                cityForm.get('pickUpCharge')?.touched
+              "
+              class="text-danger small"
+            >
+              <div *ngIf="cityForm.get('pickUpCharge')?.errors?.['required']">
+                يجب أدخال تكلفة ال pickup
+              </div>
+              <div *ngIf="cityForm.get('pickUpCharge')?.errors?.['min']">
+                يجب أن تكون تكلفة ال pickup اكبر من صفر
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary px-4"
+            (click)="closeModal()"
+          >
+            إلغاء
+          </button>
+          <button type="submit" class="btn btn-primary mx-3 px-4">
+            {{ id == 0 ? "اضافة" : "تعديل" }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

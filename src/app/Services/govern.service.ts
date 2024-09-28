@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { addGovern } from '../Models/Govern.interface';
+import { addGovern, editGovern } from '../Models/Govern.interface';
 import { CRUD } from '../Models/CRUD.interface';
 
 @Injectable({
@@ -16,8 +16,8 @@ export class GovernService implements CRUD<any> {
   create(data: addGovern): Observable<any> {
     return this.http.post(`${this.url}/AddGovernWithCity`, data);
   }
-  update(id: number, data: addGovern): Observable<any> {
-    return this.http.put(`${this.url}/${id}`, data);
+  update(id: number, data: editGovern): Observable<any> {
+    return this.http.put(this.url, data);
   }
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);

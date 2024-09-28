@@ -14,3 +14,9 @@ export interface addGovern {
     specialChargeForSeller: number;
   }[];
 }
+
+export interface editGovern {
+  id: number;
+  name: string;
+  status: boolean;
+}

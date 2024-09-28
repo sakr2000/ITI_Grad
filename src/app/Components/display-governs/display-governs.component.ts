@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { PageHeaderComponent } from '../../Components/page-header/page-header.component';
+import { PageHeaderComponent } from '../page-header/page-header.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { GovernService } from '../../Services/govern.service';
 interface govern {
