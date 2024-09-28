@@ -109,6 +109,8 @@
       </div>
     </form>
 
+    @if (reportData.length > 0) {
+
     <div class="mt-5">
       <table
         class="table table-bordered table-hover table-responsive text-center"
@@ -161,5 +163,6 @@
         (pageChange)="page = $event"
       ></pagination-controls>
     </div>
+    }
   </div>
 </div>

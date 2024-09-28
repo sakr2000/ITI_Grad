@@ -25,122 +25,59 @@
 
 <div class="section p-4">
   @if (orders.length > 0 && (User.isAdmin() || User.isSeller() ||
-  privileges.display)) {
+  User.isAgent()|| privileges.display)) {
   <div class="actions">
     <button
       class="btn"
-      [ngClass]="{'btn-primary': activeStatus === null, 'btn-outline-primary': activeStatus !== null}"
+      [ngClass]="{
+        'btn-primary': activeStatus === null,
+        'btn-outline-primary': activeStatus !== null
+      }"
       (click)="filterOrdersByStatus(null)"
     >
       كل
     </button>
+    @for (status of Statuses; track $index) {
     <button
       class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 1, 'btn-outline-primary': activeStatus !== 1}"
-      (click)="filterOrdersByStatus(1)"
+      [ngClass]="{
+        'btn-primary': activeStatus === status.id,
+        'btn-outline-primary': activeStatus !== status.id
+      }"
+      (click)="filterOrdersByStatus(status.id)"
     >
-      جديد
+      {{ status.name }}
     </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 2, 'btn-outline-primary': activeStatus !== 2}"
-      (click)="filterOrdersByStatus(2)"
-    >
-      قيد الإنتظار
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 3, 'btn-outline-primary': activeStatus !== 3}"
-      (click)="filterOrdersByStatus(3)"
-    >
-      نم التسليم للمندوب
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 11, 'btn-outline-primary': activeStatus !== 11}"
-      (click)="filterOrdersByStatus(11)"
-    >
-      تم التسليم
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 4, 'btn-outline-primary': activeStatus !== 4}"
-      (click)="filterOrdersByStatus(4)"
-    >
-      لا يمكن الوصول
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 5, 'btn-outline-primary': activeStatus !== 5}"
-      (click)="filterOrdersByStatus(5)"
-    >
-      تم التأجيل
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 6, 'btn-outline-primary': activeStatus !== 6}"
-      (click)="filterOrdersByStatus(6)"
-    >
-      تم التسليم جزئا
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 7, 'btn-outline-primary': activeStatus !== 7}"
-      (click)="filterOrdersByStatus(7)"
-    >
-      تم الالغاء من قبل المستلم
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 8, 'btn-outline-primary': activeStatus !== 8}"
-      (click)="filterOrdersByStatus(8)"
-    >
-      تم الرفض مع الدفع
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 9, 'btn-outline-primary': activeStatus !== 9}"
-      (click)="filterOrdersByStatus(9)"
-    >
-      رفض مع سداد جزء
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 10, 'btn-outline-primary': activeStatus !== 10}"
-      (click)="filterOrdersByStatus(10)"
-    >
-      رفض و لم يتم الدفع
-    </button>
-    <button
-      class="btn"
-      [ngClass]="{'btn-primary': activeStatus === 12, 'btn-outline-primary': activeStatus !== 12}"
-      (click)="filterOrdersByStatus(12)"
-    >
-      تم الرفض
-    </button>
+    }
   </div>
   <div class="table-controls">
     <input
-    type="text"
-    class="form-control"
-    placeholder="بحث بالرقم التسلسلي للطلب"
-    [(ngModel)]="searchTerm" 
-    (input)="onSearchChange()" 
-  />
+      type="text"
+      class="form-control"
+      placeholder="بحث بالرقم التسلسلي للطلب"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange()"
+    />
     <button class="btn btn-secondary">PDF</button>
   </div>
 
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>#</th>
         <th>الرقم التسلسلي</th>
         <th>التاريخ</th>
         <th>بيانات العميل</th>
         <th>المحافظة</th>
         <th>المدينة</th>
         <th>تكلفة الطلب</th>
-        <th>تعديل الطلب</th>
-        <th *ngIf="User.isAdmin() || privileges.edit">تغيير الحالة</th>
+        <th>الحالة</th>
+        <th *ngIf="User.isAdmin() || User.isSeller() || privileges.edit">
+          تعديل الطلب
+        </th>
+        <th *ngIf="User.isAdmin() || User.isAgent() || privileges.edit">
+          تغيير الحالة
+        </th>
         <th *ngIf="User.isAdmin() || User.isSeller() || privileges.delete">
           حذف
         </th>
@@ -151,9 +88,11 @@
       <tr
         *ngFor="
           let order of filteredOrders
-            | paginate : { itemsPerPage: 5, currentPage: page }
+            | paginate : { itemsPerPage: 5, currentPage: page };
+          let i = index
         "
       >
+        <td>{{ i + 1 }}</td>
         <td>{{ order.serialNumber }}</td>
         <td>{{ order.date | date : "yyyy-MM-dd   HH:mm:ss" }}</td>
         <td>
@@ -163,13 +102,22 @@
         <td>{{ order.governorateName }}</td>
         <td>{{ order.cityName }}</td>
         <td>{{ order.cost }}</td>
-        <td>
-          <a [routerLink]="['/Order/edit', order.serialNumber]" class="btn btn-success">
+        <td>{{ order.statusName }}</td>
+        <td *ngIf="User.isAdmin() || User.isSeller() || privileges.edit">
+          <a
+            [routerLink]="['/Order/edit', order.serialNumber]"
+            class="btn btn-success"
+          >
             <i class="fa fa-edit"></i>
           </a>
         </td>
-        <td *ngIf="User.isAdmin() || privileges.edit">
-          <button class="btn btn-primary">الحالة</button>
+        <td *ngIf="User.isAdmin() || User.isAgent() || privileges.edit">
+          <button
+            class="btn btn-primary"
+            (click)="changeOrderStatus(order.serialNumber, order.status)"
+          >
+            الحالة
+          </button>
         </td>
         <td *ngIf="User.isAdmin() || User.isSeller() || privileges.delete">
           <button
@@ -190,3 +138,5 @@
   <p class="text-center text-muted">لا يوجد طلبات</p>
   }
 </div>
+
+<app-change-order-status (statusChanged)="loadOrders()" />

@@ -13,7 +13,10 @@ export class OrderService implements CRUD<any> {
     return this.http.get(`${this.url}/GetOrderById/${id}`);
   }
   createForAdmin(data: addOrder): Observable<any> {
-    return this.http.post(`http://localhost:5298/api/Order/AdminAddOrder`, data);
+    return this.http.post(
+      `http://localhost:5298/api/Order/AdminAddOrder`,
+      data
+    );
   }
   create(data: addOrder): Observable<any> {
     return this.http.post(`${this.url}`, data);
@@ -30,5 +33,26 @@ export class OrderService implements CRUD<any> {
 
   print(id: number): Observable<any> {
     return this.http.get(`${this.url}/Print/${id}`);
+  }
+
+  changeOrderStatus(id: number, statusId: number): Observable<any> {
+    return this.http.put(`${this.url}/ChangeOrderStatus/`, {
+      id: id,
+      orderStatusID: statusId,
+    });
+  }
+
+  AssignToAgent(id: number, agentId: number): Observable<any> {
+    return this.http.put(`${this.url}/AssignToAgent/`, {
+      orderID: id,
+      agentID: agentId,
+    });
+  }
+
+  rejectOrder(id: number, rejectReason: string): Observable<any> {
+    return this.http.put(`${this.url}/RejectOrder/`, {
+      orderId: id,
+      message: rejectReason,
+    });
   }
 }
