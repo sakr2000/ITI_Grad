@@ -153,20 +153,22 @@ export class AddFieldJobComponent implements OnChanges {
       );
     } else {
       const newFieldJob = {
-        Name: this.newFieldJobName,
+        name: this.newFieldJobName,
         FieldPrivilegeDTo: selectedPrivileges,
       };
 
-      this._unitOfWork.FieldJob.addJob(newFieldJob).subscribe(
-        () => {
+      this._unitOfWork.FieldJob.addJob(newFieldJob).subscribe({
+        next: (response) => {
+          console.log(response);
+
           this.toaster.success('تم الاضافة بنجاح', 'تم');
           this.closeModal();
           this.fieldJobUpdated.emit();
         },
-        (error) => {
+        error: (error) => {
           this.toaster.error('حدث خطأ عند الاضافة', 'خطأ');
-        }
-      );
+        },
+      });
     }
   }
 }

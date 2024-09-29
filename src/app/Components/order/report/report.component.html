@@ -103,15 +103,23 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3 d-flex align-items-end">
+        <div class="col-md-3 d-flex align-items-end justify-content-between">
           <button type="submit" class="btn btn-primary">بحث</button>
+          <button
+            *ngIf="reportData.length > 0"
+            type="button"
+            class="btn btn-primary ms-2"
+            (click)="printPDF()"
+          >
+            طباعة التقرير
+          </button>
         </div>
       </div>
     </form>
 
     @if (reportData.length > 0) {
 
-    <div class="mt-5">
+    <div class="mt-5" id="reportTable">
       <table
         class="table table-bordered table-hover table-responsive text-center"
       >
