@@ -14,7 +14,7 @@ import { forkJoin } from 'rxjs';
 import { GetBranch } from '../../../Models/Branch.interface';
 import { GetGovern } from '../../../Models/Govern.interface';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-trader',
@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 })
 export class TraderComponent implements OnInit {
   traderForm!: FormGroup;
+  id: string = '';
   governs: GetGovern[] = [];
   branches: GetBranch[] = [];
   PachageCities: { id: number; name: string }[][] = [];
@@ -32,7 +33,8 @@ export class TraderComponent implements OnInit {
     private fb: FormBuilder,
     private toaster: ToastrService,
     private _unitOfWork: UnitOfWorkService,
-    private _router: Router
+    private _router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +87,23 @@ export class TraderComponent implements OnInit {
         console.log(err);
       },
     });
+    this.activatedRoute.params.subscribe({
+      next: (data) => {
+        this.id = data['id'];
+        this._unitOfWork.Selller.getById(this.id).subscribe({
+          next: (seller) => {
+            console.log(seller);
+            this.traderForm.patchValue(seller);
+          },
+          error: (e) => {
+            console.log(e);
+          },
+        });
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
   getCities(e: Event, select: HTMLSelectElement) {
     let selectedGovern = e.target as HTMLSelectElement;
@@ -122,8 +141,9 @@ export class TraderComponent implements OnInit {
       ).subscribe({
         next: (data) => {
           console.log(data);
-          this.toaster.success('تمت الاضافة بنجاح');
-          this._router.navigate(['/Seller']);
+          this.toaster.success('تمت الاضافة بنجاح').onHidden.subscribe(() => {
+            this._router.navigate(['/Seller']);
+          });
         },
         error: (err) => {
           console.log(err);

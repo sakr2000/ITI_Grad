@@ -13,6 +13,7 @@ import { GetGovern } from '../../../Models/Govern.interface';
 import { GetBranch } from '../../../Models/Branch.interface';
 import { CommonModule } from '@angular/common';
 import { TypeOfOffer } from '../../../Models/TypeOFOffer.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-agent',
@@ -29,7 +30,8 @@ export class AddAgentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _unitOfWork: UnitOfWorkService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.agentForm = this.fb.group({
@@ -82,7 +84,9 @@ export class AddAgentComponent implements OnInit {
     if (this.agentForm.valid) {
       this._unitOfWork.Agent.create(this.agentForm.value).subscribe({
         next: () => {
-          this.toaster.success('تم الاضافة بنجاح');
+          this.toaster.success('تم الاضافة بنجاح').onHidden.subscribe(() => {
+            this.router.navigate(['/Agent']);
+          });
         },
         error: (err) => {
           console.log(err);

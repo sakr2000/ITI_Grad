@@ -92,8 +92,11 @@ export class AddEmployeeComponent implements OnInit {
       ).subscribe({
         next: (data) => {
           console.log(data);
-          this.toaster.success('تم الاضافة بنجاح', 'تم');
-          this.router.navigate(['/Employee']);
+          this.toaster
+            .success('تم الاضافة بنجاح', 'تم')
+            .onHidden.subscribe(() => {
+              this.router.navigate(['/Employee']);
+            });
         },
         error: (err) => {
           console.log(err);

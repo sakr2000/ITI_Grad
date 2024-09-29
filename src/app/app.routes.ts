@@ -139,7 +139,7 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'Order/edit/:orderId',  
+        path: 'Order/edit/:orderId',
         loadComponent: () =>
           import('./Components/order/add-order/add-order.component').then(
             (m) => m.AddOrderComponent
@@ -172,6 +172,18 @@ export const routes: Routes = [
         data: {
           entity: 'التجار',
           action: 'add',
+        },
+      },
+      {
+        path: 'Sellers/edit/:id',
+        loadComponent: () =>
+          import('./Components/seller/add-seller/trader.component').then(
+            (m) => m.TraderComponent
+          ),
+        canActivate: [privilegeGuard],
+        data: {
+          entity: 'التجار',
+          action: 'edit',
         },
       },
       {
