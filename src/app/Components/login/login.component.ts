@@ -25,11 +25,14 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
+  showPassword: boolean = false;
+
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private toastr: ToastrService
   ) {}
+
   ngOnInit(): void {
     this.authService.isAuthenticated().subscribe({
       next: (isAuthenticated) => {
@@ -62,5 +65,9 @@ export class LoginComponent implements OnInit {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }
