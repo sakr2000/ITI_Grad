@@ -75,7 +75,12 @@ export class ChangeOrderStatusComponent implements OnInit {
           ...status,
           name: statusTranslations[status.name] || status.name,
         }));
-
+        this.Statuses = this.Statuses.map((s) => {
+          if (s.name == 'تم التسليم للمندوب') {
+            return { ...s, name: 'تسليم لمندوب' };
+          }
+          return s;
+        });
         if (this.user.isEmployee()) {
           this.Statuses = this.Statuses.filter((status) =>
             [

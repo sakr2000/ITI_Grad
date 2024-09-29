@@ -1,4 +1,4 @@
-<app-side-nav *ngIf="toggled"></app-side-nav>
+<app-side-nav [ngClass]="{ 'sidebar-active': sidebarActive }"></app-side-nav>
 <main>
   <app-loading></app-loading>
   <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>

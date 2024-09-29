@@ -1,17 +1,10 @@
 .header {
   color: var(--default-color);
   background-color: var(--background-color);
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
   padding: 0 15px;
-  width: 300px;
-  transition: all ease-in-out 0.3s;
+  width: 100%;
+  height: 100%;
   overflow-y: auto;
-  z-index: 997;
-  border-right: 1px solid
-    color-mix(in srgb, var(--default-color), transparent 90%);
 }
 
 .header::-webkit-scrollbar {
@@ -71,12 +64,6 @@
 .header .social-links a:hover {
   color: var(--contrast-color);
   background: var(--accent-color);
-}
-
-@media (max-width: 1199px) {
-  .header {
-    right: -100%;
-  }
 }
 
 .header.header-show {

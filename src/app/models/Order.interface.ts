@@ -94,14 +94,14 @@ export interface GetOrderForReport {
 export const statusTranslations: { [key: string]: string } = {
   New: 'جديد',
   Wating: 'قيد الانتظار',
-  AssignedToAgent: 'تسليم لمندوب',
+  AssignedToAgent: 'تم التسليم للمندوب',
   Canceled: ' تم الإلغاء من قبل العميل',
   Delivered: 'تم التسليم',
   PartiallyDelivered: 'تم التسليم جزئيًا',
   Postponed: 'تم التأجيل',
   Rejected: 'مرفوض',
   RejectedWithoutPayment: 'مرفوض بدون دفع',
-  RejectedWithPayment: 'مرفوض مع الدفع',
-  RejectWithPartialPayment: 'مرفوض مع دفع جزء',
-  UnReachable: 'غير قابل للتسليم',
+  RejectedWithPayment: 'تم الرفض مع الدفع',
+  RejectWithPartialPayment: 'رفض مع سداد جزء',
+  UnReachable: 'لا يمكن الوصول',
 };
